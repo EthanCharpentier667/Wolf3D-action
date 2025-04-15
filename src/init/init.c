@@ -38,15 +38,15 @@ static int init_images(frame_t *frame)
 static int init_clocks(frame_t *frame)
 {
     int result = 0;
-    int nbclocks = 1;
+    int nbclocks = 5;
 
-    frame->clock = malloc(sizeof(clocks_t) * nbclocks);
-    if (!frame->clock)
+    CLOCK = malloc(sizeof(clocks_t) * nbclocks);
+    if (!CLOCK)
         return 84;
     frame->nb_clocks = nbclocks;
     for (int i = 0; i < nbclocks; i++)
         result += create_clock(frame, i);
-    if (result > 0)
+    if (result != 0)
         return 84;
     return 0;
 }
