@@ -8,8 +8,8 @@
 #include "frame.h"
 
 const struct button_infos_s BUTTON_INFOS[] = {
-    //{PLAY, {800, 550, 0.5, 0.5}, RES "create.png",
-    //  NULL, &do_create, MAINMENU},
+    {PLAY, {0, 0, 0.5, 0.5}, RES "play.png",
+        NULL, &do_play, MAINMENU},
     {0, {0, 0, 0, 0}, NULL, NULL, NULL, END}
 };
 

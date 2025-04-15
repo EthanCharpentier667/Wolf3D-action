@@ -13,6 +13,8 @@ int scene_manager(frame_t *frame)
     switch (UI->scene) {
         case MAINMENU:
             return mainmenu(frame);
+        case GAME:
+            return game(frame);
         default:
             break;
     }

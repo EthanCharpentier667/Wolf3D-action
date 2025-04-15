@@ -113,6 +113,7 @@ typedef struct ui_s {
     int nb_musics;
     int nb_sounds;
     int nb_buttons;
+    sfVector2f refactor;
 } ui_t;
 
 typedef struct map_s {
@@ -245,6 +246,7 @@ sfVector2f get_mouseposition(sfRenderWindow *window);
 int scene_manager(frame_t *frame);
 //SCENES
 int mainmenu(frame_t *frame);
+int game(frame_t *frame);
 
 //RAYCAST
 int is_wall(int x, int y);
