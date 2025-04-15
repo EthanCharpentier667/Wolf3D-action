@@ -9,7 +9,7 @@ on:
       - "ga-ignore-*"
 env:
     MIRROR_URL: "git@github.com:EpitechPGEPromo2029/G-ING-210-NAN-2-1-wolf3d-ethan.charpentier.git"
-    EXECUTABLES: "exec"
+    EXECUTABLES: ""
 
 jobs: 
     setup:
