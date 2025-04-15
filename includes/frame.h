@@ -254,9 +254,9 @@ double view_angle(float angle);
 void draw_floor_and_ceiling(sfRenderWindow *window);
 void render_wall_column(sfRenderWindow *window, int column,
     float wall_height, sfColor color);
-void render_textured_wall_column(sfRenderWindow *window, int column,
-    float wall_height, sfTexture *texture);
 void cast_all_rays(frame_t *frame);
+void render_wall_column_textured(frame_t *frame, sfVector2f column_wall_height,
+    sfVector2f hits, bool hit_vertical);
 
 //PLAYER
 void update_player(player_t *player, clocks_t *clock);
