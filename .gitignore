@@ -16,3 +16,5 @@
 *.bak
 *.tmp
 *.log
+wolf3d
+unit_tests
