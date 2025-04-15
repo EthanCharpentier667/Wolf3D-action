@@ -26,14 +26,37 @@ static sfColor get_wall_color(sfVector2f ray_pos, sfVector2f ray_dir)
     return sfColor_fromRGB(255, 255, 255);
 }*/
 
+
+bool is_wall_vertical(sfVector2f ray_pos)
+{
+    int map_x = ray_pos.x / TILE_SIZE;
+    int map_y = ray_pos.y / TILE_SIZE;
+    float hit_x = ray_pos.x - (map_x * TILE_SIZE);
+    float hit_y = ray_pos.y - (map_y * TILE_SIZE);
+    float dist_to_vertical = fminf(hit_x, TILE_SIZE - hit_x);
+    float dist_to_horizontal = fminf(hit_y, TILE_SIZE - hit_y);
+
+    if ((hit_x < 1.0f || hit_x > TILE_SIZE - 1.0f) &&
+        !(hit_y < 1.0f || hit_y > TILE_SIZE - 1.0f)) {
+        return true;
+    }
+    if ((hit_y < 1.0f || hit_y > TILE_SIZE - 1.0f) &&
+        !(hit_x < 1.0f || hit_x > TILE_SIZE - 1.0f)) {
+        return false;
+    }
+    return dist_to_vertical < dist_to_horizontal;
+}
+
 static void draw_wall_cols(frame_t *frame,
-    float corrected_dist, float ray_angle)
+    float corrected_dist, float ray_angle, sfVector2f ray_pos)
 {
     int wall_height = (WINDOWY * TILE_SIZE) / corrected_dist;
+    int ray_column = (int)((ray_angle -
+        (PLAYER->angle - FOV / 2)) * WINDOWX / FOV);
+    bool hit_vertical = is_wall_vertical(ray_pos);
 
-    render_textured_wall_column(WINDOW, (int)(NUM_RAYS *
-        (ray_angle - (PLAYER->angle - FOV / 2)) / FOV),
-        wall_height, MAP->walltexture);
+    render_wall_column_textured(frame, v2f(ray_column, wall_height),
+        v2f(ray_pos.x, ray_pos.y), hit_vertical);
 }
 
 float cast_single_ray(float ray_angle, frame_t *frame)
@@ -49,7 +72,7 @@ float cast_single_ray(float ray_angle, frame_t *frame)
         ray_pos.y += ray_dir.y * ray_step;
         if (is_wall(ray_pos.x, ray_pos.y)) {
             corrected_dist = ray_length * cos(ray_angle - PLAYER->angle);
-            draw_wall_cols(frame, corrected_dist, ray_angle);
+            draw_wall_cols(frame, corrected_dist, ray_angle, ray_pos);
             return corrected_dist;
         }
         ray_length += ray_step;
