@@ -64,5 +64,9 @@ int init_ui(frame_t *frame)
         return 84;
     init_buttons(frame);
     init_texts(frame->ui);
+    frame->window_size.x = WINDOWX;
+    frame->window_size.y = WINDOWY;
+    UI->refactor.x = 1;
+    UI->refactor.y = 1;
     return 0;
 }

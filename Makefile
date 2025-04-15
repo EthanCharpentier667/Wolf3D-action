@@ -16,6 +16,7 @@ CREATE_DIR=	Create/
 FRAME_DIR=	Frame/
 RAYCAST_DIR=	$(SRC_DIR)raycast/
 PLAYER_DIR=	$(SRC_DIR)player/
+ACTION_DIR=	$(SRC_DIR)actions/
 
 SRC	=	includes/inititliser.c \
         $(INIT_DIR)init_game.c \
@@ -24,6 +25,7 @@ SRC	=	includes/inititliser.c \
         $(INIT_DIR)init_player.c \
         $(INIT_DIR)init.c \
         $(SCENES_DIR)mainmenu.c \
+        $(SCENES_DIR)game.c \
         $(SCENES_DIR)scenes_manager.c \
         $(CREATE_DIR)button.c \
         $(CREATE_DIR)clocks.c \
@@ -43,6 +45,7 @@ SRC	=	includes/inititliser.c \
         $(RAYCAST_DIR)drawer.c \
         $(RAYCAST_DIR)raycasting.c \
         $(PLAYER_DIR)player.c \
+        $(ACTION_DIR)play.c \
 
 OBJ	=	$(SRC:.c=.o)
 

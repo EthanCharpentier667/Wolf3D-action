@@ -22,9 +22,6 @@ int main(int argc, char **argv)
         handle_event(&(frame->event), frame);
         sfRenderWindow_clear(WINDOW, sfBlack);
         scene_manager(frame);
-        update_player(PLAYER, &frame->clock[0]);
-        draw_floor_and_ceiling(WINDOW);
-        cast_all_rays(frame);
         sfRenderWindow_display(WINDOW);
     }
     return 0;

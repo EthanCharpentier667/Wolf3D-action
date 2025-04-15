@@ -65,5 +65,6 @@ int init_frame(frame_t *frame)
         sfRenderWindow_destroy(WINDOW);
         return 84;
     }
+    frame->ui->scene = MAINMENU;
     return 0;
 }
