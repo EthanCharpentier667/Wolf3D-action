@@ -1,0 +1,54 @@
+/*
+** EPITECH PROJECT, 2025
+** Wolf3D
+** File description:
+** init_game
+*/
+
+#include "frame.h"
+
+const int map[MAP_HEIGHT][MAP_WIDTH] = {
+    {2, 2, 2, 2, 2, 2, 2, 2},
+    {2, 0, 0, 0, 0, 0, 0, 2},
+    {2, 0, 2, 0, 0, 2, 0, 2},
+    {2, 0, 0, 0, 0, 0, 0, 2},
+    {2, 0, 0, 0, 0, 0, 0, 2},
+    {2, 0, 2, 0, 0, 2, 0, 2},
+    {2, 0, 0, 0, 0, 0, 0, 2},
+    {2, 2, 2, 2, 2, 2, 2, 2}
+};
+
+static int init_map(frame_t *frame)
+{
+    MAP = malloc(sizeof(map_t));
+    if (!MAP)
+        return 84;
+    MAP2D = malloc(sizeof(int *) * MAP_HEIGHT);
+    if (!MAP2D)
+        return 84;
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        MAP2D[i] = malloc(sizeof(int) * MAP_WIDTH);
+        if (!MAP2D[i])
+            return 84;
+        for (int j = 0; j < MAP_WIDTH; j++)
+            MAP2D[i][j] = map[i][j];
+    }
+    MAP->width = MAP_WIDTH;
+    MAP->height = MAP_HEIGHT;
+    MAP->walltexture = sfTexture_createFromFile(RES"wall.bmp", NULL);
+    if (!MAP->walltexture)
+        return 84;
+    return 0;
+}
+
+int init_game(frame_t *frame)
+{
+    frame->game = malloc(sizeof(game_t));
+    if (!frame->game)
+        return 84;
+    frame->game->level = 0;
+    frame->ui->scene = MAINMENU;
+    if (init_player(frame) == 84 || init_map(frame) == 84)
+        return 84;
+    return 0;
+}
