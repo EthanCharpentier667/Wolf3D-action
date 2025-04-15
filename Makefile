@@ -58,9 +58,8 @@ all:	$(NAME)
 $(NAME):	$(OBJ)
 	$(CC) -o $(NAME) main.c $(OBJ) $(LDFLAGS) $(INCLUDES)
 
-CFLAGS += -lcriterion --coverage
 tests_run:      $(OBJ)
-	$(CC) -o unit_tests tests/tests_run.c $(OBJ) $(LDFLAGS) $(INCLUDES) \
+	$(CC) -o unit_tests tests/tests_run.c $(SRC) $(LDFLAGS) $(INCLUDES) \
 	-lcriterion --coverage
 	./unit_tests
 
