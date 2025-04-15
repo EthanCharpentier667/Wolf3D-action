@@ -9,14 +9,16 @@
 
 int scene_manager(frame_t *frame)
 {
-    draw_all(frame);
     switch (UI->scene) {
         case MAINMENU:
-            return mainmenu(frame);
+            mainmenu(frame);
+            break;
         case GAME:
-            return game(frame);
+            game(frame);
+            break;
         default:
             break;
     }
+    draw_all(frame);
     return 0;
 }

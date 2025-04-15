@@ -9,9 +9,7 @@
 
 int do_play(frame_t *frame)
 {
-    if (frame->ui->scene == MAINMENU) {
-        frame->ui->scene = GAME;
-        frame->game->level = 1;
-    }
+    frame->ui->scene = GAME;
+    frame->game->level = 1;
     return 0;
 }
