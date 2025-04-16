@@ -53,7 +53,6 @@ static void render_item_columns(frame_t *frame, sfTexture *item_texture,
             continue;
         tex_percent_x = (float)(x - data->sprite_start_x) / data->sprite_width;
         tex_x = tex_percent_x * data->tex_size.x;
-        sprite = sfSprite_create();
         sfSprite_setTexture(sprite, item_texture, sfTrue);
         subrect = irct(tex_x, 0, 1, (int)data->tex_size.y);
         sfSprite_setTextureRect(sprite, subrect);
