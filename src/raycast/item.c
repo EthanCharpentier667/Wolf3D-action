@@ -45,7 +45,7 @@ static void render_item_columns(frame_t *frame, sfTexture *item_texture,
 {
     float tex_percent_x = 0;
     int tex_x = 0;
-    sfSprite *sprite = NULL;
+    sfSprite *sprite = sfSprite_create();
     sfIntRect subrect = {0, 0, 0, 0};
 
     for (int x = data->sprite_start_x; x < data->sprite_end_x; x++) {
@@ -60,8 +60,8 @@ static void render_item_columns(frame_t *frame, sfTexture *item_texture,
         sfSprite_setPosition(sprite, v2f((float)x, data->vertical_offset));
         sfSprite_setScale(sprite, v2f(1.0f, data->scale_factor * scale.y));
         sfRenderWindow_drawSprite(WINDOW, sprite, NULL);
-        sfSprite_destroy(sprite);
     }
+    sfSprite_destroy(sprite);
 }
 
 void draw_item(frame_t *frame, sfVector3f itempos,
