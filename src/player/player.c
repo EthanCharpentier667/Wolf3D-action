@@ -17,50 +17,61 @@ float get_delta_time(clocks_t *clock)
     return delta_time;
 }
 
-static void check_collisions(sfVector2f new_pos, player_t *player)
+static bool check_collisions(sfVector2f new_pos)
 {
-    if (is_wall(new_pos.x, new_pos.y) == 0 &&
-        is_wall(new_pos.x + 10, new_pos.y) == 0 &&
-        is_wall(new_pos.x - 10, new_pos.y) == 0 &&
-        is_wall(new_pos.x, new_pos.y + 10) == 0 &&
-        is_wall(new_pos.x, new_pos.y - 10) == 0) {
-        player->pos.x = new_pos.x;
-        player->pos.y = new_pos.y;
-    }
-}
-
-static void move_player(player_t *player)
-{
-    sfVector2f new_pos = {player->pos.x, player->pos.y};
-
-    if (sfKeyboard_isKeyPressed(sfKeyUp)) {
-        new_pos.x += player->dir.x * player->speed * player->delta_time;
-        new_pos.y += player->dir.y * player->speed * player->delta_time;
-    }
-    if (sfKeyboard_isKeyPressed(sfKeyDown)) {
-        new_pos.x -= player->dir.x * player->speed * player->delta_time;
-        new_pos.y -= player->dir.y * player->speed * player->delta_time;
-    }
-    check_collisions(new_pos, player);
+    return (is_wall(new_pos.x, new_pos.y) &&
+        is_wall(new_pos.x + 10, new_pos.y) &&
+        is_wall(new_pos.x - 10, new_pos.y) &&
+        is_wall(new_pos.x, new_pos.y + 10) &&
+        is_wall(new_pos.x, new_pos.y - 10));
 }
 
 static void rotate_player(player_t *player)
 {
-    if (sfKeyboard_isKeyPressed(sfKeyLeft)) {
-        player->angle -= player->turn_speed * player->delta_time;
-        player->dir.x = cos(player->angle);
-        player->dir.y = sin(player->angle);
-    }
-    if (sfKeyboard_isKeyPressed(sfKeyRight)) {
-        player->angle += player->turn_speed * player->delta_time;
-        player->dir.x = cos(player->angle);
-        player->dir.y = sin(player->angle);
-    }
+    int cam_angle = 0;
+
+    cam_angle = sfKeyboard_isKeyPressed(sfKeyRight) -
+        sfKeyboard_isKeyPressed(sfKeyLeft);
+    player->angle += cam_angle * player->turn_speed * player->delta_time;
+}
+
+static sfVector2f set_walk_pos(sfVector2i move, float angle,
+    sfVector2f pos, float speed)
+{
+    sfVector2f res = {0, 0};
+    int input_nb = ((bool)move.x + (bool)move.y);
+    bool collision = 1;
+
+    if (!input_nb)
+        return res;
+    res.x = (cos(angle) * move.x + sin(angle) * move.y) * speed / input_nb;
+    res.y = (sin(angle) * move.x + cos(angle) * -1 * move.y)
+        * speed / input_nb;
+    collision = 1;
+    res.x *= collision;
+    res.y *= collision;
+    return res;
+}
+
+static void move_player(player_t *player)
+{
+    sfVector2i move = {0, 0};
+    sfVector2f pos = {0, 0};
+
+    move.x += sfKeyboard_isKeyPressed(sfKeyZ) -
+        sfKeyboard_isKeyPressed(sfKeyS);
+    move.y += sfKeyboard_isKeyPressed(sfKeyQ) -
+        sfKeyboard_isKeyPressed(sfKeyD);
+    pos = set_walk_pos(move, player->angle,
+        (sfVector2f){player->pos.x, player->pos.y}, player->speed);
+    player->pos.x += pos.x * player->delta_time;
+    player->pos.y += pos.y * player->delta_time;
 }
 
 void update_player(player_t *player, clocks_t *clock)
 {
+    dprintf(1, "%f %f\n", player->pos.x, player->pos.y);
     player->delta_time = get_delta_time(clock);
-    rotate_player(player);
     move_player(player);
+    rotate_player(player);
 }

@@ -125,7 +125,6 @@ typedef struct map_s {
 
 typedef struct player_s {
     sfVector2f pos;
-    sfVector2f dir;
     float angle;
     float speed;
     float turn_speed;
