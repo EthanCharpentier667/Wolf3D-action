@@ -19,10 +19,8 @@ int init_player(frame_t *frame)
         return 84;
     PLAYER->pos.x = 100;
     PLAYER->pos.y = 100;
-    PLAYER->dir.x = 1;
-    PLAYER->dir.y = 0;
     PLAYER->angle = view_angle(0);
-    PLAYER->speed = 50;
-    PLAYER->turn_speed = 3;
+    PLAYER->speed = 75;
+    PLAYER->turn_speed = 2.25;
     return 0;
 }
