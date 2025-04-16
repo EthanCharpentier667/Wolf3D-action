@@ -13,11 +13,12 @@
 int handle_event(sfEvent *event, frame_t *frame)
 {
     while (sfRenderWindow_pollEvent(WINDOW, event)) {
-        if (event->type == sfEvtClosed)
+        if (event->type == sfEvtClosed ||
+            sfKeyboard_isKeyPressed(sfKeyEscape))
             sfRenderWindow_close(WINDOW);
         resize_event(frame);
         buttons_event(event, frame);
-        frame->mouse = get_mouseposition(WINDOW);
     }
+    frame->mouse = get_mouseposition(WINDOW);
     return 0;
 }
