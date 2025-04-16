@@ -17,21 +17,23 @@ float get_delta_time(clocks_t *clock)
     return delta_time;
 }
 
-static bool get_axis_collision(sfVector2f apos, sfVector2f bpos)
+static bool get_axis_collision(sfVector2f apos, sfVector2f bpos, float size)
 {
+    size /= 2;
     return is_osbtacle(apos.x, bpos.y) != 0 ||
-    is_osbtacle(apos.x + 10, bpos.y + 10) != 0 ||
-    is_osbtacle(apos.x - 10, bpos.y - 10) != 0 ||
-    is_osbtacle(apos.x - 10, bpos.y + 10) != 0 ||
-    is_osbtacle(apos.x + 10, bpos.y - 10) != 0;
+    is_osbtacle(apos.x + size, bpos.y + size) != 0 ||
+    is_osbtacle(apos.x - size, bpos.y - size) != 0 ||
+    is_osbtacle(apos.x - size, bpos.y + size) != 0 ||
+    is_osbtacle(apos.x + size, bpos.y - size) != 0;
 }
 
-static sfVector2i check_collisions(sfVector2f new_pos, sfVector2f old_pos)
+static sfVector2i check_collisions(sfVector2f new_pos, sfVector2f old_pos,
+    float size)
 {
     sfVector2i res = {0, 0};
 
-    res.x = get_axis_collision(new_pos, old_pos);
-    res.y = get_axis_collision(old_pos, new_pos);
+    res.x = get_axis_collision(new_pos, old_pos, size);
+    res.y = get_axis_collision(old_pos, new_pos, size);
     return res;
 }
 
@@ -58,8 +60,8 @@ static sfVector2f set_walk_pos(sfVector2i move, player_t *player)
     res.x *= player->speed * player->delta_time;
     res.y = (sin(angle) * move.x + cos(angle) * -1 * move.y);
     res.y *= player->speed * player->delta_time;
-    collision = check_collisions(
-        (sfVector2f){pos.x + res.x, pos.y + res.y}, player->pos);
+    collision = check_collisions((sfVector2f){pos.x + res.x, pos.y + res.y},
+        player->pos, player->size);
     res.x *= !collision.x;
     res.y *= !collision.y;
     return res;
