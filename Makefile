@@ -41,7 +41,7 @@ SRC	=	includes/inititliser.c \
         $(FRAME_DIR)handle_event.c \
         $(FRAME_DIR)mousepos.c \
         $(FRAME_DIR)resize_event.c \
-        $(RAYCAST_DIR)wall.c \
+        $(RAYCAST_DIR)obstacle.c \
         $(RAYCAST_DIR)drawer.c \
         $(RAYCAST_DIR)raycasting.c \
         $(RAYCAST_DIR)item.c \

@@ -268,7 +268,7 @@ int mainmenu(frame_t *frame);
 int game(frame_t *frame);
 
 //RAYCAST
-int is_wall(int x, int y);
+int is_osbtacle(int x, int y);
 double view_angle(float angle);
 void draw_floor_and_ceiling(sfRenderWindow *window);
 void render_wall_column(sfRenderWindow *window, int column,
