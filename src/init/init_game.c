@@ -36,7 +36,8 @@ static int init_map(frame_t *frame)
     MAP->width = MAP_WIDTH;
     MAP->height = MAP_HEIGHT;
     MAP->walltexture = sfTexture_createFromFile(RES"wall.bmp", NULL);
-    if (!MAP->walltexture)
+    MAP->lamptexture = sfTexture_createFromFile(RES"lamp.png", NULL);
+    if (!MAP->walltexture || !MAP->lamptexture)
         return 84;
     return 0;
 }

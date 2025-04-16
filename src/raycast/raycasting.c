@@ -86,7 +86,7 @@ void cast_all_rays(frame_t *frame)
     float ray_step = FOV / NUM_RAYS;
 
     for (int i = 0; i < NUM_RAYS; i++) {
-        cast_single_ray(ray_angle, frame);
+        frame->z_buffer[i] = cast_single_ray(ray_angle, frame);
         ray_angle += ray_step;
     }
 }
