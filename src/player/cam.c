@@ -9,7 +9,7 @@
 
 static void lerp_cam_angle(player_t *player)
 {
-    player->angle = lerp(player->angle, player->fut_angle, 0.15);
+    player->angle = lerp(player->angle, player->fut_angle, MOUSE_SLIDE);
 }
 
 static void set_future_angle(player_t *player,

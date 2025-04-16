@@ -145,6 +145,7 @@ typedef struct map_s {
 typedef struct player_s {
     sfVector2f pos;
     float size;
+    float fut_angle;
     float angle;
     float speed;
     float turn_speed;
@@ -189,6 +190,8 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
 
     #define FOV (M_PI / 3)
     #define NUM_RAYS 800
+    #define MOUSE_SENSITIVITY 0.0025
+    #define MOUSE_SLIDE 0.13
 
     #define CLOCK frame->clock
     #define NBCLKS frame->nb_clocks
@@ -281,7 +284,11 @@ void draw_item(frame_t *frame, sfVector3f itempos,
     sfTexture *item_texture, sfVector2f scale);
 
 //PLAYER
-void update_player(player_t *player, clocks_t *clock);
+void rotate_player(player_t *player, frame_t *frame);
+void update_player(player_t *player, clocks_t *clock, frame_t *frame);
 float get_delta_time(clocks_t *clock);
+
+//MATH
+float lerp(float a, float b, float mult);
 
 #endif /* !FRAME_H_ */
