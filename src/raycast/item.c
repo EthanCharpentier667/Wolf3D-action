@@ -25,7 +25,7 @@ static void calculate_item_position(frame_t *frame, sfVector3f itempos,
 }
 
 static void calculate_item_dimensions(item_render_data_t *data,
-    sfVector2f scale)
+    sfVector2f scale, player_t *player)
 {
     data->projected_height = TILE_SIZE * WINDOWY / data->distance * scale.y;
     data->scale_factor = data->projected_height
@@ -36,6 +36,7 @@ static void calculate_item_dimensions(item_render_data_t *data,
     data->sprite_start_x = data->screen_x - data->sprite_width / 2;
     data->sprite_end_x = data->screen_x + data->sprite_width / 2;
     data->vertical_offset = WINDOWY / 2 - data->projected_height;
+    data->vertical_offset += (int)(WINDOWY * tanf(player->vertical_angle) / 2);
     data->vertical_offset -= (data->ceiling_height * WINDOWY)
         / (data->distance * 4);
 }
@@ -69,6 +70,6 @@ void draw_item(frame_t *frame, sfVector3f itempos,
     item_render_data_t data = {0};
 
     calculate_item_position(frame, itempos, item_texture, &data);
-    calculate_item_dimensions(&data, scale);
+    calculate_item_dimensions(&data, scale, PLAYER);
     render_item_columns(frame, item_texture, &data, scale);
 }

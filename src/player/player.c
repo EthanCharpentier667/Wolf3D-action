@@ -38,10 +38,19 @@ static sfVector2i check_collisions(sfVector2f new_pos, sfVector2f old_pos)
 static void rotate_player(player_t *player)
 {
     int cam_angle = 0;
+    int cam_vertical_angle = 0;
 
     cam_angle = sfKeyboard_isKeyPressed(sfKeyRight) -
         sfKeyboard_isKeyPressed(sfKeyLeft);
+    cam_vertical_angle = sfKeyboard_isKeyPressed(sfKeyUp) -
+        sfKeyboard_isKeyPressed(sfKeyDown);
     player->angle += cam_angle * player->turn_speed * player->delta_time;
+    player->vertical_angle += cam_vertical_angle * player->turn_speed
+        * player->delta_time;
+    if (player->vertical_angle > M_PI / 4)
+        player->vertical_angle = M_PI / 4;
+    if (player->vertical_angle < - M_PI / 4)
+        player->vertical_angle = - M_PI / 4;
 }
 
 static sfVector2f set_walk_pos(sfVector2i move, player_t *player)

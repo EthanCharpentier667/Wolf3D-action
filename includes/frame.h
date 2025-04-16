@@ -145,6 +145,7 @@ typedef struct map_s {
 typedef struct player_s {
     sfVector2f pos;
     float angle;
+    float vertical_angle;
     float speed;
     float turn_speed;
     float delta_time;
@@ -270,12 +271,12 @@ int game(frame_t *frame);
 //RAYCAST
 int is_osbtacle(int x, int y);
 double view_angle(float angle);
-void draw_floor_and_ceiling(sfRenderWindow *window);
+void draw_floor_and_ceiling(frame_t *frame);
 void render_wall_column(sfRenderWindow *window, int column,
     float wall_height, sfColor color);
 void cast_all_rays(frame_t *frame);
 void render_wall_column_textured(frame_t *frame, sfVector2f column_wall_height,
-    sfVector2f hits, bool hit_vertical);
+    sfVector2f hits, sfVector2i vertical);
 void draw_item(frame_t *frame, sfVector3f itempos,
     sfTexture *item_texture, sfVector2f scale);
 
