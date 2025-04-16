@@ -19,11 +19,11 @@ float get_delta_time(clocks_t *clock)
 
 static bool get_axis_collision(sfVector2f apos, sfVector2f bpos)
 {
-    return is_wall(apos.x, bpos.y) ||
-    is_wall(apos.x + 10, bpos.y + 10) ||
-    is_wall(apos.x - 10, bpos.y - 10) ||
-    is_wall(apos.x - 10, bpos.y + 10) ||
-    is_wall(apos.x + 10, bpos.y - 10);
+    return is_osbtacle(apos.x, bpos.y) != 0 ||
+    is_osbtacle(apos.x + 10, bpos.y + 10) != 0 ||
+    is_osbtacle(apos.x - 10, bpos.y - 10) != 0 ||
+    is_osbtacle(apos.x - 10, bpos.y + 10) != 0 ||
+    is_osbtacle(apos.x + 10, bpos.y - 10) != 0;
 }
 
 static sfVector2i check_collisions(sfVector2f new_pos, sfVector2f old_pos)

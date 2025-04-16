@@ -70,7 +70,7 @@ float cast_single_ray(float ray_angle, frame_t *frame)
     while (ray_length < 1000) {
         ray_pos.x += ray_dir.x * ray_step;
         ray_pos.y += ray_dir.y * ray_step;
-        if (is_wall(ray_pos.x, ray_pos.y)) {
+        if (is_osbtacle(ray_pos.x, ray_pos.y) == WALL) {
             corrected_dist = ray_length * cos(ray_angle - PLAYER->angle);
             draw_wall_cols(frame, corrected_dist, ray_angle, ray_pos);
             return corrected_dist;
