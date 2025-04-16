@@ -44,6 +44,7 @@ SRC	=	includes/inititliser.c \
         $(RAYCAST_DIR)wall.c \
         $(RAYCAST_DIR)drawer.c \
         $(RAYCAST_DIR)raycasting.c \
+        $(RAYCAST_DIR)item.c \
         $(PLAYER_DIR)player.c \
         $(ACTION_DIR)play.c \
 

@@ -23,6 +23,24 @@
     #include "texts.h"
     #include "sounds.h"
 
+typedef struct {
+    float dx;
+    float dy;
+    float distance;
+    float angle_to_item;
+    float rel_angle;
+    int screen_x;
+    float ceiling_height;
+    sfVector2u tex_size;
+    float projected_height;
+    float scale_factor;
+    float sprite_width;
+    int sprite_height;
+    int sprite_start_x;
+    int sprite_end_x;
+    float vertical_offset;
+} item_render_data_t;
+
 typedef struct text_s {
     sfFont *font;
     sfText *text;
@@ -121,6 +139,7 @@ typedef struct map_s {
     int width;
     int height;
     sfTexture *walltexture;
+    sfTexture *lamptexture;
 } map_t;
 
 typedef struct player_s {
@@ -149,6 +168,7 @@ typedef struct frame_s {
     ui_t *ui;
     game_t *game;
     sfVector2f mouse;
+    float z_buffer[800];
 } frame_t;
 
     #define FRAME frame
@@ -257,6 +277,8 @@ void render_wall_column(sfRenderWindow *window, int column,
 void cast_all_rays(frame_t *frame);
 void render_wall_column_textured(frame_t *frame, sfVector2f column_wall_height,
     sfVector2f hits, bool hit_vertical);
+void draw_item(frame_t *frame, sfVector3f itempos,
+    sfTexture *item_texture, sfVector2f scale);
 
 //PLAYER
 void update_player(player_t *player, clocks_t *clock);
