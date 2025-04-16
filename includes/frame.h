@@ -281,7 +281,7 @@ void draw_item(frame_t *frame, sfVector3f itempos,
     sfTexture *item_texture, sfVector2f scale);
 
 //PLAYER
-void update_player(player_t *player, clocks_t *clock);
+void update_player(frame_t *frame, clocks_t *clock);
 float get_delta_time(clocks_t *clock);
 
 #endif /* !FRAME_H_ */

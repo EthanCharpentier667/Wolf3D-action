@@ -35,6 +35,19 @@ static sfVector2i check_collisions(sfVector2f new_pos, sfVector2f old_pos)
     return res;
 }
 
+int clamp(float *value, float min, float max)
+{
+    if (*value < min) {
+        *value = min;
+        return min;
+    }
+    if (*value > max) {
+        *value = max;
+        return max;
+    }
+    return *value;
+}
+
 static void rotate_player(player_t *player)
 {
     int cam_angle = 0;
@@ -47,10 +60,7 @@ static void rotate_player(player_t *player)
     player->angle += cam_angle * player->turn_speed * player->delta_time;
     player->vertical_angle += cam_vertical_angle * player->turn_speed
         * player->delta_time;
-    if (player->vertical_angle > M_PI / 4)
-        player->vertical_angle = M_PI / 4;
-    if (player->vertical_angle < - M_PI / 4)
-        player->vertical_angle = - M_PI / 4;
+    clamp(&player->vertical_angle, - M_PI / 4, M_PI / 4);
 }
 
 static sfVector2f set_walk_pos(sfVector2i move, player_t *player)
@@ -88,9 +98,9 @@ static void move_player(player_t *player)
     player->pos.y += pos.y;
 }
 
-void update_player(player_t *player, clocks_t *clock)
+void update_player(frame_t *frame, clocks_t *clock)
 {
-    player->delta_time = get_delta_time(clock);
-    move_player(player);
-    rotate_player(player);
+    PLAYER->delta_time = get_delta_time(clock);
+    move_player(PLAYER);
+    rotate_player(PLAYER);
 }
