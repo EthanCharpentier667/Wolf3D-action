@@ -45,7 +45,7 @@ static int init_items(frame_t *frame)
     return 0;
 }
 
-static int init_map(frame_t *frame)
+static int allocate_map(frame_t *frame)
 {
     MAP = malloc(sizeof(map_t));
     if (!MAP)
@@ -54,7 +54,7 @@ static int init_map(frame_t *frame)
 }
 
 // Allocate and initialize the 2D map array
-static int allocate_map(frame_t *frame)
+static int init_map_2d(frame_t *frame)
 {
     MAP2D = malloc(sizeof(int *) * MAP_HEIGHT);
     if (!MAP2D)
