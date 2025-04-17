@@ -170,10 +170,9 @@ typedef struct map_s {
     int **map;
     int width;
     int height;
-    sfTexture *walltexture;
-    sfTexture *lamptexture;
     sfTexture *floortexture;
     sfTexture *ceilingtexture;
+    sfTexture *walltexture;
 } map_t;
 
 typedef struct player_s {

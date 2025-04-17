@@ -28,12 +28,12 @@ static void init_raycasting_resources(frame_t *frame,
 }
 
 static int calculate_strip_height(raycasting_data_t *data,
-    strip_params_t strip)
+    bool is_floor, sfVector2f pos)
 {
-    int max_y = strip.is_floor ?
+    int max_y = is_floor ?
         WINDOWY : (WINDOWY / 2 + data->vertical_offset);
-    int current_strip_height = (strip.y + data->strip_height > max_y) ?
-        (max_y - strip.y) : data->strip_height;
+    int current_strip_height = (pos.y + data->strip_height > max_y) ?
+        (max_y - pos.y) : data->strip_height;
 
     return current_strip_height;
 }
@@ -99,7 +99,8 @@ static void draw_strip(frame_t *frame, raycasting_data_t *data,
         .x = pos.x,
         .y = pos.y,
         .is_floor = is_floor,
-        .strip_height = calculate_strip_height(data, strip)
+        .strip_height = calculate_strip_height(data,
+            is_floor, v2f(pos.x, pos.y))
     };
     ray_data_t ray = calculate_ray_data(data, strip);
     world_pos_t world_pos = calculate_world_position(data, ray);
