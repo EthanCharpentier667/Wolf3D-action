@@ -45,11 +45,17 @@ static int init_items(frame_t *frame)
     return 0;
 }
 
-static int init_map(frame_t *frame)
+static int allocate_map(frame_t *frame)
 {
     MAP = malloc(sizeof(map_t));
     if (!MAP)
         return 84;
+    return 0;
+}
+
+// Allocate and initialize the 2D map array
+static int init_map_2d(frame_t *frame)
+{
     MAP2D = malloc(sizeof(int *) * MAP_HEIGHT);
     if (!MAP2D)
         return 84;
@@ -60,12 +66,37 @@ static int init_map(frame_t *frame)
         for (int j = 0; j < MAP_WIDTH; j++)
             MAP2D[i][j] = map[i][j];
     }
-    MAP->width = MAP_WIDTH;
-    MAP->height = MAP_HEIGHT;
+    return 0;
+}
+
+static int load_map_textures(frame_t *frame)
+{
     MAP->walltexture = sfTexture_createFromFile(RES"wall.bmp", NULL);
     MAP->lamptexture = sfTexture_createFromFile(RES"lamp.png", NULL);
-    if (!MAP->walltexture || !MAP->lamptexture)
+    MAP->floortexture = sfTexture_createFromFile(RES"wood_floor.png", NULL);
+    MAP->ceilingtexture = sfTexture_createFromFile(RES"wood_floor.png", NULL);
+    if (!MAP->walltexture || !MAP->lamptexture ||
+        !MAP->floortexture || !MAP->ceilingtexture)
         return 84;
+    return 0;
+}
+
+// Main map initialization function
+static int init_map(frame_t *frame)
+{
+    int status = 0;
+
+    status = allocate_map(frame);
+    if (status != 0)
+        return status;
+    status = init_map_2d(frame);
+    if (status != 0)
+        return status;
+    MAP->width = MAP_WIDTH;
+    MAP->height = MAP_HEIGHT;
+    status = load_map_textures(frame);
+    if (status != 0)
+        return status;
     return 0;
 }
 
