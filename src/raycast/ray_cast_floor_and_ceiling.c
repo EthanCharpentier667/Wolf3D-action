@@ -113,9 +113,9 @@ static void draw_floor(frame_t *frame,
     sfSprite *floor_sprite, float *ray_angles)
 {
     raycasting_data_t floor_data = {
-        .texture = frame->game->map->floortexture,
+        .texture = MAP->floortexture,
         .sprite = floor_sprite,
-        .texture_size = sfTexture_getSize(frame->game->map->floortexture),
+        .texture_size = sfTexture_getSize(MAP->floortexture),
         .player_angle = PLAYER->angle,
         .player_pos = PLAYER->pos,
         .vertical_offset = (int)(WINDOWY * tanf(PLAYER->vertical_angle) / 2),
@@ -134,9 +134,9 @@ static void draw_ceiling(frame_t *frame,
     sfSprite *ceiling_sprite, float *ray_angles)
 {
     raycasting_data_t ceiling_data = {
-        .texture = frame->game->map->ceilingtexture,
+        .texture = MAP->ceilingtexture,
         .sprite = ceiling_sprite,
-        .texture_size = sfTexture_getSize(frame->game->map->ceilingtexture),
+        .texture_size = sfTexture_getSize(MAP->ceilingtexture),
         .player_angle = PLAYER->angle,
         .player_pos = PLAYER->pos,
         .vertical_offset = (int)(WINDOWY * tanf(PLAYER->vertical_angle) / 2),
