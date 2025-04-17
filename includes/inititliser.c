@@ -8,8 +8,8 @@
 #include "frame.h"
 
 const struct item_infos_s ITEM_INFOS[] = {
-    {RES "lamp.png", {1, 1}, {250, 250, 10}},
-    {NULL, {0, 0}, {0, 0, 0}}
+    {RES "lamp.png", {0.7, 0.7}, {250, 250, 20}, {-1, -1, -1, -1}},
+    {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}}
 };
 
 const struct enemy_infos_s ENEMY_INFOS[] = {

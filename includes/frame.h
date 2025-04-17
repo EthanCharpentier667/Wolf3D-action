@@ -188,6 +188,7 @@ typedef struct item_s {
     sfVector3f pos;
     sfTexture *texture;
     sfVector2f scale;
+    sfIntRect rec;
 } item_t;
 
 typedef struct enemy_s {

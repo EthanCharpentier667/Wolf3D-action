@@ -14,6 +14,7 @@ struct item_infos_s {
     char *path;
     sfVector2f scale;
     sfVector3f pos;
+    sfIntRect rec;
 };
 
 extern const struct item_infos_s ITEM_INFOS[];
