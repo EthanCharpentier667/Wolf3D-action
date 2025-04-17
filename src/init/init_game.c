@@ -105,11 +105,14 @@ static int init_map(frame_t *frame)
 
 int init_game(frame_t *frame)
 {
+    sfVideoMode desktop = sfVideoMode_getDesktopMode();
+
     frame->game = malloc(sizeof(game_t));
     if (!frame->game)
         return 84;
     frame->game->level = 0;
     frame->ui->scene = MAINMENU;
+    frame->center = (sfVector2i){desktop.width / 2, desktop.height / 2};
     if (init_player(frame) == 84 || init_map(frame) == 84
         || init_items(frame) == 84 || init_enemies(frame) == 84)
         return 84;

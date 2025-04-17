@@ -105,11 +105,13 @@ static void draw_strip(frame_t *frame, raycasting_data_t *data,
             is_floor, v2f(pos.x, pos.y))
     };
     ray_data_t ray = calculate_ray_data(data, strip);
+    world_pos_t world_pos = {0};
+    sfVector2i tex_coords = {0};
+
     if (ray.distance > MAX_RAY_LENGTH)
         return;
-    world_pos_t world_pos = calculate_world_position(data, ray);
-    sfVector2i tex_coords = calculate_texture_coordinates(data, world_pos);
-
+    world_pos = calculate_world_position(data, ray);
+    tex_coords = calculate_texture_coordinates(data, world_pos);
     draw_sprite_strip(frame, data, tex_coords, strip);
 }
 

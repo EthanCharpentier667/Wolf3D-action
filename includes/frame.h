@@ -217,6 +217,7 @@ typedef struct game_s {
 typedef struct frame_s {
     sfRenderWindow *window;
     sfVector2u window_size;
+    sfVector2i center;
     sfEvent event;
     clocks_t *clock;
     sfView *view;
@@ -225,6 +226,7 @@ typedef struct frame_s {
     ui_t *ui;
     game_t *game;
     sfVector2f mouse;
+    sfVector2i real_mouse;
     float z_buffer[800];
 } frame_t;
 
