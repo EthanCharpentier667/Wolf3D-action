@@ -196,6 +196,11 @@ typedef struct enemy_s {
     sfVector3f pos;
     sfTexture *texture;
     sfVector2f scale;
+    sfIntRect rec;
+    float angle;
+    float speed;
+    bool is_moving;
+    int life;
 } enemy_t;
 
 typedef struct game_s {
@@ -343,6 +348,7 @@ void render_wall_column_textured(frame_t *frame, sfVector2f column_wall_height,
     sfVector2f hits, sfVector2i vertical);
 void draw_item(frame_t *frame, sfVector3f itempos,
     sfTexture *item_texture, sfVector2f scale);
+void draw_enemy(frame_t *frame, int index);
 
 //PLAYER
 void rotate_player(player_t *player, frame_t *frame);

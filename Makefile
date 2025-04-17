@@ -48,6 +48,7 @@ SRC	=	includes/inititliser.c          \
         $(RAYCAST_DIR)drawer.c                  \
         $(RAYCAST_DIR)raycasting.c              \
         $(RAYCAST_DIR)item.c                    \
+        $(RAYCAST_DIR)enemy.c                \
         $(RAYCAST_DIR)ray_cast_floor_and_ceiling.c \
         $(PLAYER_DIR)move.c                     \
         $(PLAYER_DIR)cam.c                      \

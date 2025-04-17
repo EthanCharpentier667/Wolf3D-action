@@ -23,9 +23,12 @@ static int init_enemies(frame_t *frame)
     int result = 0;
 
     NBENEMIES = 0;
-    for (int i = 0; ENEMY_INFOS[i].path; i++)
+    for (int i = 0; ENEMY_INFOS[i].path; i++) {
         result += create_enemy(frame, ENEMY_INFOS[i].path,
             ENEMY_INFOS[i].scale, ENEMY_INFOS[i].pos);
+        ENEMY[NBENEMIES - 1].rec = ENEMY_INFOS[i].rec;
+        ENEMY[NBENEMIES - 1].speed = ENEMY_INFOS[i].speed;
+    }
     if (result != 0)
         return 84;
     ENEMIESALIVE = NBENEMIES;

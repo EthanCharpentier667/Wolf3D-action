@@ -14,8 +14,8 @@ const struct item_infos_s ITEM_INFOS[] = {
 };
 
 const struct enemy_infos_s ENEMY_INFOS[] = {
-    //{RES "enemy.png", {0.5, 0.5}, {0, 0, 0}},
-    {NULL, {0, 0}, {0, 0, 0}}
+    {RES "enemy.png", {2.5, 2.5}, {250, 250, -550}, {0, 0, 65, 65}, 3},
+    {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0}
 };
 
 const struct button_infos_s BUTTON_INFOS[] = {
