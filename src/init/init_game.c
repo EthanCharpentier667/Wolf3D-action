@@ -72,11 +72,9 @@ static int init_map_2d(frame_t *frame)
 static int load_map_textures(frame_t *frame)
 {
     MAP->walltexture = sfTexture_createFromFile(RES"wall.bmp", NULL);
-    MAP->lamptexture = sfTexture_createFromFile(RES"lamp.png", NULL);
-    MAP->floortexture = sfTexture_createFromFile(RES"wood_floor.png", NULL);
+    MAP->floortexture = sfTexture_createFromFile(RES"concrete.png", NULL);
     MAP->ceilingtexture = sfTexture_createFromFile(RES"wood_floor.png", NULL);
-    if (!MAP->walltexture || !MAP->lamptexture ||
-        !MAP->floortexture || !MAP->ceilingtexture)
+    if (!MAP->walltexture || !MAP->floortexture || !MAP->ceilingtexture)
         return 84;
     return 0;
 }
