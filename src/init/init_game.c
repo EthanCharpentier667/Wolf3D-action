@@ -37,9 +37,11 @@ static int init_items(frame_t *frame)
     int result = 0;
 
     NBITEMS = 0;
-    for (int i = 0; ITEM_INFOS[i].path; i++)
+    for (int i = 0; ITEM_INFOS[i].path; i++) {
         result += create_item(frame, ITEM_INFOS[i].path,
             ITEM_INFOS[i].scale, ITEM_INFOS[i].pos);
+        ITEM[NBITEMS - 1].rec = ITEM_INFOS[i].rec;
+    }
     if (result != 0)
         return 84;
     return 0;
