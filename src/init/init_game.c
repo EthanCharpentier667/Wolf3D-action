@@ -75,7 +75,7 @@ static int load_map_textures(frame_t *frame)
 {
     MAP->walltexture = sfTexture_createFromFile(RES"wall.jpg", NULL);
     MAP->floortexture = sfTexture_createFromFile(RES"concrete.png", NULL);
-    MAP->ceilingtexture = sfTexture_createFromFile(RES"wood_ceiling.jpg", NULL);
+    MAP->ceilingtexture = sfTexture_createFromFile(RES"w_ceiling.jpg", NULL);
     if (!MAP->walltexture || !MAP->floortexture || !MAP->ceilingtexture)
         return 84;
     return 0;
