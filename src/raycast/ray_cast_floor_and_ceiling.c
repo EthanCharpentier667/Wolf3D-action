@@ -55,6 +55,8 @@ static ray_data_t calculate_ray_data(raycasting_data_t *data,
         distance_factor = (WINDOWY * TILE_SIZE / 2.0f) /
             (screen_center - strip.y);
     result.distance = distance_factor / cosf(data->ray_angles[strip.x]);
+    if (result.distance > MAX_RAY_LENGTH)
+        result.distance = MAX_RAY_LENGTH;
     return result;
 }
 
@@ -103,6 +105,8 @@ static void draw_strip(frame_t *frame, raycasting_data_t *data,
             is_floor, v2f(pos.x, pos.y))
     };
     ray_data_t ray = calculate_ray_data(data, strip);
+    if (ray.distance > MAX_RAY_LENGTH)
+        return;
     world_pos_t world_pos = calculate_world_position(data, ray);
     sfVector2i tex_coords = calculate_texture_coordinates(data, world_pos);
 
@@ -119,8 +123,8 @@ static void draw_floor(frame_t *frame,
         .player_angle = PLAYER->angle.x,
         .player_pos = PLAYER->pos,
         .vertical_offset = (int)(WINDOWY * tanf(PLAYER->angle.y) / 2),
-        .strip_height = 2,
-        .strip_width = 2,
+        .strip_height = 4,
+        .strip_width = 4,
         .ray_angles = ray_angles
     };
     int start_y = WINDOWY / 2 + floor_data.vertical_offset;
@@ -140,8 +144,8 @@ static void draw_ceiling(frame_t *frame,
         .player_angle = PLAYER->angle.x,
         .player_pos = PLAYER->pos,
         .vertical_offset = (int)(WINDOWY * tanf(PLAYER->angle.y) / 2),
-        .strip_height = 2,
-        .strip_width = 2,
+        .strip_height = 3,
+        .strip_width = 3,
         .ray_angles = ray_angles
     };
     int end_y = WINDOWY / 2 + ceiling_data.vertical_offset;
