@@ -134,12 +134,44 @@ typedef struct ui_s {
     sfVector2f refactor;
 } ui_t;
 
+typedef struct {
+    float world_x;
+    float world_y;
+} world_pos_t;
+
+typedef struct {
+    int x;
+    int y;
+    int strip_height;
+    bool is_floor;
+} strip_params_t;
+
+typedef struct {
+    float cos_angle;
+    float sin_angle;
+    float distance;
+} ray_data_t;
+
+typedef struct {
+    sfTexture *texture;
+    sfSprite *sprite;
+    sfVector2u texture_size;
+    float player_angle;
+    sfVector2f player_pos;
+    int vertical_offset;
+    int strip_height;
+    int strip_width;
+    float *ray_angles;
+} raycasting_data_t;
+
 typedef struct map_s {
     int **map;
     int width;
     int height;
     sfTexture *walltexture;
     sfTexture *lamptexture;
+    sfTexture *floortexture;
+    sfTexture *ceilingtexture;
 } map_t;
 
 typedef struct player_s {
@@ -272,6 +304,7 @@ int game(frame_t *frame);
 int is_osbtacle(int x, int y);
 double view_angle(float angle);
 void draw_floor_and_ceiling(frame_t *frame);
+void cast_floor_ceiling_rays(frame_t *frame);
 void render_wall_column(sfRenderWindow *window, int column,
     float wall_height, sfColor color);
 void cast_all_rays(frame_t *frame);
