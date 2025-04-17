@@ -16,7 +16,7 @@ static void draw_items(frame_t *frame)
 static void draw_enemies(frame_t *frame)
 {
     for (int i = 0; i < NBENEMIES; i++)
-        draw_item(frame, ENEMY[i].pos, ENEMY[i].texture, ENEMY[i].scale);
+        draw_enemy(frame, i);
 }
 
 int game(frame_t *frame)

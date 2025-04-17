@@ -14,6 +14,8 @@ struct enemy_infos_s {
     char *path;
     sfVector2f scale;
     sfVector3f pos;
+    sfIntRect rec;
+    float speed;
 };
 extern const struct enemy_infos_s ENEMY_INFOS[];
 

@@ -20,6 +20,8 @@ int create_enemy(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos)
         return 84;
     ENEMY[NBENEMIES].scale = scale;
     ENEMY[NBENEMIES].pos = pos;
+    ENEMY[NBENEMIES].angle = 0;
+    ENEMY[NBENEMIES].is_moving = false;
     NBENEMIES++;
     return 0;
 }
