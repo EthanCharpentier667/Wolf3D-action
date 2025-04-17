@@ -8,7 +8,7 @@
 #include "frame.h"
 
 const struct item_infos_s ITEM_INFOS[] = {
-    {RES "lamp.png", {1, 1}, {250, 250, 10}},
+    {RES "lamp.png", {0.7, 0.7}, {250, 250, 20}},
     {NULL, {0, 0}, {0, 0, 0}}
 };
 
