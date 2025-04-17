@@ -32,9 +32,9 @@ static void calculate_enemy_dimensions(item_render_data_t *data,
     sfVector2f scale = enemy.scale;
     sfVector3f enemypos = enemy.pos;
     int sprite_height = enemy.rec.height > 0 ?
-        enemy.rec.height : data->tex_size.y;
+        enemy.rec.height : (int)data->tex_size.y;
     int sprite_width = enemy.rec.width > 0 ?
-        enemy.rec.width : data->tex_size.x;
+        enemy.rec.width : (int)data->tex_size.x;
 
     data->projected_height = TILE_SIZE * WINDOWY / perp_distance * scale.y;
     data->scale_factor = data->projected_height / (float)data->tex_size.y;

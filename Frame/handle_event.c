@@ -30,6 +30,7 @@ int handle_event(sfEvent *event, frame_t *frame)
         resize_event(frame);
         buttons_event(event, frame);
     }
+    frame->real_mouse = sfMouse_getPosition(NULL);
     frame->mouse = get_mouseposition(WINDOW);
     return 0;
 }
