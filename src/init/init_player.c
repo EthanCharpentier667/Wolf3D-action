@@ -15,9 +15,9 @@ int init_player(frame_t *frame)
     PLAYER->pos.x = 100;
     PLAYER->pos.y = 100;
     PLAYER->size = 20;
-    PLAYER->angle = view_angle(0);
-    PLAYER->fut_angle = 0;
+    PLAYER->angle = (sfVector2f){0, 0};
+    PLAYER->fut_angle = (sfVector2f){0, 0};
     PLAYER->speed = 75;
-    PLAYER->turn_speed = 2.25;
+    PLAYER->turn_speed = 3.25;
     return 0;
 }

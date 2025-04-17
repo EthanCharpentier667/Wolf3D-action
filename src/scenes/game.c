@@ -22,7 +22,7 @@ static void draw_enemies(frame_t *frame)
 int game(frame_t *frame)
 {
     update_player(PLAYER, &(frame->clock[1]), frame);
-    cast_floor_ceiling_rays(frame);
+    draw_floor_and_ceiling(frame);
     cast_all_rays(frame);
     draw_items(frame);
     draw_enemies(frame);

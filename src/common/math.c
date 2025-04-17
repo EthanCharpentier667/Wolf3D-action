@@ -16,3 +16,16 @@ float lerp(float a, float b, float mult)
 {
     return a + (b - a) * mult;
 }
+
+float clamp(float value, float min, float max)
+{
+    if (value < min) {
+        value = min;
+        return min;
+    }
+    if (value > max) {
+        value = max;
+        return max;
+    }
+    return value;
+}

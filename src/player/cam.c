@@ -9,23 +9,35 @@
 
 static void lerp_cam_angle(player_t *player)
 {
-    player->angle = lerp(player->angle, player->fut_angle, MOUSE_SLIDE);
+    float mult = clamp(MOUSE_SLIDE * player->delta_time, 0, 1);
+
+    player->angle.x = lerp(player->angle.x, player->fut_angle.x,
+        mult);
+    player->angle.y = lerp(player->angle.y, player->fut_angle.y,
+        mult);
 }
 
 static void set_future_angle(player_t *player,
     frame_t *frame, sfVector2i center)
 {
-    int cam_angle = 0;
-    float arrow_addon = 0;
-    float mouse_addon = 0;
+    sfVector2i cam_angle = {0, 0};
+    sfVector2f arrow_addon = {0, 0};
+    sfVector2f mouse_addon = {0, 0};
     sfVector2f mouse_pos = frame->mouse;
 
-    cam_angle = sfKeyboard_isKeyPressed(sfKeyRight) -
+    cam_angle.x = sfKeyboard_isKeyPressed(sfKeyRight) -
         sfKeyboard_isKeyPressed(sfKeyLeft);
-    arrow_addon = cam_angle * player->turn_speed * player->delta_time;
-    mouse_addon = ((float)mouse_pos.x - center.x)
+    cam_angle.y = sfKeyboard_isKeyPressed(sfKeyUp) -
+        sfKeyboard_isKeyPressed(sfKeyDown);
+    arrow_addon.x = cam_angle.x * player->turn_speed * player->delta_time;
+    arrow_addon.y = cam_angle.y * player->turn_speed * player->delta_time;
+    mouse_addon.x = ((float)mouse_pos.x - center.x)
         * player->turn_speed * MOUSE_SENSITIVITY;
-    player->fut_angle = player->fut_angle + arrow_addon + mouse_addon;
+    mouse_addon.y = ((float)mouse_pos.y - center.y)
+        * player->turn_speed * MOUSE_SENSITIVITY * -1;
+    player->fut_angle.x = player->fut_angle.x + arrow_addon.x + mouse_addon.x;
+    player->fut_angle.y = clamp(player->fut_angle.y + arrow_addon.y +
+        mouse_addon.y, MAX_CAM_Y / -2, MAX_CAM_Y / 2);
 }
 
 void rotate_player(player_t *player, frame_t *frame)

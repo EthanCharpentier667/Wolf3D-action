@@ -41,7 +41,7 @@ static sfVector2f set_walk_pos(sfVector2i move, player_t *player)
 {
     sfVector2f res = {0, 0};
     int input_nb = ((bool)move.x + (bool)move.y);
-    float angle = player->angle;
+    float angle = player->angle.x;
     sfVector2f pos = player->pos;
     sfVector2i collision = {0, 0};
 
