@@ -49,16 +49,16 @@ void render_wall_column_textured(frame_t *frame, sfVector2f column_wall_height,
     int tex_x = 0;
     float scale_y = 0;
     sfSprite *wall_sprite = sfSprite_create();
-    sfVector2u tex_size = sfTexture_getSize(frame->game->map->walltexture);
+    sfVector2u tex_size = sfTexture_getSize(MAP->walltexture);
     sfIntRect tex_rect = {0, 0, 1, (int)tex_size.y};
 
-    sfSprite_setTexture(wall_sprite, frame->game->map->walltexture, sfTrue);
+    sfSprite_setTexture(wall_sprite, MAP->walltexture, sfTrue);
     if ((bool) vertical.x)
         tex_x = (int)fmodf(hits.y, TILE_SIZE);
     else
         tex_x = (int)fmodf(hits.x, TILE_SIZE);
     tex_x = tex_x * tex_size.x / TILE_SIZE;
-    tex_rect = irct(tex_x, 0, 1, (int)tex_size.y);
+    tex_rect = irct(tex_x, 0, 2, (int)tex_size.y);
     sfSprite_setTextureRect(wall_sprite, tex_rect);
     sfSprite_setPosition(wall_sprite, v2f((float)column_wall_height.x,
         (WINDOWY - column_wall_height.y) / 2 + vertical.y));
