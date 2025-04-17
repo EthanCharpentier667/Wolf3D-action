@@ -10,6 +10,7 @@ NAME	=	wolf3d
 CC	=	gcc
 
 SRC_DIR	=	src/
+COMMON_DIR=	$(SRC_DIR)common/
 INIT_DIR=	$(SRC_DIR)init/
 SCENES_DIR=	$(SRC_DIR)scenes/
 CREATE_DIR=	Create/
@@ -18,38 +19,40 @@ RAYCAST_DIR=	$(SRC_DIR)raycast/
 PLAYER_DIR=	$(SRC_DIR)player/
 ACTION_DIR=	$(SRC_DIR)actions/
 
-SRC	=	includes/inititliser.c \
-        $(INIT_DIR)init_game.c \
-        $(INIT_DIR)init_ambiant.c \
-        $(INIT_DIR)init_ui.c \
-        $(INIT_DIR)init_player.c \
-        $(INIT_DIR)init.c \
-        $(SCENES_DIR)mainmenu.c \
-        $(SCENES_DIR)game.c \
-        $(SCENES_DIR)scenes_manager.c \
-        $(CREATE_DIR)button.c \
-        $(CREATE_DIR)clocks.c \
-        $(CREATE_DIR)framebuffer.c \
-        $(CREATE_DIR)sound.c \
-        $(CREATE_DIR)sprite.c \
-        $(CREATE_DIR)text.c \
-        $(CREATE_DIR)variables.c \
-        $(CREATE_DIR)window.c \
+SRC	=	includes/inititliser.c          \
+        $(INIT_DIR)init_game.c                  \
+        $(INIT_DIR)init_ambiant.c               \
+        $(INIT_DIR)init_ui.c                    \
+        $(INIT_DIR)init_player.c                \
+        $(INIT_DIR)init.c                       \
+        $(SCENES_DIR)mainmenu.c                 \
+        $(SCENES_DIR)game.c                     \
+        $(SCENES_DIR)scenes_manager.c           \
+        $(CREATE_DIR)button.c                   \
+        $(CREATE_DIR)clocks.c                   \
+        $(CREATE_DIR)framebuffer.c              \
+        $(CREATE_DIR)sound.c                    \
+        $(CREATE_DIR)sprite.c                   \
+        $(CREATE_DIR)text.c                     \
+        $(CREATE_DIR)variables.c                \
+        $(CREATE_DIR)window.c                   \
         $(CREATE_DIR)item.c \
         $(CREATE_DIR)enemy.c \
-        $(FRAME_DIR)buttons_events.c \
-        $(FRAME_DIR)destroy.c \
-        $(FRAME_DIR)draw.c \
-        $(FRAME_DIR)handle_event.c \
-        $(FRAME_DIR)mousepos.c \
-        $(FRAME_DIR)resize_event.c \
-        $(RAYCAST_DIR)obstacle.c \
-        $(RAYCAST_DIR)drawer.c \
-        $(RAYCAST_DIR)raycasting.c \
-        $(RAYCAST_DIR)item.c \
+        $(FRAME_DIR)buttons_events.c            \
+        $(FRAME_DIR)destroy.c                   \
+        $(FRAME_DIR)draw.c                      \
+        $(FRAME_DIR)handle_event.c              \
+        $(FRAME_DIR)mousepos.c                  \
+        $(FRAME_DIR)resize_event.c              \
+        $(RAYCAST_DIR)obstacle.c                \
+        $(RAYCAST_DIR)drawer.c                  \
+        $(RAYCAST_DIR)raycasting.c              \
+        $(RAYCAST_DIR)item.c                    \
         $(RAYCAST_DIR)ray_cast_floor_and_ceiling.c \
-        $(PLAYER_DIR)player.c \
-        $(ACTION_DIR)play.c \
+        $(PLAYER_DIR)move.c                     \
+        $(PLAYER_DIR)cam.c                      \
+        $(ACTION_DIR)play.c                     \
+        $(COMMON_DIR)math.c                     \
 
 OBJ	=	$(SRC:.c=.o)
 

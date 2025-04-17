@@ -13,7 +13,7 @@ void draw_floor_and_ceiling(frame_t *frame)
     sfColor ceiling_color = sfColor_fromRGB(50, 50, 50);
     static sfRectangleShape* floor_rect = NULL;
     static sfRectangleShape* ceiling_rect = NULL;
-    int vertical = (int)(WINDOWY * tanf(PLAYER->vertical_angle) / 2);
+    int vertical = (int)(WINDOWY * tanf(PLAYER->angle.y) / 2);
 
     if (!floor_rect)
         floor_rect = sfRectangleShape_create();
