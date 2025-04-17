@@ -7,6 +7,16 @@
 
 #include "frame.h"
 
+const struct item_infos_s ITEM_INFOS[] = {
+    {RES "lamp.png", {0.7, 0.7}, {250, 250, 20}, {-1, -1, -1, -1}},
+    {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}}
+};
+
+const struct enemy_infos_s ENEMY_INFOS[] = {
+    //{RES "enemy.png", {0.5, 0.5}, {0, 0, 0}},
+    {NULL, {0, 0}, {0, 0, 0}}
+};
+
 const struct button_infos_s BUTTON_INFOS[] = {
     {PLAY, {0, 0, 0.5, 0.5}, RES "play.png",
         NULL, &do_play, MAINMENU},

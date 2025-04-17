@@ -22,6 +22,8 @@
     #include "images.h"
     #include "texts.h"
     #include "sounds.h"
+    #include "item.h"
+    #include "enemies.h"
 
 typedef struct {
     float dx;
@@ -134,12 +136,43 @@ typedef struct ui_s {
     sfVector2f refactor;
 } ui_t;
 
+typedef struct {
+    float world_x;
+    float world_y;
+} world_pos_t;
+
+typedef struct {
+    int x;
+    int y;
+    int strip_height;
+    bool is_floor;
+} strip_params_t;
+
+typedef struct {
+    float cos_angle;
+    float sin_angle;
+    float distance;
+} ray_data_t;
+
+typedef struct {
+    sfTexture *texture;
+    sfSprite *sprite;
+    sfVector2u texture_size;
+    float player_angle;
+    sfVector2f player_pos;
+    int vertical_offset;
+    int strip_height;
+    int strip_width;
+    float *ray_angles;
+} raycasting_data_t;
+
 typedef struct map_s {
     int **map;
     int width;
     int height;
+    sfTexture *floortexture;
+    sfTexture *ceilingtexture;
     sfTexture *walltexture;
-    sfTexture *lamptexture;
 } map_t;
 
 typedef struct player_s {
@@ -147,14 +180,33 @@ typedef struct player_s {
     float size;
     float fut_angle;
     float angle;
+    float vertical_angle;
     float speed;
     float turn_speed;
     float delta_time;
 } player_t;
 
+typedef struct item_s {
+    sfVector3f pos;
+    sfTexture *texture;
+    sfVector2f scale;
+    sfIntRect rec;
+} item_t;
+
+typedef struct enemy_s {
+    sfVector3f pos;
+    sfTexture *texture;
+    sfVector2f scale;
+} enemy_t;
+
 typedef struct game_s {
     player_t *player;
     map_t *map;
+    item_t *items;
+    enemy_t *enemies;
+    int nb_items;
+    int nb_enemies;
+    int nb_enemies_alive;
     int level;
 } game_t;
 
@@ -211,6 +263,12 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
     #define NBTEXTS ui->nb_texts
     #define FONTPATH RES "contm.ttf"
 
+    #define ITEM frame->game->items
+    #define ENEMY frame->game->enemies
+    #define NBITEMS frame->game->nb_items
+    #define NBENEMIES frame->game->nb_enemies
+    #define ENEMIESALIVE frame->game->nb_enemies_alive
+
     #define RES "src/assets/"
 
     #define UI frame->ui
@@ -236,6 +294,8 @@ int create_sound(ui_t *ui, char *path);
 int create_music(ui_t *ui, char *path);
 void applied_button(ui_t *ui);
 void applied(images_t *images);
+int create_enemy(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos);
+int create_item(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos);
 
 //DRAW
 int draw_all(frame_t *frame);
@@ -274,12 +334,13 @@ int game(frame_t *frame);
 //RAYCAST
 int is_osbtacle(int x, int y);
 double view_angle(float angle);
-void draw_floor_and_ceiling(sfRenderWindow *window);
+void draw_floor_and_ceiling(frame_t *frame);
+void cast_floor_ceiling_rays(frame_t *frame);
 void render_wall_column(sfRenderWindow *window, int column,
     float wall_height, sfColor color);
 void cast_all_rays(frame_t *frame);
 void render_wall_column_textured(frame_t *frame, sfVector2f column_wall_height,
-    sfVector2f hits, bool hit_vertical);
+    sfVector2f hits, sfVector2i vertical);
 void draw_item(frame_t *frame, sfVector3f itempos,
     sfTexture *item_texture, sfVector2f scale);
 

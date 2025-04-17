@@ -54,15 +54,16 @@ static void draw_wall_cols(frame_t *frame,
     int ray_column = (int)((ray_angle -
         (PLAYER->angle - FOV / 2)) * WINDOWX / FOV);
     bool hit_vertical = is_wall_vertical(ray_pos);
+    int vertical_offset = (int)(WINDOWY * tanf(PLAYER->vertical_angle) / 2);
 
     render_wall_column_textured(frame, v2f(ray_column, wall_height),
-        v2f(ray_pos.x, ray_pos.y), hit_vertical);
+        v2f(ray_pos.x, ray_pos.y), v2i(hit_vertical, vertical_offset));
 }
 
 float cast_single_ray(float ray_angle, frame_t *frame)
 {
     float ray_length = 0;
-    float ray_step = 0.1;
+    float ray_step = 0.5f;
     sfVector2f ray_dir = {cos(ray_angle), sin(ray_angle)};
     sfVector2f ray_pos = PLAYER->pos;
     float corrected_dist = 0;
