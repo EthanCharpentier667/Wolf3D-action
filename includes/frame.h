@@ -22,6 +22,8 @@
     #include "images.h"
     #include "texts.h"
     #include "sounds.h"
+    #include "item.h"
+    #include "enemies.h"
 
 typedef struct {
     float dx;
@@ -183,9 +185,26 @@ typedef struct player_s {
     float delta_time;
 } player_t;
 
+typedef struct item_s {
+    sfVector3f pos;
+    sfTexture *texture;
+    sfVector2f scale;
+} item_t;
+
+typedef struct enemy_s {
+    sfVector3f pos;
+    sfTexture *texture;
+    sfVector2f scale;
+} enemy_t;
+
 typedef struct game_s {
     player_t *player;
     map_t *map;
+    item_t *items;
+    enemy_t *enemies;
+    int nb_items;
+    int nb_enemies;
+    int nb_enemies_alive;
     int level;
 } game_t;
 
@@ -240,6 +259,12 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
     #define NBTEXTS ui->nb_texts
     #define FONTPATH RES "contm.ttf"
 
+    #define ITEM frame->game->items
+    #define ENEMY frame->game->enemies
+    #define NBITEMS frame->game->nb_items
+    #define NBENEMIES frame->game->nb_enemies
+    #define ENEMIESALIVE frame->game->nb_enemies_alive
+
     #define RES "src/assets/"
 
     #define UI frame->ui
@@ -265,6 +290,8 @@ int create_sound(ui_t *ui, char *path);
 int create_music(ui_t *ui, char *path);
 void applied_button(ui_t *ui);
 void applied(images_t *images);
+int create_enemy(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos);
+int create_item(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos);
 
 //DRAW
 int draw_all(frame_t *frame);

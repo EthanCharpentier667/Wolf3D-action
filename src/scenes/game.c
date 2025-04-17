@@ -7,11 +7,24 @@
 
 #include "frame.h"
 
+static void draw_items(frame_t *frame)
+{
+    for (int i = 0; i < NBITEMS; i++)
+        draw_item(frame, ITEM[i].pos, ITEM[i].texture, ITEM[i].scale);
+}
+
+static void draw_enemies(frame_t *frame)
+{
+    for (int i = 0; i < NBENEMIES; i++)
+        draw_item(frame, ENEMY[i].pos, ENEMY[i].texture, ENEMY[i].scale);
+}
+
 int game(frame_t *frame)
 {
     update_player(frame, &(frame->clock[1]));
     cast_floor_ceiling_rays(frame);
     cast_all_rays(frame);
-    draw_item(frame, v3f(250, 250, 10), MAP->lamptexture, v2f(1, 1));
+    draw_items(frame);
+    draw_enemies(frame);
     return 0;
 }
