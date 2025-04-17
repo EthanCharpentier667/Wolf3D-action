@@ -14,7 +14,7 @@ static void calculate_item_position(frame_t *frame, sfVector3f itempos,
     data->dy = itempos.y - PLAYER->pos.y;
     data->distance = sqrtf(data->dx * data->dx + data->dy * data->dy);
     data->angle_to_item = atan2f(data->dy, data->dx);
-    data->rel_angle = data->angle_to_item - PLAYER->angle;
+    data->rel_angle = data->angle_to_item - PLAYER->angle.x;
     while (data->rel_angle < - M_PI)
         data->rel_angle += 2 * M_PI;
     while (data->rel_angle > M_PI)
@@ -37,7 +37,7 @@ static void calculate_item_dimensions(item_render_data_t *data,
     data->sprite_start_x = data->screen_x - data->sprite_width / 2;
     data->sprite_end_x = data->screen_x + data->sprite_width / 2;
     data->vertical_offset = WINDOWY / 2 - data->projected_height / 2;
-    data->vertical_offset += (int)(WINDOWY * tanf(player->vertical_angle) / 2);
+    data->vertical_offset += (int)(WINDOWY * tanf(player->angle.y) / 2);
     data->vertical_offset -= (itempos.z * TILE_SIZE) / perp_distance;
 }
 

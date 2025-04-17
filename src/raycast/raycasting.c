@@ -52,9 +52,9 @@ static void draw_wall_cols(frame_t *frame,
 {
     int wall_height = (WINDOWY * TILE_SIZE) / corrected_dist;
     int ray_column = (int)((ray_angle -
-        (PLAYER->angle - FOV / 2)) * WINDOWX / FOV);
+        (PLAYER->angle.x - FOV / 2)) * WINDOWX / FOV);
     bool hit_vertical = is_wall_vertical(ray_pos);
-    int vertical_offset = (int)(WINDOWY * tanf(PLAYER->vertical_angle) / 2);
+    int vertical_offset = (int)(WINDOWY * tanf(PLAYER->angle.y) / 2);
 
     render_wall_column_textured(frame, v2f(ray_column, wall_height),
         v2f(ray_pos.x, ray_pos.y), v2i(hit_vertical, vertical_offset));
@@ -72,7 +72,7 @@ float cast_single_ray(float ray_angle, frame_t *frame)
         ray_pos.x += ray_dir.x * ray_step;
         ray_pos.y += ray_dir.y * ray_step;
         if (is_osbtacle(ray_pos.x, ray_pos.y) == WALL) {
-            corrected_dist = ray_length * cos(ray_angle - PLAYER->angle);
+            corrected_dist = ray_length * cos(ray_angle - PLAYER->angle.x);
             draw_wall_cols(frame, corrected_dist, ray_angle, ray_pos);
             return corrected_dist;
         }
@@ -83,7 +83,7 @@ float cast_single_ray(float ray_angle, frame_t *frame)
 
 void cast_all_rays(frame_t *frame)
 {
-    float ray_angle = PLAYER->angle - (FOV / 2);
+    float ray_angle = PLAYER->angle.x - (FOV / 2);
     float ray_step = FOV / NUM_RAYS;
 
     for (int i = 0; i < NUM_RAYS; i++) {
