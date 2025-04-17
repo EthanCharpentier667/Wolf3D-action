@@ -41,10 +41,10 @@ jobs:
               if: failure()
               run: |
                   while IFS= read -r line; do
-                    file=$line
-                    line_number=$line
-                    severity=$line
-                    code=$line
+                    file=$(echo "$line" | cut -d':' -f1)
+                    line_number=$(echo "$line" | cut -d':' -f2)
+                    severity=$(echo "$line" | cut -d':' -f4 | tr -d ' ')
+                    code=$(echo "$line" | cut -d':' -f5-)
                     echo "::error title=${severity} coding style error,file=${file},line=${line_number}::${code}"
                   done < coding-style-reports.log
     check_program_compilation:
