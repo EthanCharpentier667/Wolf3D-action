@@ -21,11 +21,14 @@ const struct enemy_infos_s ENEMY_INFOS[] = {
 const struct button_infos_s BUTTON_INFOS[] = {
     {PLAY, {325, 325, 0.5, 0.5}, RES "play.png",
         NULL, &do_play, MAINMENU},
+    {SETTING, {325, 400, 0.5, 0.5}, RES "settings.png",
+        NULL, &do_settings, MAINMENU},
     {0, {0, 0, 0, 0}, NULL, NULL, NULL, END}
 };
 
 const struct images_infos_s IMAGES_INFOS[] = {
     {RES "background.png", {0.325, 0.5}, {0, 0}, MAINMENU},
+    {RES "background.png", {0.325, 0.5}, {0, 0}, SETTINGS},
     {RES "logo.png", {0.7, 0.8}, {125, 50}, MAINMENU},
     {NULL, {0, 0}, {0, 0}, END},
 };
@@ -48,4 +51,9 @@ const struct sound_infos_s SOUNDS_INFOS[] = {
 const struct musics_infos_s MUSICS_INFOS[] = {
     //{RES "theme.ogg"},
     {NULL}
+};
+
+const struct slider_infos_s SLIDERS_INFOS[] = {
+    {{100, 100}, {300, 20}, 0.5, &apply_volume_change, SETTINGS},
+    {{0, 0}, {0, 0}, 0.5, NULL, END},
 };

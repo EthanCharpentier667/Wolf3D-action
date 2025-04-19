@@ -7,6 +7,20 @@
 
 #include "frame.h"
 
+static void draw_sliders(frame_t *frame)
+{
+    for (int i = 0; i < frame->ui->nb_sliders; i++) {
+        if (frame->ui->scene != SLIDERS_INFOS[i].scene)
+            continue;
+        sfRenderWindow_drawRectangleShape(frame->window,
+            frame->ui->sliders[i].bar, NULL);
+        sfRenderWindow_drawRectangleShape(frame->window,
+            frame->ui->sliders[i].fill, NULL);
+        sfRenderWindow_drawCircleShape(frame->window,
+            frame->ui->sliders[i].handle, NULL);
+    }
+}
+
 static void draw_helpboxes(frame_t *frame)
 {
     sfVector2f helpboxpos = {frame->mouse.x + 20, frame->mouse.y - 20};
@@ -64,5 +78,6 @@ int draw_all(frame_t *frame)
     draw_images(frame);
     draw_texts(frame);
     draw_buttons(frame);
+    draw_sliders(frame);
     return 0;
 }

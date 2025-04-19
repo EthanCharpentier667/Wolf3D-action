@@ -24,6 +24,7 @@
     #include "sounds.h"
     #include "item.h"
     #include "enemies.h"
+    #include "slider.h"
 
 typedef struct {
     float dx;
@@ -101,6 +102,7 @@ typedef struct {
 typedef enum scenes {
     MAINMENU,
     GAME,
+    SETTINGS,
     END
 } scenes_t;
 
@@ -123,12 +125,26 @@ typedef struct musics_s {
     sfMusic *music;
 } musics_t;
 
+typedef struct slider_s {
+    sfRectangleShape *bar;
+    sfRectangleShape *fill;
+    sfCircleShape *handle;
+    sfVector2f pos;
+    sfVector2f size;
+    float min_value;
+    float max_value;
+    float current_value;
+    bool dragging;
+} slider_t;
+
 typedef struct ui_s {
     int scene;
     text_t *texts;
     sound_t *sounds;
     musics_t *musics;
     button_t *button;
+    slider_t *sliders;
+    int nb_sliders;
     int nb_texts;
     int nb_musics;
     int nb_sounds;
@@ -253,6 +269,9 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
     #define MOUSE_SLIDE 16.5
     #define MAX_CAM_Y M_PI / 2
 
+    #define SLIDERS ui->sliders
+    #define NB_SLIDERS ui->nb_sliders
+
     #define CLOCK frame->clock
     #define NBCLKS frame->nb_clocks
 
@@ -304,6 +323,8 @@ void applied_button(ui_t *ui);
 void applied(images_t *images);
 int create_enemy(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos);
 int create_item(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos);
+int create_slider(ui_t *ui, sfVector2f pos,
+    sfVector2f size, float initial_value);
 
 //DRAW
 int draw_all(frame_t *frame);
@@ -327,6 +348,7 @@ sfIntRect irct(int left, int top, int width, int height);
 int handle_event(sfEvent *event, frame_t *frame);
 void buttons_event(sfEvent *event, frame_t *frame);
 void resize_event(frame_t *frame);
+void handle_slider_events(frame_t *frame, sfEvent *event);
 
 //BUTTONS
 void disable_all_button(frame_t *frame);
@@ -338,6 +360,7 @@ int scene_manager(frame_t *frame);
 //SCENES
 int mainmenu(frame_t *frame);
 int game(frame_t *frame);
+int settings(frame_t *frame);
 
 //RAYCAST
 int is_osbtacle(int x, int y);
