@@ -49,7 +49,7 @@ static int draw_buttons(frame_t *frame)
 static int draw_texts(frame_t *frame)
 {
     for (int i = 0; TEXTS_INFOS[i].text; i++)
-        if (UI->scene == BUTTON_INFOS[i].scene)
+        if (UI->scene == TEXTS_INFOS[i].scene)
             sfRenderWindow_drawText(frame->window, UI->texts[i].text, NULL);
     return 0;
 }

@@ -7,11 +7,16 @@
 
 #include "frame.h"
 
-int apply_volume_change(frame_t *frame, float volume)
+int apply_volume_change_sounds(frame_t *frame, float volume)
 {
     for (int i = 0; i < frame->ui->nb_sounds; i++) {
         sfSound_setVolume(frame->ui->sounds[i].sound, volume * 100.0f);
     }
+    return 0;
+}
+
+int apply_volume_change_musics(frame_t *frame, float volume)
+{
     for (int i = 0; i < frame->ui->nb_musics; i++) {
         sfMusic_setVolume(frame->ui->musics[i].music, volume * 100.0f);
     }
@@ -58,7 +63,7 @@ static void update_slider_position(frame_t *frame, int i, sfVector2f mouse_pos)
     sfCircleShape_setPosition(UI->sliders[i].handle,
         v2f(UI->sliders[i].pos.x + fill_width - handle_radius,
         UI->sliders[i].pos.y + UI->sliders[i].size.y / 2 - handle_radius));
-    apply_volume_change(frame, UI->sliders[i].current_value);
+    SLIDERS_INFOS[i].func(frame, UI->sliders[i].current_value);
 }
 
 void handle_slider_events(frame_t *frame, sfEvent *event)

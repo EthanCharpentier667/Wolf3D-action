@@ -23,6 +23,8 @@ const struct button_infos_s BUTTON_INFOS[] = {
         NULL, &do_play, MAINMENU},
     {SETTING, {325, 400, 0.5, 0.5}, RES "settings.png",
         NULL, &do_settings, MAINMENU},
+    {BACK_TO_MAINMENU, {5, 5, 0.5, 0.5}, RES "go_back.png",
+        NULL, &do_mainmenu, SETTINGS},
     {0, {0, 0, 0, 0}, NULL, NULL, NULL, END}
 };
 
@@ -30,6 +32,7 @@ const struct images_infos_s IMAGES_INFOS[] = {
     {RES "background.png", {0.325, 0.5}, {0, 0}, MAINMENU},
     {RES "background.png", {0.325, 0.5}, {0, 0}, SETTINGS},
     {RES "logo.png", {0.7, 0.8}, {125, 50}, MAINMENU},
+    {RES "settings-logo.png", {0.4, 0.5}, {160, -100}, SETTINGS},
     {NULL, {0, 0}, {0, 0}, END},
 };
 
@@ -38,7 +41,8 @@ const struct images_rec_infos_s IMAGES_REC_INFOS[] = {
 };
 
 const struct text_infos_s TEXTS_INFOS[] = {
-    //{"SIZE :", {0, 0, 0, 255}, {50, 130, 775}, MAINMENU},
+    {"SOUNDS VOLUME:", {255, 255, 255, 255}, {30, 200, 250}, SETTINGS},
+    {"MUSICS VOLUME:", {255, 255, 255, 255}, {30, 200, 350}, SETTINGS},
     {NULL, {0, 0, 0, 255}, {0, 0, 0}, END},
 };
 
@@ -54,6 +58,7 @@ const struct musics_infos_s MUSICS_INFOS[] = {
 };
 
 const struct slider_infos_s SLIDERS_INFOS[] = {
-    {{100, 100}, {300, 20}, 0.5, &apply_volume_change, SETTINGS},
+    {{200, 300}, {300, 20}, 0.5, &apply_volume_change_sounds, SETTINGS},
+    {{200, 400}, {300, 20}, 0.5, &apply_volume_change_musics, SETTINGS},
     {{0, 0}, {0, 0}, 0.5, NULL, END},
 };
