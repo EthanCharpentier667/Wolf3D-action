@@ -18,7 +18,8 @@ struct slider_infos_s {
     int scene;
 };
 
-int apply_volume_change(frame_t *frame, float volume);
+int apply_volume_change_musics(frame_t *frame, float volume);
+int apply_volume_change_sounds(frame_t *frame, float volume);
 
 extern const struct slider_infos_s SLIDERS_INFOS[];
 
