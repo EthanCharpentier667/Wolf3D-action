@@ -21,7 +21,8 @@ typedef struct frame_s frame_t;
     #define HRESET "Reset all modifications to get a flat map"
 
 enum buttons_actions {
-    PLAY
+    PLAY,
+    SETTING,
 };
 
 struct button_infos_s {
@@ -34,6 +35,7 @@ struct button_infos_s {
 };
 
 int do_play(frame_t *frame);
+int do_settings(frame_t *frame);
 
 extern const struct button_infos_s BUTTON_INFOS[];
 

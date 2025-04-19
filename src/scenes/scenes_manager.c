@@ -28,6 +28,9 @@ int scene_manager(frame_t *frame)
         case GAME:
             game(frame);
             break;
+        case SETTINGS:
+            settings(frame);
+            break;
         default:
             break;
     }

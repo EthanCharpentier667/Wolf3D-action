@@ -7,6 +7,20 @@
 
 #include "frame.h"
 
+static int init_sliders(frame_t *frame)
+{
+    int result = 0;
+
+    frame->ui->nb_sliders = 0;
+    for (int i = 0; SLIDERS_INFOS[i].scene != END; i++) {
+        result += create_slider(frame->ui, SLIDERS_INFOS[i].pos,
+            SLIDERS_INFOS[i].size, SLIDERS_INFOS[i].initial_value);
+    }
+    if (result != 0)
+        return 84;
+    return 0;
+}
+
 int init_texts(ui_t *iu)
 {
     int result = 0;
@@ -61,6 +75,9 @@ int init_ui(frame_t *frame)
 {
     frame->ui = malloc(sizeof(ui_t));
     if (!frame->ui)
+        return 84;
+    if (init_texts(frame->ui) == 84 || init_buttons(frame) == 84
+        || init_sliders(frame) == 84)
         return 84;
     init_buttons(frame);
     init_texts(frame->ui);

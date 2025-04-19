@@ -27,6 +27,7 @@ SRC	=	includes/inititliser.c          \
         $(INIT_DIR)init.c                       \
         $(SCENES_DIR)mainmenu.c                 \
         $(SCENES_DIR)game.c                     \
+        $(SCENES_DIR)settings.c                    \
         $(SCENES_DIR)scenes_manager.c           \
         $(CREATE_DIR)button.c                   \
         $(CREATE_DIR)clocks.c                   \
@@ -38,10 +39,12 @@ SRC	=	includes/inititliser.c          \
         $(CREATE_DIR)window.c                   \
         $(CREATE_DIR)item.c \
         $(CREATE_DIR)enemy.c \
+        $(CREATE_DIR)slider.c                 \
         $(FRAME_DIR)buttons_events.c            \
         $(FRAME_DIR)destroy.c                   \
         $(FRAME_DIR)draw.c                      \
         $(FRAME_DIR)handle_event.c              \
+        $(FRAME_DIR)sliders_events.c                 \
         $(FRAME_DIR)mousepos.c                  \
         $(FRAME_DIR)resize_event.c              \
         $(RAYCAST_DIR)obstacle.c                \
@@ -53,6 +56,7 @@ SRC	=	includes/inititliser.c          \
         $(PLAYER_DIR)move.c                     \
         $(PLAYER_DIR)cam.c                      \
         $(ACTION_DIR)play.c                     \
+        $(ACTION_DIR)settings.c                   \
         $(COMMON_DIR)math.c                     \
 
 OBJ	=	$(SRC:.c=.o)
