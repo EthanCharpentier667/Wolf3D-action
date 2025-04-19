@@ -35,7 +35,7 @@ static int draw_buttons(frame_t *frame)
 static int draw_texts(frame_t *frame)
 {
     for (int i = 0; TEXTS_INFOS[i].text; i++)
-        if (frame->ui->scene == BUTTON_INFOS[i].scene)
+        if (UI->scene == BUTTON_INFOS[i].scene)
             sfRenderWindow_drawText(frame->window, UI->texts[i].text, NULL);
     return 0;
 }
@@ -43,15 +43,19 @@ static int draw_texts(frame_t *frame)
 static int draw_images(frame_t *frame)
 {
     int i = 0;
+    int j = 0;
 
     for (i = 0; IMAGES_INFOS[i].path; i++)
-        if (frame->ui->scene == IMAGES_INFOS[i].scene)
+        if (UI->scene == IMAGES_INFOS[i].scene)
             sfRenderWindow_drawSprite(frame->window,
                 frame->img->img[i].sprite, NULL);
-    for (; IMAGES_REC_INFOS[i].path; i++)
-        if (frame->ui->scene == IMAGES_REC_INFOS[i].scene)
+    for (j = 0; IMAGES_REC_INFOS[j].path; j++) {
+        if (UI->scene == IMAGES_REC_INFOS[j].scene) {
             sfRenderWindow_drawSprite(frame->window,
                 frame->img->img[i].sprite, NULL);
+        }
+        i++;
+    }
     return 0;
 }
 
