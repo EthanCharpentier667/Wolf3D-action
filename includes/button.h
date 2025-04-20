@@ -24,6 +24,10 @@ enum buttons_actions {
     PLAY,
     SETTING,
     BACK_TO_MAINMENU,
+    QUIT,
+    LOAD,
+    SAVE,
+    SAVES_LIST,
 };
 
 struct button_infos_s {
@@ -38,6 +42,11 @@ struct button_infos_s {
 int do_play(frame_t *frame);
 int do_settings(frame_t *frame);
 int do_mainmenu(frame_t *frame);
+int do_mm_quit(frame_t *frame);
+int do_load(frame_t *frame);
+
+//SPECIAL - SAVES
+int load_save_callback(frame_t *frame, int button_index);
 
 extern const struct button_infos_s BUTTON_INFOS[];
 

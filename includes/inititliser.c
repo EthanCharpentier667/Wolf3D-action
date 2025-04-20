@@ -19,20 +19,28 @@ const struct enemy_infos_s ENEMY_INFOS[] = {
 };
 
 const struct button_infos_s BUTTON_INFOS[] = {
-    {PLAY, {325, 325, 0.5, 0.5}, RES "play.png",
+    {PLAY, {325, 300, 0.5, 0.5}, RES "play.png",
         NULL, &do_play, MAINMENU},
-    {SETTING, {325, 400, 0.5, 0.5}, RES "settings.png",
+    {SETTING, {325, 375, 0.5, 0.5}, RES "settings.png",
         NULL, &do_settings, MAINMENU},
     {BACK_TO_MAINMENU, {5, 5, 0.5, 0.5}, RES "go_back.png",
         NULL, &do_mainmenu, SETTINGS},
+    {BACK_TO_MAINMENU, {5, 5, 0.5, 0.5}, RES "go_back.png",
+        NULL, &do_mainmenu, LOADS},
+    {QUIT, {325, 525, 1.25, 1.25}, RES "quit.png",
+        NULL, &do_mm_quit, MAINMENU},
+    {LOAD, {325, 450, 1.25, 1.25}, RES "load.png",
+        NULL, &do_load, MAINMENU},
     {0, {0, 0, 0, 0}, NULL, NULL, NULL, END}
 };
 
 const struct images_infos_s IMAGES_INFOS[] = {
     {RES "background.png", {0.325, 0.5}, {0, 0}, MAINMENU},
     {RES "background.png", {0.325, 0.5}, {0, 0}, SETTINGS},
+    {RES "background.png", {0.325, 0.5}, {0, 0}, LOADS},
     {RES "logo.png", {0.7, 0.8}, {125, 50}, MAINMENU},
     {RES "settings-logo.png", {0.4, 0.5}, {160, -100}, SETTINGS},
+    {RES "loads.png", {0.4, 0.4}, {180, -50}, LOADS},
     {NULL, {0, 0}, {0, 0}, END},
 };
 

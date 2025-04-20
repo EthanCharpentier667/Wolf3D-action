@@ -72,11 +72,12 @@ static int create_helpbox(button_t *button, char *text)
     if (!HELPBOX->box || !HELPBOX->text || !HELPBOX->font)
         return 84;
     sfText_setFont(HELPBOX->text, HELPBOX->font);
-    sfText_setColor(HELPBOX->text, sfYellow);
+    sfText_setColor(HELPBOX->text, sfColor_fromRGB(196, 196, 196));
     sfText_setCharacterSize(HELPBOX->text, 20);
     sfText_setString(HELPBOX->text, text);
-    sfRectangleShape_setFillColor(HELPBOX->box, sfBlue);
-    sfRectangleShape_setOutlineColor(HELPBOX->box, sfYellow);
+    sfRectangleShape_setFillColor(HELPBOX->box, sfRed);
+    sfRectangleShape_setOutlineColor(HELPBOX->box,
+        sfColor_fromRGB(196, 196, 196));
     sfRectangleShape_setOutlineThickness(HELPBOX->box, 2);
     return 0;
 }
