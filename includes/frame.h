@@ -409,5 +409,6 @@ float clamp(float value, float min, float max);
 
 //GAME
 int loads_saved_games(frame_t *frame);
+void free_save(saves_t *saves, frame_t *frame);
 
 #endif /* !FRAME_H_ */
