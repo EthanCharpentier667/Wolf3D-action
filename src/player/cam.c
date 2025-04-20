@@ -42,7 +42,18 @@ static void set_future_angle(player_t *player,
 
 void rotate_player(player_t *player, frame_t *frame)
 {
-    set_future_angle(player, frame);
-    lerp_cam_angle(player);
-    sfMouse_setPosition(frame->center, NULL);
+    static bool active = false;
+
+    if (sfKeyboard_isKeyPressed(sfKeyEscape)) {
+        active = !active;
+        sfRenderWindow_setMouseCursorVisible(WINDOW, active);
+    }
+    if (!active) {
+        set_future_angle(player, frame);
+        player->delta_time = get_delta_time(frame->clock);
+        lerp_cam_angle(player);
+    } else {
+        player->fut_angle.x = player->angle.x;
+        player->fut_angle.y = player->angle.y;
+    }
 }
