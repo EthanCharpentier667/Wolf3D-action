@@ -9,6 +9,7 @@
 
 int do_mainmenu(frame_t *frame)
 {
+    free_save(frame->game->saves, frame);
     frame->ui->scene = MAINMENU;
     return 0;
 }

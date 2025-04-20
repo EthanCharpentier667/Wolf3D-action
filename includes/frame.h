@@ -26,6 +26,8 @@
     #include "enemies.h"
     #include "slider.h"
 
+    #define MAX_SAVES_DISPLAYED 6
+
 typedef struct {
     float dx;
     float dy;
@@ -103,6 +105,7 @@ typedef enum scenes {
     MAINMENU,
     GAME,
     SETTINGS,
+    LOADS,
     END
 } scenes_t;
 
@@ -136,6 +139,22 @@ typedef struct slider_s {
     float current_value;
     bool dragging;
 } slider_t;
+
+typedef struct save_info_s {
+    char filename[256];
+    char imagepath[256];
+    char name[64];
+    char date[32];
+    bool has_thumbnail;
+    sfSprite *thumbnail;
+} save_info_t;
+
+typedef struct saves_s {
+    button_t buttons[MAX_SAVES_DISPLAYED];
+    text_t texts[MAX_SAVES_DISPLAYED];
+    char *name[MAX_SAVES_DISPLAYED];
+    int nb_saves;
+} saves_t;
 
 typedef struct ui_s {
     int scene;
@@ -224,6 +243,7 @@ typedef struct game_s {
     map_t *map;
     item_t *items;
     enemy_t *enemies;
+    saves_t *saves;
     int nb_items;
     int nb_enemies;
     int nb_enemies_alive;
@@ -328,6 +348,7 @@ int create_slider(ui_t *ui, sfVector2f pos,
 
 //DRAW
 int draw_all(frame_t *frame);
+int draw_images(frame_t *frame);
 
 // INIT
 int init_frame(frame_t *frame);
@@ -361,6 +382,7 @@ int scene_manager(frame_t *frame);
 int mainmenu(frame_t *frame);
 int game(frame_t *frame);
 int settings(frame_t *frame);
+int load_scene(frame_t *frame);
 
 //RAYCAST
 int is_osbtacle(int x, int y);
@@ -384,5 +406,9 @@ float get_delta_time(clocks_t *clock);
 //MATH
 float lerp(float a, float b, float mult);
 float clamp(float value, float min, float max);
+
+//GAME
+int loads_saved_games(frame_t *frame);
+void free_save(saves_t *saves, frame_t *frame);
 
 #endif /* !FRAME_H_ */

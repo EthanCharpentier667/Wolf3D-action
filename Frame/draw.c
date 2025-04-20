@@ -41,7 +41,7 @@ static int draw_buttons(frame_t *frame)
     for (int j = 0; BUTTON_INFOS[j].path; j++)
         if (frame->ui->scene == BUTTON_INFOS[j].scene)
             sfRenderWindow_drawSprite(frame->window,
-                    UI->button[j].sprite, NULL);
+                UI->button[j].sprite, NULL);
     draw_helpboxes(frame);
     return 0;
 }
@@ -54,7 +54,7 @@ static int draw_texts(frame_t *frame)
     return 0;
 }
 
-static int draw_images(frame_t *frame)
+int draw_images(frame_t *frame)
 {
     int i = 0;
     int j = 0;
@@ -75,7 +75,6 @@ static int draw_images(frame_t *frame)
 
 int draw_all(frame_t *frame)
 {
-    draw_images(frame);
     draw_texts(frame);
     draw_buttons(frame);
     draw_sliders(frame);

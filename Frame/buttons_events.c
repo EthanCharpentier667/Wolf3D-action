@@ -37,9 +37,12 @@ static void buttons_effect_hover_event(button_t *button)
 
 static int click_action(frame_t *frame, button_t *button)
 {
-    for (int i = 0; i < frame->ui->nb_buttons; i++)
+    for (int i = 0; i < frame->ui->nb_buttons; i++) {
         if (button->action == BUTTON_INFOS[i].action)
             return BUTTON_INFOS[i].func(frame);
+        if (button->action == SAVES_LIST)
+            return load_save_callback(frame, i);
+    }
     return 0;
 }
 

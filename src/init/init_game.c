@@ -116,5 +116,9 @@ int init_game(frame_t *frame)
     if (init_player(frame) == 84 || init_map(frame) == 84
         || init_items(frame) == 84 || init_enemies(frame) == 84)
         return 84;
+    frame->game->saves = malloc(sizeof(saves_t));
+    if (!frame->game->saves)
+        return 84;
+    frame->game->saves->nb_saves = 0;
     return 0;
 }
