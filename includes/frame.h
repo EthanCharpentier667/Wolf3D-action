@@ -171,9 +171,21 @@ typedef struct ui_s {
     sfVector2f refactor;
 } ui_t;
 
+typedef struct minimap_s {
+    sfVector2f position;
+    float size;
+    float cell_size;
+    sfRectangleShape *background;
+    sfRectangleShape **walls;
+    int nb_walls;
+    sfCircleShape *player;
+    sfConvexShape *direction;
+} minimap_t;
+
 typedef struct hud_s {
     img_t *life;
     text_t *life_text;
+    minimap_t *minimap;
 } hud_t;
 
 typedef struct {
@@ -332,6 +344,11 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
     #define QUART_LIFE (PLAYER->max_life / 4)
     #define MID_LIFE (PLAYER->max_life / 2)
     #define THREE_Q_LIFE (PLAYER->max_life * 3 / 4)
+    #define MAX(a, b) ((a) > (b) ? (a) : (b))
+    #define L_VW_X (map_p_x + dir_x * radius + dir_y * radius * 0.5f)
+    #define L_VW_Y (map_p_y + dir_y * radius - dir_x * radius * 0.5f)
+    #define R_VW_X (map_p_x + dir_x * radius - dir_y * radius * 0.5f)
+    #define R_VW_Y (map_p_y + dir_y * radius + dir_x * radius * 0.5f)
 
 
 //CREATION
@@ -369,6 +386,7 @@ int init_ambiants(frame_t *frame);
 int init_game(frame_t *frame);
 int init_ui(frame_t *frame);
 int init_player(frame_t *frame);
+int init_minimap(frame_t *frame);
 void destroy_all(frame_t *frame);
 
 //UTILS

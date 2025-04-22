@@ -26,6 +26,7 @@ SRC	=	includes/inititliser.c          \
         $(INIT_DIR)init_ui.c                    \
         $(INIT_DIR)init_player.c                \
         $(INIT_DIR)init.c                       \
+        $(INIT_DIR)init_minimap.c               \
         $(SCENES_DIR)mainmenu.c                 \
         $(SCENES_DIR)game.c                     \
         $(SCENES_DIR)settings.c                    \
