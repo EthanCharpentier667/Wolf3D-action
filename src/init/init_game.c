@@ -18,6 +18,22 @@ const int map[MAP_HEIGHT][MAP_WIDTH] = {
     {2, 2, 2, 2, 2, 2, 2, 2}
 };
 
+static int init_hud(frame_t *frame)
+{
+    int result = 0;
+
+    frame->game->hud = malloc(sizeof(hud_t));
+    if (!frame->game->hud)
+        return 84;
+    result += create_rec_obj(frame->img, RES"life.png", frct(0.2, 0.2, 0, 0), irct(0, 0, 400, 400));
+    frame->game->hud->life = &frame->img->img[frame->img->nb_img - 1];
+    result += create_text(frame->ui, "LIFE", sfWhite, v3f(100, 0, 0));
+    frame->game->hud->life_text = &frame->ui->texts[frame->ui->nb_texts - 1];
+    if (result != 0)
+        return 84;
+    return 0;
+}
+
 static int init_enemies(frame_t *frame)
 {
     int result = 0;
@@ -114,7 +130,8 @@ int init_game(frame_t *frame)
     frame->ui->scene = MAINMENU;
     frame->center = (sfVector2i){desktop.width / 2, desktop.height / 2};
     if (init_player(frame) == 84 || init_map(frame) == 84
-        || init_items(frame) == 84 || init_enemies(frame) == 84)
+        || init_items(frame) == 84 || init_enemies(frame) == 84 ||
+        init_hud(frame) == 84)
         return 84;
     frame->game->saves = malloc(sizeof(saves_t));
     if (!frame->game->saves)

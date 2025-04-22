@@ -171,6 +171,11 @@ typedef struct ui_s {
     sfVector2f refactor;
 } ui_t;
 
+typedef struct hud_s {
+    img_t *life;
+    text_t *life_text;
+} hud_t;
+
 typedef struct {
     float world_x;
     float world_y;
@@ -218,6 +223,8 @@ typedef struct player_s {
     float speed;
     float turn_speed;
     float delta_time;
+    unsigned int life;
+    unsigned int max_life;
 } player_t;
 
 typedef struct item_s {
@@ -244,6 +251,7 @@ typedef struct game_s {
     item_t *items;
     enemy_t *enemies;
     saves_t *saves;
+    hud_t *hud;
     int nb_items;
     int nb_enemies;
     int nb_enemies_alive;
@@ -319,6 +327,11 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
     #define RES "src/assets/"
 
     #define UI frame->ui
+
+    #define HUD frame->game->hud
+    #define QUART_LIFE (PLAYER->max_life / 4)
+    #define MID_LIFE (PLAYER->max_life / 2)
+    #define THREE_Q_LIFE (PLAYER->max_life * 3 / 4)
 
 
 //CREATION
@@ -397,6 +410,7 @@ void render_wall_column_textured(frame_t *frame, sfVector2f column_wall_height,
 void draw_item(frame_t *frame, sfVector3f itempos,
     sfTexture *item_texture, sfVector2f scale);
 void draw_enemy(frame_t *frame, int index);
+void draw_hud(frame_t *frame);
 
 //PLAYER
 void rotate_player(player_t *player, frame_t *frame);
