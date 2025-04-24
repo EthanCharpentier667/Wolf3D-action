@@ -71,7 +71,7 @@ void handle_slider_events(frame_t *frame, sfEvent *event)
     sfVector2f mouse_pos = frame->mouse;
 
     for (int i = 0; i < UI->nb_sliders; i++) {
-        if (UI->scene != SLIDERS_INFOS[i].scene)
+        if (!(UI->scene & SLIDERS_INFOS[i].scene))
             continue;
         UI->sliders[i].dragging =
             check_slider_interaction(UI, i, mouse_pos, event);
