@@ -21,10 +21,12 @@ static void draw_enemies(frame_t *frame)
 
 int game(frame_t *frame)
 {
+    applied(frame->img);
     update_player(PLAYER, &(frame->clock[1]), frame);
     cast_floor_ceiling_rays(frame);
     cast_all_rays(frame);
     draw_items(frame);
     draw_enemies(frame);
+    draw_hud(frame);
     return 0;
 }

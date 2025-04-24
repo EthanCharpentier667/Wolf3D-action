@@ -46,15 +46,15 @@ static int scan_save_file(const char *filepath,
 static int check_and_prepare_save_file(struct dirent *entry,
     char *filepath, char *imagepath)
 {
-    char base_name[256];
+    char base_name[268];
     char *ext = strrchr(entry->d_name, '.');
 
     if (entry->d_type != DT_REG || !ext || strcmp(ext, ".ww2") != 0)
         return 84;
-    snprintf(filepath, 256, "sswolfs/%s", entry->d_name);
+    snprintf(filepath, 268, "sswolfs/%s", entry->d_name);
     strncpy(base_name, entry->d_name, strlen(entry->d_name) - 4);
     base_name[strlen(entry->d_name) - 4] = '\0';
-    snprintf(imagepath, 256, "sswolfs/%s.png", base_name);
+    snprintf(imagepath, 280, "sswolfs/%s.png", base_name);
     return 0;
 }
 
@@ -105,7 +105,7 @@ static int create_save_button(frame_t *frame, save_info_t *save,
     sfVector2f pos, int save_index)
 {
     int result = 0;
-    char save_info[96];
+    char save_info[98];
 
     if (save->has_thumbnail) {
         result = init_save_button(UI, save->imagepath,
