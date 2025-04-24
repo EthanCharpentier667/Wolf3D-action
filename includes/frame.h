@@ -253,13 +253,6 @@ typedef struct game_s {
     int level;
 } game_t;
 
-typedef struct settings_s {
-    int menu;
-    slider_t *volume;
-    slider_t *music;
-    button_t keybind[4];
-} settings_t;
-
 typedef struct frame_s {
     sfRenderWindow *window;
     sfVector2u window_size;
@@ -271,7 +264,6 @@ typedef struct frame_s {
     images_t *img;
     ui_t *ui;
     game_t *game;
-    settings_t *settings;
     sfVector2f mouse;
     sfVector2i real_mouse;
     float z_buffer[800];
