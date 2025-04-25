@@ -7,16 +7,93 @@
 
 #include "frame.h"
 
-static void draw_items(frame_t *frame)
+static int compare_objects(const void *a, const void *b)
 {
-    for (int i = 0; i < NBITEMS; i++)
-        draw_item(frame, ITEM[i].pos, ITEM[i].texture, ITEM[i].scale);
+    const draw_object_t *obj_a = (const draw_object_t *)a;
+    const draw_object_t *obj_b = (const draw_object_t *)b;
+
+    if (obj_a->distance > obj_b->distance)
+        return -1;
+    if (obj_a->distance < obj_b->distance)
+        return 1;
+    return 0;
 }
 
-static void draw_enemies(frame_t *frame)
+static void init_objects_array(frame_t *frame, draw_object_t **objects)
 {
-    for (int i = 0; i < NBENEMIES; i++)
-        draw_enemy(frame, i);
+    int total = NBITEMS + NBENEMIES;
+
+    *objects = malloc(sizeof(draw_object_t) * total);
+    if (*objects == NULL)
+        return;
+}
+
+static int add_items_to_objects(frame_t *frame,
+    draw_object_t *objects, int count)
+{
+    float dx = 0;
+    float dy = 0;
+
+    for (int i = 0; i < NBITEMS; i++) {
+        dx = ITEM[i].pos.x - PLAYER->pos.x;
+        dy = ITEM[i].pos.y - PLAYER->pos.y;
+        objects[count].distance = sqrt(dx * dx + dy * dy);
+        objects[count].type = ITEM_OBJ;
+        objects[count].data.item.index = i;
+        objects[count].data.item.pos = ITEM[i].pos;
+        objects[count].data.item.texture = ITEM[i].texture;
+        objects[count].data.item.scale = ITEM[i].scale;
+        count++;
+    }
+    return count;
+}
+
+static int add_enemies_to_objects(frame_t *frame,
+    draw_object_t *objects, int count)
+{
+    float dx = 0;
+    float dy = 0;
+
+    for (int i = 0; i < NBENEMIES; i++) {
+        dx = ENEMY[i].pos.x - PLAYER->pos.x;
+        dy = ENEMY[i].pos.y - PLAYER->pos.y;   
+        objects[count].distance = sqrt(dx * dx + dy * dy);
+        objects[count].type = ENEMY_OBJ;
+        objects[count].data.enemy.index = i;
+        count++;
+    }
+    return count;
+}
+
+static int calculate_distances(frame_t *frame, draw_object_t **objects)
+{
+    int count = 0;
+
+    init_objects_array(frame, objects);
+    if (*objects == NULL)
+        return 0;
+    count = add_items_to_objects(frame, *objects, count);
+    count = add_enemies_to_objects(frame, *objects, count);
+    return count;
+}
+
+static void draw_objects_by_distance(frame_t *frame)
+{
+    draw_object_t *objects = NULL;
+    int count = calculate_distances(frame, &objects);
+
+    if (count <= 0)
+        return;
+    qsort(objects, count, sizeof(draw_object_t), compare_objects);
+    for (int i = 0; i < count; i++) {
+        if (objects[i].type == ITEM_OBJ) {
+            draw_item(frame, objects[i].data.item.pos,
+                objects[i].data.item.texture, objects[i].data.item.scale);
+        } else {
+            draw_enemy(frame, objects[i].data.enemy.index);
+        }
+    }
+    free(objects);
 }
 
 int game(frame_t *frame)
@@ -25,8 +102,7 @@ int game(frame_t *frame)
     update_player(PLAYER, &(frame->clock[1]), frame);
     cast_floor_ceiling_rays(frame);
     cast_all_rays(frame);
-    draw_items(frame);
-    draw_enemies(frame);
+    draw_objects_by_distance(frame);
     draw_hud(frame);
     return 0;
 }

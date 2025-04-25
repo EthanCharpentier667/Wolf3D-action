@@ -242,6 +242,25 @@ typedef struct player_s {
     unsigned int max_life;
 } player_t;
 
+typedef struct draw_object_s {
+    float distance;
+    enum {
+        ITEM_OBJ,
+        ENEMY_OBJ
+    } type;
+    union {
+        struct {
+            int index;
+            sfVector3f pos;
+            sfTexture *texture;
+            sfVector2f scale;
+        } item;
+        struct {
+            int index;
+        } enemy;
+    } data;
+} draw_object_t;
+
 typedef struct item_s {
     sfVector3f pos;
     sfTexture *texture;
