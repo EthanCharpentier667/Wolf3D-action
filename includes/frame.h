@@ -25,6 +25,7 @@
     #include "item.h"
     #include "enemies.h"
     #include "slider.h"
+    #include "scene.h"
 
     #define MAX_SAVES_DISPLAYED 6
 
@@ -102,11 +103,13 @@ typedef struct {
 } button_t;
 
 typedef enum scenes {
-    MAINMENU,
-    GAME,
-    SETTINGS,
-    LOADS,
-    END
+    MAINMENU = 1,
+    GAME = 2,
+    SETTINGS_AUDIO = 4,
+    SETTINGS_CONTROLS = 8,
+    SETTINGS_RESOLUTION = 16,
+    LOADS = 32,
+    END = 64
 } scenes_t;
 
 typedef enum environment {

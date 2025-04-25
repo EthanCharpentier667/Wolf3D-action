@@ -10,7 +10,7 @@
 static void draw_sliders(frame_t *frame)
 {
     for (int i = 0; i < frame->ui->nb_sliders; i++) {
-        if (frame->ui->scene != SLIDERS_INFOS[i].scene)
+        if (!(frame->ui->scene & SLIDERS_INFOS[i].scene))
             continue;
         sfRenderWindow_drawRectangleShape(frame->window,
             frame->ui->sliders[i].bar, NULL);
@@ -39,7 +39,7 @@ static void draw_helpboxes(frame_t *frame)
 static int draw_buttons(frame_t *frame)
 {
     for (int j = 0; BUTTON_INFOS[j].path; j++)
-        if (frame->ui->scene == BUTTON_INFOS[j].scene)
+        if (frame->ui->scene & BUTTON_INFOS[j].scene)
             sfRenderWindow_drawSprite(frame->window,
                 UI->button[j].sprite, NULL);
     draw_helpboxes(frame);
@@ -49,7 +49,7 @@ static int draw_buttons(frame_t *frame)
 static int draw_texts(frame_t *frame)
 {
     for (int i = 0; TEXTS_INFOS[i].text; i++)
-        if (UI->scene == TEXTS_INFOS[i].scene)
+        if (UI->scene & TEXTS_INFOS[i].scene)
             sfRenderWindow_drawText(frame->window, UI->texts[i].text, NULL);
     return 0;
 }
@@ -60,11 +60,11 @@ int draw_images(frame_t *frame)
     int j = 0;
 
     for (i = 0; IMAGES_INFOS[i].path; i++)
-        if (UI->scene == IMAGES_INFOS[i].scene)
+        if (UI->scene & IMAGES_INFOS[i].scene)
             sfRenderWindow_drawSprite(frame->window,
                 frame->img->img[i].sprite, NULL);
     for (j = 0; IMAGES_REC_INFOS[j].path; j++) {
-        if (UI->scene == IMAGES_REC_INFOS[j].scene) {
+        if (UI->scene & IMAGES_REC_INFOS[j].scene) {
             sfRenderWindow_drawSprite(frame->window,
                 frame->img->img[i].sprite, NULL);
         }

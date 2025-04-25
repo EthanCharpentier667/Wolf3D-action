@@ -16,6 +16,6 @@ int do_mainmenu(frame_t *frame)
 
 int do_settings(frame_t *frame)
 {
-    frame->ui->scene = SETTINGS;
+    frame->ui->scene = SETTINGS_AUDIO;
     return 0;
 }
