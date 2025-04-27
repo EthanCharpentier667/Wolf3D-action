@@ -7,7 +7,7 @@
 
 #include "frame.h"
 
-static void calculate_item_position(frame_t *frame, sfVector3f itempos,
+void calculate_item_position(frame_t *frame, sfVector3f itempos,
     sfTexture *item_texture, item_render_data_t *data)
 {
     data->dx = itempos.x - PLAYER->pos.x;
@@ -24,7 +24,7 @@ static void calculate_item_position(frame_t *frame, sfVector3f itempos,
     data->tex_size = sfTexture_getSize(item_texture);
 }
 
-static void calculate_item_dimensions(item_render_data_t *data,
+void calculate_item_dimensions(item_render_data_t *data,
     sfVector2f scale, player_t *player, sfVector3f itempos)
 {
     float perp_distance = data->distance * cosf(data->rel_angle);
@@ -41,7 +41,7 @@ static void calculate_item_dimensions(item_render_data_t *data,
     data->vertical_offset -= (itempos.z * TILE_SIZE) / perp_distance;
 }
 
-static void render_item_columns(frame_t *frame, sfTexture *item_texture,
+void render_item_columns(frame_t *frame, sfTexture *item_texture,
     item_render_data_t *data, sfVector2f scale)
 {
     float tex_percent_x = 0;
@@ -64,14 +64,24 @@ static void render_item_columns(frame_t *frame, sfTexture *item_texture,
     sfSprite_destroy(sprite);
 }
 
-void draw_item(frame_t *frame, sfVector3f itempos,
-    sfTexture *item_texture, sfVector2f scale)
+void draw_item(frame_t *frame, item_t *item)
 {
     item_render_data_t data = {0};
+    char *name = NULL;
 
-    calculate_item_position(frame, itempos, item_texture, &data);
-    calculate_item_dimensions(&data, scale, PLAYER, itempos);
+    calculate_item_position(frame, item->pos, item->texture, &data);
+    calculate_item_dimensions(&data, item->scale, PLAYER, item->pos);
     if (data.distance > 1000.0f)
         return;
-    render_item_columns(frame, item_texture, &data, scale);
+    render_item_columns(frame, item->texture, &data, item->scale);
+    if (item->pickable && data.distance < 100.0f) {
+        name = malloc(strlen(item->name) + 5);
+        if (name != NULL) {
+            snprintf(name, strlen(item->name) + 5, "[E] %s", item->name);
+            draw_3d_text(frame, v3f(item->pos.x, item->pos.y,
+                item->pos.z + data.tex_size.y * item->scale.y),
+                name, v2f(0.4f, 0.4f));
+            free(name);
+        }
+    }
 }
