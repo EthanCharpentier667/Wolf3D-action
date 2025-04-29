@@ -46,6 +46,8 @@ static int init_enemies(frame_t *frame)
             ENEMY_INFOS[i].scale, ENEMY_INFOS[i].pos);
         ENEMY[NBENEMIES - 1].rec = ENEMY_INFOS[i].rec;
         ENEMY[NBENEMIES - 1].speed = ENEMY_INFOS[i].speed;
+        ENEMY[NBENEMIES - 1].life = ENEMY_INFOS[i].life;
+        ENEMY[NBENEMIES - 1].max_life = ENEMY_INFOS[i].life;
     }
     if (result != 0)
         return 84;
@@ -62,6 +64,8 @@ static int init_items(frame_t *frame)
         result += create_item(frame, ITEM_INFOS[i].path,
             ITEM_INFOS[i].scale, ITEM_INFOS[i].pos);
         ITEM[NBITEMS - 1].rec = ITEM_INFOS[i].rec;
+        ITEM[NBITEMS - 1].name = ITEM_INFOS[i].name;
+        ITEM[NBITEMS - 1].pickable = ITEM_INFOS[i].pickable;
     }
     if (result != 0)
         return 84;

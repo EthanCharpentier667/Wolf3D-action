@@ -16,6 +16,7 @@ struct enemy_infos_s {
     sfVector3f pos;
     sfIntRect rec;
     float speed;
+    int life;
 };
 extern const struct enemy_infos_s ENEMY_INFOS[];
 

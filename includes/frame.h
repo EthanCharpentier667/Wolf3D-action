@@ -251,9 +251,6 @@ typedef struct draw_object_s {
     union {
         struct {
             int index;
-            sfVector3f pos;
-            sfTexture *texture;
-            sfVector2f scale;
         } item;
         struct {
             int index;
@@ -266,6 +263,8 @@ typedef struct item_s {
     sfTexture *texture;
     sfVector2f scale;
     sfIntRect rec;
+    char *name;
+    bool pickable;
 } item_t;
 
 typedef struct enemy_s {
@@ -277,6 +276,7 @@ typedef struct enemy_s {
     float speed;
     bool is_moving;
     int life;
+    int max_life;
 } enemy_t;
 
 typedef struct game_s {
@@ -447,9 +447,21 @@ void render_wall_column(sfRenderWindow *window, int column,
 void cast_all_rays(frame_t *frame);
 void render_wall_column_textured(frame_t *frame, sfVector2f column_wall_height,
     sfVector2f hits, sfVector2i vertical);
-void draw_item(frame_t *frame, sfVector3f itempos,
-    sfTexture *item_texture, sfVector2f scale);
+
+void draw_item(frame_t *frame, item_t *item);
+void calculate_item_position(frame_t *frame, sfVector3f itempos,
+    sfTexture *item_texture, item_render_data_t *data);
+void calculate_item_dimensions(item_render_data_t *data,
+    sfVector2f scale, player_t *player, sfVector3f itempos);
+void render_item_columns(frame_t *frame, sfTexture *item_texture,
+    item_render_data_t *data, sfVector2f scale);
+void draw_3d_text(frame_t *frame, sfVector3f pos,
+    char *text, sfVector2f scale);
+
 void draw_enemy(frame_t *frame, int index);
+void draw_health_bar_3d(frame_t *frame, int index,
+    float enemyheight, sfVector2f bar_scale);
+
 void draw_hud(frame_t *frame);
 
 //PLAYER

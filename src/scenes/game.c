@@ -40,9 +40,6 @@ static int add_items_to_objects(frame_t *frame,
         objects[count].distance = sqrt(dx * dx + dy * dy);
         objects[count].type = ITEM_OBJ;
         objects[count].data.item.index = i;
-        objects[count].data.item.pos = ITEM[i].pos;
-        objects[count].data.item.texture = ITEM[i].texture;
-        objects[count].data.item.scale = ITEM[i].scale;
         count++;
     }
     return count;
@@ -56,7 +53,7 @@ static int add_enemies_to_objects(frame_t *frame,
 
     for (int i = 0; i < NBENEMIES; i++) {
         dx = ENEMY[i].pos.x - PLAYER->pos.x;
-        dy = ENEMY[i].pos.y - PLAYER->pos.y;   
+        dy = ENEMY[i].pos.y - PLAYER->pos.y;
         objects[count].distance = sqrt(dx * dx + dy * dy);
         objects[count].type = ENEMY_OBJ;
         objects[count].data.enemy.index = i;
@@ -87,8 +84,7 @@ static void draw_objects_by_distance(frame_t *frame)
     qsort(objects, count, sizeof(draw_object_t), compare_objects);
     for (int i = 0; i < count; i++) {
         if (objects[i].type == ITEM_OBJ) {
-            draw_item(frame, objects[i].data.item.pos,
-                objects[i].data.item.texture, objects[i].data.item.scale);
+            draw_item(frame, &ITEM[objects[i].data.item.index]);
         } else {
             draw_enemy(frame, objects[i].data.enemy.index);
         }

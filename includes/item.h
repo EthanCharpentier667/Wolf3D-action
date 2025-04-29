@@ -15,6 +15,8 @@ struct item_infos_s {
     sfVector2f scale;
     sfVector3f pos;
     sfIntRect rec;
+    char *name;
+    bool pickable;
 };
 
 extern const struct item_infos_s ITEM_INFOS[];
