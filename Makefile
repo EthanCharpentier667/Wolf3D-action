@@ -19,6 +19,7 @@ RAYCAST_DIR=	$(SRC_DIR)raycast/
 PLAYER_DIR=	$(SRC_DIR)player/
 ACTION_DIR=	$(SRC_DIR)actions/
 GAME_DIR=	$(SRC_DIR)game/
+INVENTORY_DIR=	$(SRC_DIR)inventory/
 
 SRC	=	includes/inititliser.c          \
         $(INIT_DIR)init_game.c                  \
@@ -47,6 +48,7 @@ SRC	=	includes/inititliser.c          \
         $(FRAME_DIR)destroy.c                   \
         $(FRAME_DIR)draw.c                      \
         $(FRAME_DIR)handle_event.c              \
+        $(FRAME_DIR)inventory_events.c                 \
         $(FRAME_DIR)sliders_events.c                 \
         $(FRAME_DIR)mousepos.c                  \
         $(FRAME_DIR)resize_event.c              \
@@ -67,6 +69,13 @@ SRC	=	includes/inititliser.c          \
         $(ACTION_DIR)load.c                 \
         $(COMMON_DIR)math.c                     \
         $(GAME_DIR)load.c       \
+        $(INVENTORY_DIR)init_inventory.c       \
+        $(INVENTORY_DIR)inventory.c       \
+        $(INVENTORY_DIR)draw_inventory.c       \
+        $(INVENTORY_DIR)draw_item_details.c       \
+        $(INVENTORY_DIR)inventory_actions.c       \
+        $(INVENTORY_DIR)handle_button_inventory_event.c       \
+        $(INVENTORY_DIR)draw_inv_bg.c       \
 
 OBJ	=	$(SRC:.c=.o)
 

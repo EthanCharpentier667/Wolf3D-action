@@ -7,7 +7,8 @@
 
 #include "frame.h"
 
-static sfRenderTexture *create_text_render_texture(sfText *sftext, int margin, sfRectangleShape **background)
+static sfRenderTexture *create_text_render_texture(sfText *sftext,
+    int margin, sfRectangleShape **background)
 {
     sfFloatRect bounds = sfText_getLocalBounds(sftext);
     sfVector2u size = {(unsigned int)(bounds.width + margin * 2),

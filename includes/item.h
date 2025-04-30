@@ -17,6 +17,8 @@ struct item_infos_s {
     sfIntRect rec;
     char *name;
     bool pickable;
+    bool useable;
+    char *description;
 };
 
 extern const struct item_infos_s ITEM_INFOS[];

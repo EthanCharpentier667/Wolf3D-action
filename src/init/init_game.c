@@ -66,6 +66,8 @@ static int init_items(frame_t *frame)
         ITEM[NBITEMS - 1].rec = ITEM_INFOS[i].rec;
         ITEM[NBITEMS - 1].name = ITEM_INFOS[i].name;
         ITEM[NBITEMS - 1].pickable = ITEM_INFOS[i].pickable;
+        ITEM[NBITEMS - 1].useable = ITEM_INFOS[i].useable;
+        ITEM[NBITEMS - 1].description = ITEM_INFOS[i].description;
     }
     if (result != 0)
         return 84;
@@ -137,7 +139,7 @@ int init_game(frame_t *frame)
     frame->center = (sfVector2i){desktop.width / 2, desktop.height / 2};
     if (init_player(frame) == 84 || init_map(frame) == 84
         || init_items(frame) == 84 || init_enemies(frame) == 84 ||
-        init_hud(frame) == 84)
+        init_hud(frame) == 84 || init_inventory(frame) == 84)
         return 84;
     frame->game->saves = malloc(sizeof(saves_t));
     if (!frame->game->saves)

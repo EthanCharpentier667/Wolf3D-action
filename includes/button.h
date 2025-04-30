@@ -27,6 +27,7 @@ enum buttons_actions {
     QUIT,
     LOAD,
     SAVE,
+    AITEM,
     SAVES_LIST,
 };
 

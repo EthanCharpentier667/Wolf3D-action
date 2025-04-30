@@ -39,10 +39,11 @@ static void draw_helpboxes(frame_t *frame)
 static int draw_buttons(frame_t *frame)
 {
     for (int j = 0; BUTTON_INFOS[j].path; j++)
-        if (frame->ui->scene & BUTTON_INFOS[j].scene)
+        if (frame->ui->scene & BUTTON_INFOS[j].scene) {
             sfRenderWindow_drawSprite(frame->window,
                 UI->button[j].sprite, NULL);
-    draw_helpboxes(frame);
+            draw_helpboxes(frame);
+        }
     return 0;
 }
 

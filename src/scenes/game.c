@@ -100,5 +100,6 @@ int game(frame_t *frame)
     cast_all_rays(frame);
     draw_objects_by_distance(frame);
     draw_hud(frame);
+    draw_inventory(frame);
     return 0;
 }

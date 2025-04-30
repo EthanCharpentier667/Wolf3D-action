@@ -28,6 +28,7 @@
     #include "scene.h"
 
     #define MAX_SAVES_DISPLAYED 6
+    #define MAX_ITEMS 20
 
 typedef struct {
     float dx;
@@ -230,18 +231,6 @@ typedef struct map_s {
     sfTexture *walltexture;
 } map_t;
 
-typedef struct player_s {
-    sfVector2f pos;
-    float size;
-    sfVector2f fut_angle;
-    sfVector2f angle;
-    float speed;
-    float turn_speed;
-    float delta_time;
-    unsigned int life;
-    unsigned int max_life;
-} player_t;
-
 typedef struct draw_object_s {
     float distance;
     enum {
@@ -265,6 +254,9 @@ typedef struct item_s {
     sfIntRect rec;
     char *name;
     bool pickable;
+    bool useable;
+    int id;
+    char *description;
 } item_t;
 
 typedef struct enemy_s {
@@ -278,6 +270,38 @@ typedef struct enemy_s {
     int life;
     int max_life;
 } enemy_t;
+
+typedef struct inventory_s {
+    item_t items[MAX_ITEMS];
+    button_t item_buttons[MAX_ITEMS];
+    int item_coun[MAX_ITEMS];
+    int nb_items;
+    int selected_item;
+    sfBool is_open;
+    sfRectangleShape *bg;
+    float padding;
+    int grid_size;
+    float cell_size;
+    float gap;
+    float inv_width;
+    float inv_height;
+    float pos_x;
+    float pos_y;
+    sfFont *font;
+} inventory_t;
+
+typedef struct player_s {
+    sfVector2f pos;
+    float size;
+    sfVector2f fut_angle;
+    sfVector2f angle;
+    float speed;
+    float turn_speed;
+    float delta_time;
+    unsigned int life;
+    unsigned int max_life;
+    inventory_t *inventory;
+} player_t;
 
 typedef struct game_s {
     player_t *player;
@@ -358,6 +382,8 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
     #define NBENEMIES frame->game->nb_enemies
     #define ENEMIESALIVE frame->game->nb_enemies_alive
 
+    #define INVENTORY frame->game->player->inventory
+
     #define RES "src/assets/"
 
     #define UI frame->ui
@@ -423,6 +449,7 @@ int handle_event(sfEvent *event, frame_t *frame);
 void buttons_event(sfEvent *event, frame_t *frame);
 void resize_event(frame_t *frame);
 void handle_slider_events(frame_t *frame, sfEvent *event);
+void handle_button_inventory_event(frame_t *frame, sfEvent *event);
 
 //BUTTONS
 void disable_all_button(frame_t *frame);
@@ -448,6 +475,7 @@ void cast_all_rays(frame_t *frame);
 void render_wall_column_textured(frame_t *frame, sfVector2f column_wall_height,
     sfVector2f hits, sfVector2i vertical);
 
+//ITEMS
 void draw_item(frame_t *frame, item_t *item);
 void calculate_item_position(frame_t *frame, sfVector3f itempos,
     sfTexture *item_texture, item_render_data_t *data);
@@ -457,10 +485,21 @@ void render_item_columns(frame_t *frame, sfTexture *item_texture,
     item_render_data_t *data, sfVector2f scale);
 void draw_3d_text(frame_t *frame, sfVector3f pos,
     char *text, sfVector2f scale);
+//ENEMIES
 
 void draw_enemy(frame_t *frame, int index);
 void draw_health_bar_3d(frame_t *frame, int index,
     float enemyheight, sfVector2f bar_scale);
+
+//INVENTORY
+int init_inventory(frame_t *frame);
+void pick_item(frame_t *frame, item_t *item);
+void draw_inventory(frame_t *frame);
+void handle_inventory_event(frame_t *frame, sfEvent *event);
+void draw_item_details(frame_t *frame, float pos_x, float pos_y);
+void use_item(frame_t *frame, int item_index);
+void drop_item(frame_t *frame, int item_index);
+void draw_inventory_background(frame_t *frame);
 
 void draw_hud(frame_t *frame);
 

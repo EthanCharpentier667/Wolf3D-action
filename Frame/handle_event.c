@@ -18,6 +18,7 @@ int handle_event(sfEvent *event, frame_t *frame)
         resize_event(frame);
         buttons_event(event, frame);
         handle_slider_events(frame, event);
+        handle_inventory_event(frame, event);
     }
     frame->real_mouse = sfMouse_getPosition(NULL);
     frame->mouse = get_mouseposition(WINDOW);

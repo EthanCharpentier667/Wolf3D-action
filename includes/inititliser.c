@@ -9,10 +9,14 @@
 
 const struct item_infos_s ITEM_INFOS[] = {
     {RES "lamp.png", {0.7, 0.7}, {250, 250, 40},
-        {-1, -1, -1, -1}, "lamp", false},
+        {-1, -1, -1, -1}, "lamp", false, false, NULL},
     {RES "barrel.png", {0.6, 0.6}, {150, 230, -250},
-        {-1, -1, -1, -1}, "barrel", true},
-    {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, NULL, false}
+        {-1, -1, -1, -1}, "barrel", false, false, NULL},
+    {RES "key.png", {0.5, 0.5}, {250, 300, -330},
+        {-1, -1, -1, -1}, "key", true, false, "The Key Of The Door"},
+    {RES "key.png", {0.5, 0.5}, {250, 280, -330},
+        {-1, -1, -1, -1}, "key", true, false, "The Door of the Key"},
+    {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, NULL, false, false, NULL}
 };
 
 const struct enemy_infos_s ENEMY_INFOS[] = {

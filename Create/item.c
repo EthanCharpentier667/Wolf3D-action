@@ -20,6 +20,7 @@ int create_item(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos)
         return 84;
     ITEM[NBITEMS].scale = scale;
     ITEM[NBITEMS].pos = pos;
+    ITEM[NBITEMS].id = NBITEMS;
     NBITEMS++;
     return 0;
 }
