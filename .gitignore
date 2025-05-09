@@ -18,3 +18,4 @@
 *.log
 wolf3d
 unit_tests
+.DS_Store

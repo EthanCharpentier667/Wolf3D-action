@@ -22,6 +22,10 @@ int create_enemy(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos)
     ENEMY[NBENEMIES].pos = pos;
     ENEMY[NBENEMIES].angle = 0;
     ENEMY[NBENEMIES].is_moving = false;
+    ENEMY[NBENEMIES].is_dead = false;
+    ENEMY[NBENEMIES].follow_player = true;
+    ENEMY[NBENEMIES].is_attacking = false;
+    ENEMY[NBENEMIES].clock = sfClock_create();
     NBENEMIES++;
     return 0;
 }
