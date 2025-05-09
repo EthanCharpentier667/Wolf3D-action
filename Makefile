@@ -17,6 +17,7 @@ CREATE_DIR=	Create/
 FRAME_DIR=	Frame/
 RAYCAST_DIR=	$(SRC_DIR)raycast/
 PLAYER_DIR=	$(SRC_DIR)player/
+ENEMY_DIR=	$(SRC_DIR)enemy/
 ACTION_DIR=	$(SRC_DIR)actions/
 GAME_DIR=	$(SRC_DIR)game/
 INVENTORY_DIR=	$(SRC_DIR)inventory/
@@ -76,6 +77,8 @@ SRC	=	includes/inititliser.c          \
         $(INVENTORY_DIR)inventory_actions.c       \
         $(INVENTORY_DIR)handle_button_inventory_event.c       \
         $(INVENTORY_DIR)draw_inv_bg.c       \
+        $(ENEMY_DIR)pathfinding.c       \
+        $(ENEMY_DIR)update_ennemies.c       \
 
 OBJ	=	$(SRC:.c=.o)
 
