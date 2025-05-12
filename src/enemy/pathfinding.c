@@ -7,7 +7,7 @@
 
 #include "frame.h"
 
-static void calcul_angle(frame_t *frame, enemy_t *enemy)
+static void calcul_angle(enemy_t *enemy)
 {
     float angle_rad = atan2f(enemy->direction.y, enemy->direction.x);
     float angle_deg = angle_rad * 180.0f / M_PI;
@@ -28,7 +28,7 @@ static void calculate_direction_to_player(enemy_t *enemy,
     float dy = player_pos.y - enemy_pos.y;
     float length = sqrtf(dx * dx + dy * dy);
 
-    if (length < 1.0f || length > 100.0f) {
+    if (length < enemy->attack_range || length > 200.0f) {
         enemy->is_moving = false;
         return;
     }
@@ -59,5 +59,5 @@ void follow_player(frame_t *frame, enemy_t *enemy)
     if (!enemy->is_moving)
         return;
     move_enemy_with_collision(enemy);
-    calcul_angle(frame, enemy);
+    calcul_angle(enemy);
 }

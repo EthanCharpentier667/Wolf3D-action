@@ -268,6 +268,8 @@ typedef struct enemy_s {
     sfIntRect rec;
     float angle;
     float speed;
+    float damages;
+    float attack_range;
     bool is_moving;
     bool follow_player;
     bool is_attacking;
