@@ -17,6 +17,8 @@ struct enemy_infos_s {
     sfIntRect rec;
     float speed;
     int life;
+    float attack_range;
+    float damages;
 };
 extern const struct enemy_infos_s ENEMY_INFOS[];
 

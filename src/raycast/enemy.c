@@ -69,11 +69,11 @@ static void animate_enemy(frame_t *frame, int index)
         sfClock_getElapsedTime(frame->clock[2].clock));
     int animation_frame = (int)(game_time * 5.0f) % 4;
 
-    if (ENEMY[index].is_moving) {
+    if (ENEMY[index].is_moving && !ENEMY[index].is_dead) {
         ENEMY[index].rec.left = ENEMY[index].rec.width * 2;
         ENEMY[index].rec.top = animation_frame * ENEMY[index].rec.height;
         return;
-    } else
+    } else if (!ENEMY[index].is_dead)
         ENEMY[index].rec.top = 0;
 }
 
@@ -90,7 +90,6 @@ static void calcul_angle_to_player(frame_t *frame, int index)
         angle += 2 * M_PI;
     while (angle > M_PI)
         angle -= 2 * M_PI;
-    angle_degrees = angle * 180.0f / M_PI;
     direction_index = calculate_direction_index(angle_degrees);
     animate_enemy(frame, index);
     ENEMY[index].rec.left = direction_index * 2 * ENEMY[index].rec.width;

@@ -260,13 +260,20 @@ typedef struct item_s {
 } item_t;
 
 typedef struct enemy_s {
+    sfClock *clock;
     sfVector3f pos;
     sfTexture *texture;
     sfVector2f scale;
+    sfVector2f direction;
     sfIntRect rec;
     float angle;
     float speed;
+    float damages;
+    float attack_range;
     bool is_moving;
+    bool follow_player;
+    bool is_attacking;
+    bool is_dead;
     int life;
     int max_life;
 } enemy_t;
@@ -490,6 +497,8 @@ void draw_3d_text(frame_t *frame, sfVector3f pos,
 void draw_enemy(frame_t *frame, int index);
 void draw_health_bar_3d(frame_t *frame, int index,
     float enemyheight, sfVector2f bar_scale);
+void follow_player(frame_t *frame, enemy_t *enemy);
+void update_enemies(frame_t *frame);
 
 //INVENTORY
 int init_inventory(frame_t *frame);

@@ -101,5 +101,6 @@ int game(frame_t *frame)
     draw_objects_by_distance(frame);
     draw_hud(frame);
     draw_inventory(frame);
+    update_enemies(frame);
     return 0;
 }

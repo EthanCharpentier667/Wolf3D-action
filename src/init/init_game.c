@@ -48,6 +48,8 @@ static int init_enemies(frame_t *frame)
         ENEMY[NBENEMIES - 1].speed = ENEMY_INFOS[i].speed;
         ENEMY[NBENEMIES - 1].life = ENEMY_INFOS[i].life;
         ENEMY[NBENEMIES - 1].max_life = ENEMY_INFOS[i].life;
+        ENEMY[NBENEMIES - 1].attack_range = ENEMY_INFOS[i].attack_range;
+        ENEMY[NBENEMIES - 1].damages = ENEMY_INFOS[i].damages;
     }
     if (result != 0)
         return 84;
