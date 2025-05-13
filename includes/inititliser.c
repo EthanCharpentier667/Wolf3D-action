@@ -83,3 +83,12 @@ const struct scenes_infos_s SCENES_INFOS[] = {
     {LOADS, &load_scene},
     {END, NULL}
 };
+
+const struct env_infos_s ENVIRONNEMENT_INFOS[] = {
+    {RES "wall.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 1},
+    {RES "wall2.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 2},
+    {RES "wall3.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 3},
+    {RES "wall4.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 4},
+    //{RES "door.png", {0, 0, 0, 0}, {1, 1}, false, true, true, 5},
+    {NULL, {0, 0, 0, 0}, {0, 0}, false, false, false, 0}
+};

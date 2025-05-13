@@ -48,16 +48,17 @@ bool is_wall_vertical(sfVector2f ray_pos)
 }
 
 static void draw_wall_cols(frame_t *frame,
-    float corrected_dist, float ray_angle, sfVector2f ray_pos)
+    sfVector2f corrected_dist_ray_angle, sfVector2f ray_pos, int i)
 {
-    int wall_height = (WINDOWY * TILE_SIZE) / corrected_dist;
-    int ray_column = (int)((ray_angle -
+    int wall_height = (WINDOWY * TILE_SIZE) / corrected_dist_ray_angle.x;
+    int ray_column = (int)((corrected_dist_ray_angle.y -
         (PLAYER->angle.x - FOV / 2)) * WINDOWX / FOV);
     bool hit_vertical = is_wall_vertical(ray_pos);
     int vertical_offset = (int)(WINDOWY * tanf(PLAYER->angle.y) / 2);
 
-    render_wall_column_textured(frame, v2f(ray_column, wall_height),
-        v2f(ray_pos.x, ray_pos.y), v2i(hit_vertical, vertical_offset));
+    render_wall_column_textured(frame,
+        v2f(ray_column, wall_height), v2f(ray_pos.x, ray_pos.y),
+        v3f(hit_vertical, vertical_offset, i - 1));
 }
 
 float cast_single_ray(float ray_angle, frame_t *frame)
@@ -71,9 +72,10 @@ float cast_single_ray(float ray_angle, frame_t *frame)
     while (ray_length < 1000) {
         ray_pos.x += ray_dir.x * ray_step;
         ray_pos.y += ray_dir.y * ray_step;
-        if (is_osbtacle(ray_pos.x, ray_pos.y) == WALL) {
+        if (is_osbtacle(ray_pos.x, ray_pos.y) != 0) {
             corrected_dist = ray_length * cos(ray_angle - PLAYER->angle.x);
-            draw_wall_cols(frame, corrected_dist, ray_angle, ray_pos);
+            draw_wall_cols(frame, v2f(corrected_dist, ray_angle), ray_pos,
+                is_osbtacle(ray_pos.x, ray_pos.y));
             return corrected_dist;
         }
         ray_length += ray_step;
