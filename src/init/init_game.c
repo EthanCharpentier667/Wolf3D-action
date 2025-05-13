@@ -8,15 +8,38 @@
 #include "frame.h"
 
 const int map[MAP_HEIGHT][MAP_WIDTH] = {
-    {2, 2, 2, 2, 2, 2, 2, 2},
-    {2, 0, 0, 0, 0, 0, 0, 2},
-    {2, 0, 2, 0, 0, 2, 0, 2},
-    {2, 0, 0, 0, 0, 0, 0, 2},
-    {2, 0, 0, 0, 0, 0, 0, 2},
-    {2, 0, 2, 0, 0, 2, 0, 2},
-    {2, 0, 0, 0, 0, 0, 0, 2},
-    {2, 2, 2, 2, 2, 2, 2, 2}
+    {1, 1, 1, 2, 1, 1, 1, 1},
+    {3, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 1, 0, 0, 1, 0, 2},
+    {4, 0, 0, 0, 0, 0, 0, 4},
+    {1, 0, 0, 0, 0, 0, 0, 4},
+    {3, 0, 1, 0, 0, 1, 0, 3},
+    {1, 0, 0, 0, 0, 0, 0, 1},
+    {1, 1, 1, 3, 1, 1, 1, 1}
 };
+
+static int init_environment(frame_t *frame)
+{
+    int result = 0;
+
+    frame->game->environment = malloc(sizeof(environment_t));
+    if (!frame->game->environment)
+        return 84;
+    frame->game->nb_env = 0;
+    for (int i = 0; ENVIRONNEMENT_INFOS[i].texture; i++) {
+        result += create_environment(frame, ENVIRONNEMENT_INFOS[i].texture,
+            ENVIRONNEMENT_INFOS[i].rec, ENVIRONNEMENT_INFOS[i].scale);
+        frame->game->environment[frame->game->nb_env - 1].isanimated =
+            ENVIRONNEMENT_INFOS[i].isanimated;
+        frame->game->environment[frame->game->nb_env - 1].isobstacle =
+            ENVIRONNEMENT_INFOS[i].isobstacle;
+        frame->game->environment[frame->game->nb_env - 1].type =
+            ENVIRONNEMENT_INFOS[i].type;
+    }
+    if (result != 0)
+        return 84;
+    return 0;
+}
 
 static int init_hud(frame_t *frame)
 {
@@ -102,10 +125,9 @@ static int init_map_2d(frame_t *frame)
 
 static int load_map_textures(frame_t *frame)
 {
-    MAP->walltexture = sfTexture_createFromFile(RES"wall.jpg", NULL);
     MAP->floortexture = sfTexture_createFromFile(RES"concrete.png", NULL);
     MAP->ceilingtexture = sfTexture_createFromFile(RES"w_ceiling.jpg", NULL);
-    if (!MAP->walltexture || !MAP->floortexture || !MAP->ceilingtexture)
+    if (!MAP->floortexture || !MAP->ceilingtexture)
         return 84;
     return 0;
 }
@@ -141,7 +163,8 @@ int init_game(frame_t *frame)
     frame->center = (sfVector2i){desktop.width / 2, desktop.height / 2};
     if (init_player(frame) == 84 || init_map(frame) == 84
         || init_items(frame) == 84 || init_enemies(frame) == 84 ||
-        init_hud(frame) == 84 || init_inventory(frame) == 84)
+        init_hud(frame) == 84 || init_inventory(frame) == 84
+        || init_environment(frame) == 84)
         return 84;
     frame->game->saves = malloc(sizeof(saves_t));
     if (!frame->game->saves)

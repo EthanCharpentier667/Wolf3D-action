@@ -26,6 +26,7 @@
     #include "enemies.h"
     #include "slider.h"
     #include "scene.h"
+    #include "environnement.h"
 
     #define MAX_SAVES_DISPLAYED 6
     #define MAX_ITEMS 20
@@ -228,7 +229,6 @@ typedef struct map_s {
     int height;
     sfTexture *floortexture;
     sfTexture *ceilingtexture;
-    sfTexture *walltexture;
 } map_t;
 
 typedef struct draw_object_s {
@@ -310,6 +310,17 @@ typedef struct player_s {
     inventory_t *inventory;
 } player_t;
 
+typedef struct environment_ray_s {
+    sfTexture *texture;
+    sfVector2f scale;
+    sfVector2f pos;
+    sfIntRect rec;
+    int type;
+    bool isrec;
+    bool isanimated;
+    bool isobstacle;
+} environment_ray_t;
+
 typedef struct game_s {
     player_t *player;
     map_t *map;
@@ -317,10 +328,12 @@ typedef struct game_s {
     enemy_t *enemies;
     saves_t *saves;
     hud_t *hud;
+    environment_ray_t *environment;
     int nb_items;
     int nb_enemies;
     int nb_enemies_alive;
     int level;
+    int nb_env;
 } game_t;
 
 typedef struct frame_s {
@@ -389,6 +402,9 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
     #define NBENEMIES frame->game->nb_enemies
     #define ENEMIESALIVE frame->game->nb_enemies_alive
 
+    #define ENVIRONMENT frame->game->environment
+    #define ENV_TEXTURE frame->game->environment[(int) vertical.z].texture
+
     #define INVENTORY frame->game->player->inventory
 
     #define RES "src/assets/"
@@ -430,6 +446,8 @@ int create_enemy(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos);
 int create_item(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos);
 int create_slider(ui_t *ui, sfVector2f pos,
     sfVector2f size, float initial_value);
+int create_environment(frame_t *frame, char *str,
+    sfIntRect rec, sfVector2f scale);
 
 //DRAW
 int draw_all(frame_t *frame);
@@ -480,7 +498,7 @@ void render_wall_column(sfRenderWindow *window, int column,
     float wall_height, sfColor color);
 void cast_all_rays(frame_t *frame);
 void render_wall_column_textured(frame_t *frame, sfVector2f column_wall_height,
-    sfVector2f hits, sfVector2i vertical);
+    sfVector2f hits, sfVector3f vertical);
 
 //ITEMS
 void draw_item(frame_t *frame, item_t *item);

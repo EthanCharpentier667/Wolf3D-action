@@ -45,6 +45,7 @@ SRC	=	includes/inititliser.c          \
         $(CREATE_DIR)item.c \
         $(CREATE_DIR)enemy.c \
         $(CREATE_DIR)slider.c                 \
+        $(CREATE_DIR)environment.c         \
         $(FRAME_DIR)buttons_events.c            \
         $(FRAME_DIR)destroy.c                   \
         $(FRAME_DIR)draw.c                      \

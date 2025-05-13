@@ -44,15 +44,15 @@ void render_wall_column(sfRenderWindow *window, int column,
 }
 
 void render_wall_column_textured(frame_t *frame, sfVector2f column_wall_height,
-    sfVector2f hits, sfVector2i vertical)
+    sfVector2f hits, sfVector3f vertical)
 {
     int tex_x = 0;
     float scale_y = 0;
     sfSprite *wall_sprite = sfSprite_create();
-    sfVector2u tex_size = sfTexture_getSize(MAP->walltexture);
+    sfVector2u tex_size = sfTexture_getSize(ENV_TEXTURE);
     sfIntRect tex_rect = {0, 0, 1, (int)tex_size.y};
 
-    sfSprite_setTexture(wall_sprite, MAP->walltexture, sfTrue);
+    sfSprite_setTexture(wall_sprite, ENV_TEXTURE, sfTrue);
     if ((bool) vertical.x)
         tex_x = (int)fmodf(hits.y, TILE_SIZE);
     else
