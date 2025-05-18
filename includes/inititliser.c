@@ -8,19 +8,19 @@
 #include "frame.h"
 
 const struct item_infos_s ITEM_INFOS[] = {
-    {RES "lamp.png", {0.7, 0.7}, {250, 250, 40},
+    {RES "lamp.png", {0.7, 0.7}, {250, 250, 0.1},
         {-1, -1, -1, -1}, "lamp", false, false, NULL},
-    {RES "barrel.png", {0.6, 0.6}, {150, 230, -250},
+    {RES "barrel.png", {0.6, 0.6}, {150, 230, -0.50},
         {-1, -1, -1, -1}, "barrel", false, false, NULL},
-    {RES "key.png", {0.5, 0.5}, {250, 300, -330},
+    {RES "key.png", {0.5, 0.5}, {250, 300, -0.50},
         {-1, -1, -1, -1}, "key", true, false, "The Key Of The Door"},
-    {RES "key.png", {0.5, 0.5}, {250, 280, -330},
+    {RES "key.png", {0.5, 0.5}, {250, 280, -0.50},
         {-1, -1, -1, -1}, "key", true, false, "The Door of the Key"},
     {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, NULL, false, false, NULL}
 };
 
 const struct enemy_infos_s ENEMY_INFOS[] = {
-    {RES "enemy.png", {2.5, 2.5}, {250, 250, -550},
+    {RES "enemy.png", {2.5, 2.5}, {250, 250, -0.90},
         {0, 0, 65, 65}, 0.5, 100, 50, 4},
     {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0}
 };
@@ -89,6 +89,8 @@ const struct env_infos_s ENVIRONNEMENT_INFOS[] = {
     {RES "wall2.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 2},
     {RES "wall3.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 3},
     {RES "wall4.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 4},
+    //{RES "door.png", {0, 0, 128, 128}, {1, 1},
+    //    false, false, true, DOOR_CLOSED},
     //{RES "door.png", {0, 0, 0, 0}, {1, 1}, false, true, true, 5},
     {NULL, {0, 0, 0, 0}, {0, 0}, false, false, false, 0}
 };

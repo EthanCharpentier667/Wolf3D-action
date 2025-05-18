@@ -44,23 +44,22 @@ static void calculate_enemy_dimensions(item_render_data_t *data,
     data->sprite_end_x = data->screen_x + data->sprite_width / 2;
     data->vertical_offset = WINDOWY / 2 - data->projected_height / 2;
     data->vertical_offset += (int)(WINDOWY * tanf(PLAYER->angle.y) / 2);
-    data->vertical_offset -= (enemypos.z * TILE_SIZE) / perp_distance;
+    data->vertical_offset -=
+        (enemypos.z * TILE_SIZE * WINDOWY) / perp_distance;
 }
 
 static int calculate_direction_index(float angle_degrees)
 {
-    int direction_index = 0;
-
     if (angle_degrees >= -45 && angle_degrees < 45)
-        direction_index = 0;
+        return 0;
     if (angle_degrees >= 45 && angle_degrees < 135)
-        direction_index = 1;
+        return 3;
     if ((angle_degrees >= 135 && angle_degrees <= 180) ||
-            (angle_degrees >= -180 && angle_degrees < -135))
-        direction_index = 2;
+        (angle_degrees >= -180 && angle_degrees < -135))
+        return 2;
     if (angle_degrees >= -135 && angle_degrees < -45)
-        direction_index = 3;
-    return direction_index;
+        return 1;
+    return 0;
 }
 
 static void animate_enemy(frame_t *frame, int index)
@@ -70,7 +69,6 @@ static void animate_enemy(frame_t *frame, int index)
     int animation_frame = (int)(game_time * 5.0f) % 4;
 
     if (ENEMY[index].is_moving && !ENEMY[index].is_dead) {
-        ENEMY[index].rec.left = ENEMY[index].rec.width * 2;
         ENEMY[index].rec.top = animation_frame * ENEMY[index].rec.height;
         return;
     } else if (!ENEMY[index].is_dead)
@@ -81,15 +79,17 @@ static void calcul_angle_to_player(frame_t *frame, int index)
 {
     sfVector2f distance = {ENEMY[index].pos.x - PLAYER->pos.x,
         ENEMY[index].pos.y - PLAYER->pos.y};
-    float angle_to_item = atan2f(distance.x, distance.y);
-    float angle = angle_to_item - ENEMY[index].angle;
-    float angle_degrees = angle * 180.0f / M_PI;
+    float angle_to_player = atan2f(distance.y, distance.x);
+    float enemy_angle_rad = ENEMY[index].angle * M_PI / 180.0f;
+    float angle = angle_to_player - (enemy_angle_rad + M_PI);
+    float angle_degrees = 0;
     int direction_index = 0;
 
     while (angle < - M_PI)
         angle += 2 * M_PI;
     while (angle > M_PI)
         angle -= 2 * M_PI;
+    angle_degrees = angle * 180.0f / M_PI;
     direction_index = calculate_direction_index(angle_degrees);
     animate_enemy(frame, index);
     ENEMY[index].rec.left = direction_index * 2 * ENEMY[index].rec.width;

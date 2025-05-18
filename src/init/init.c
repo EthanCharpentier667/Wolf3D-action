@@ -61,7 +61,7 @@ int init_frame(frame_t *frame)
     sfRenderWindow_setFramerateLimit(WINDOW, 120);
     if (init_ui(frame) == 84 || init_images(frame) == 84 ||
         init_clocks(frame) == 84 || init_ambiants(frame) == 84 ||
-        init_game(frame) == 84) {
+        init_game(frame) == 84 || init_doors(frame) == 84) {
         sfRenderWindow_destroy(WINDOW);
         return 84;
     }

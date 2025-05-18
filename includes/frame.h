@@ -306,6 +306,19 @@ typedef struct inventory_s {
     sfFont *font;
 } inventory_t;
 
+typedef struct door_s {
+    int map_x;
+    int map_y;
+    float offset;
+    int state;
+    sfClock *anim_clock;
+} door_t;
+
+typedef struct doors_s {
+    door_t *doors;
+    int door_count;
+} doors_t;
+
 typedef struct player_s {
     sfVector2f pos;
     float size;
@@ -343,12 +356,16 @@ typedef struct game_s {
     saves_t *saves;
     hud_t *hud;
     environment_ray_t *environment;
+    doors_t *doors;
     int nb_items;
     int nb_enemies;
     int nb_enemies_alive;
     int level;
     int nb_env;
 } game_t;
+
+    #define WINDOWX 800
+    #define WINDOWY 600
 
 typedef struct frame_s {
     sfRenderWindow *window;
@@ -363,14 +380,17 @@ typedef struct frame_s {
     game_t *game;
     sfVector2f mouse;
     sfVector2i real_mouse;
-    float z_buffer[800];
     int **light_map;
+    float z_buffer[WINDOWX];
 } frame_t;
 
     #define FRAME frame
 
-    #define WINDOWX 800
-    #define WINDOWY 600
+    #define DOOR_CLOSED 5
+    #define DOOR_OPENING 6
+    #define DOOR_OPEN 7
+    #define DOOR_CLOSING 8
+
     #define WINDOW frame->window
 
     #define PLAYER frame->game->player
@@ -385,7 +405,7 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
     #define MAP2D frame->game->map->map
 
     #define FOV (M_PI / 3)
-    #define NUM_RAYS 800
+    #define NUM_RAYS WINDOWX
     #define MOUSE_SENSITIVITY 0.0015
     #define MOUSE_SLIDE 16.5
     #define MAX_CAM_Y M_PI / 2
@@ -419,6 +439,7 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
 
     #define ENVIRONMENT frame->game->environment
     #define ENV_TEXTURE frame->game->environment[(int) prms.ray_index].texture
+    #define DOORS frame->game->doors->doors
 
     #define INVENTORY frame->game->player->inventory
 
@@ -475,6 +496,7 @@ int init_game(frame_t *frame);
 int init_ui(frame_t *frame);
 int init_player(frame_t *frame);
 int init_minimap(frame_t *frame);
+int init_doors(frame_t *frame);
 void destroy_all(frame_t *frame);
 
 //UTILS
@@ -505,7 +527,7 @@ int settings(frame_t *frame);
 int load_scene(frame_t *frame);
 
 //RAYCAST
-int is_osbtacle(int x, int y);
+int is_osbtacle(frame_t *frame, int x, int y);
 double view_angle(float angle);
 void draw_floor_and_ceiling(frame_t *frame);
 void cast_floor_ceiling_rays(frame_t *frame);
@@ -520,6 +542,9 @@ void clear_light_map(frame_t *frame);
 void calculate_player_lighting(frame_t *frame);
 float get_light_intensity(frame_t *frame, world_pos_t world_pos);
 void destroy_flashlight(frame_t *frame);
+void update_doors(frame_t *frame);
+void interact_with_door(frame_t *frame);
+void draw_all_doors(frame_t *frame);
 
 //ITEMS
 void draw_item(frame_t *frame, item_t *item);

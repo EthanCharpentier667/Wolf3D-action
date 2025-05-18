@@ -29,6 +29,7 @@ SRC	=	includes/inititliser.c          \
         $(INIT_DIR)init_player.c                \
         $(INIT_DIR)init.c                       \
         $(INIT_DIR)init_minimap.c               \
+        $(INIT_DIR)init_doors.c             \
         $(SCENES_DIR)mainmenu.c                 \
         $(SCENES_DIR)game.c                     \
         $(SCENES_DIR)settings.c                    \
@@ -64,6 +65,7 @@ SRC	=	includes/inititliser.c          \
         $(RAYCAST_DIR)ray_text.c             \
         $(RAYCAST_DIR)healthbar.c             \
         $(RAYCAST_DIR)flashlight.c             \
+        $(RAYCAST_DIR)update_door.c             \
         $(PLAYER_DIR)move.c                     \
         $(PLAYER_DIR)cam.c                      \
         $(ACTION_DIR)play.c                     \

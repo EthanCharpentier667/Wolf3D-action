@@ -7,26 +7,6 @@
 
 #include "frame.h"
 
-/*
-static sfColor get_wall_color(sfVector2f ray_pos, sfVector2f ray_dir)
-{
-    int map_x = ray_pos.x / TILE_SIZE;
-    int map_y = ray_pos.y / TILE_SIZE;
-    float hit_x = ray_pos.x - (map_x * TILE_SIZE);
-    float hit_y = ray_pos.y - (map_y * TILE_SIZE);
-
-    if (hit_x < 1.0 && ray_dir.x > 0)
-        return sfColor_fromRGB(180, 0, 0);
-    if (hit_x > TILE_SIZE - 1.0 && ray_dir.x < 0)
-        return sfColor_fromRGB(150, 0, 0);
-    if (hit_y < 1.0 && ray_dir.y > 0)
-        return sfColor_fromRGB(255, 0, 0);
-    if (hit_y > TILE_SIZE - 1.0 && ray_dir.y < 0)
-        return sfColor_fromRGB(220, 0, 0);
-    return sfColor_fromRGB(255, 255, 255);
-}*/
-
-
 bool is_wall_vertical(sfVector2f ray_pos)
 {
     int map_x = ray_pos.x / TILE_SIZE;
@@ -75,19 +55,21 @@ float cast_single_ray(float ray_angle, frame_t *frame)
     sfVector2f ray_dir = {cos(ray_angle), sin(ray_angle)};
     sfVector2f ray_pos = PLAYER->pos;
     float corrected_dist = 0;
+    int obstacle = 0;
 
     while (ray_length < 1000) {
         ray_pos.x += ray_dir.x * ray_step;
         ray_pos.y += ray_dir.y * ray_step;
-        if (is_osbtacle(ray_pos.x, ray_pos.y) != 0) {
+        obstacle = is_osbtacle(frame, ray_pos.x, ray_pos.y);
+        if (obstacle != 0) {
             corrected_dist = ray_length * cos(ray_angle - PLAYER->angle.x);
-            draw_wall_cols(frame, v2f(corrected_dist, ray_angle), ray_pos,
-                is_osbtacle(ray_pos.x, ray_pos.y));
+            draw_wall_cols(frame, v2f(corrected_dist, ray_angle),
+                ray_pos, obstacle);
             return corrected_dist;
         }
         ray_length += ray_step;
     }
-    return 1000;
+    return ray_length;
 }
 
 void cast_all_rays(frame_t *frame)
