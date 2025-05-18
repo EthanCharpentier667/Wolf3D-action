@@ -317,10 +317,10 @@ typedef struct player_s {
     unsigned int life;
     unsigned int max_life;
     inventory_t *inventory;
-    bool flashlight_on;            // Is flashlight turned on?
-    float flashlight_angle;        // Angle offset from player's view
-    float flashlight_range;        // How far the light reaches
-    float flashlight_width;        // Cone width in radians
+    bool flashlight_on;
+    float flashlight_angle;
+    float flashlight_range;
+    float flashlight_width;
     float flashlight_intensity;
 } player_t;
 
