@@ -43,27 +43,26 @@ void render_wall_column(sfRenderWindow *window, int column,
     sfRectangleShape_destroy(wall_rect);
 }
 
-void render_wall_column_textured(frame_t *frame, sfVector2f column_wall_height,
-    sfVector2f hits, sfVector3f vertical)
+void render_wall_column_textured(frame_t *frame, wall_render_params_t prms)
 {
     int tex_x = 0;
-    float scale_y = 0;
     sfSprite *wall_sprite = sfSprite_create();
     sfVector2u tex_size = sfTexture_getSize(ENV_TEXTURE);
     sfIntRect tex_rect = {0, 0, 1, (int)tex_size.y};
 
     sfSprite_setTexture(wall_sprite, ENV_TEXTURE, sfTrue);
-    if ((bool) vertical.x)
-        tex_x = (int)fmodf(hits.y, TILE_SIZE);
+    sfSprite_setColor(wall_sprite, prms.light_color);
+    if (prms.is_vertical)
+        tex_x = (int)fmodf(prms.hit_position.y, TILE_SIZE);
     else
-        tex_x = (int)fmodf(hits.x, TILE_SIZE);
+        tex_x = (int)fmodf(prms.hit_position.x, TILE_SIZE);
     tex_x = tex_x * tex_size.x / TILE_SIZE;
     tex_rect = irct(tex_x, 0, 2, (int)tex_size.y);
     sfSprite_setTextureRect(wall_sprite, tex_rect);
-    sfSprite_setPosition(wall_sprite, v2f((float)column_wall_height.x,
-        (WINDOWY - column_wall_height.y) / 2 + vertical.y));
-    scale_y = column_wall_height.y / (float)tex_size.y;
-    sfSprite_setScale(wall_sprite, v2f(1.0f, scale_y));
+    sfSprite_setPosition(wall_sprite, v2f((float)prms.column_wall_pos.x,
+        (WINDOWY - prms.column_wall_pos.y) / 2 + prms.vertical_offset));
+    sfSprite_setScale(wall_sprite, v2f(1.0f,
+        prms.column_wall_pos.y / (float)tex_size.y));
     sfRenderWindow_drawSprite(WINDOW, wall_sprite, NULL);
     sfSprite_destroy(wall_sprite);
 }
