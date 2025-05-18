@@ -63,6 +63,7 @@ SRC	=	includes/inititliser.c          \
         $(RAYCAST_DIR)draw_hud.c        \
         $(RAYCAST_DIR)ray_text.c             \
         $(RAYCAST_DIR)healthbar.c             \
+        $(RAYCAST_DIR)flashlight.c             \
         $(PLAYER_DIR)move.c                     \
         $(PLAYER_DIR)cam.c                      \
         $(ACTION_DIR)play.c                     \

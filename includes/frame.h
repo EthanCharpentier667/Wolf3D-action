@@ -193,6 +193,15 @@ typedef struct hud_s {
     minimap_t *minimap;
 } hud_t;
 
+typedef struct wall_render_params_s {
+    sfVector2f column_wall_pos;
+    sfVector2f hit_position;
+    bool is_vertical;
+    int vertical_offset;
+    int ray_index;
+    sfColor light_color;
+} wall_render_params_t;
+
 typedef struct {
     float world_x;
     float world_y;
@@ -308,6 +317,11 @@ typedef struct player_s {
     unsigned int life;
     unsigned int max_life;
     inventory_t *inventory;
+    bool flashlight_on;            // Is flashlight turned on?
+    float flashlight_angle;        // Angle offset from player's view
+    float flashlight_range;        // How far the light reaches
+    float flashlight_width;        // Cone width in radians
+    float flashlight_intensity;
 } player_t;
 
 typedef struct environment_ray_s {
@@ -350,6 +364,7 @@ typedef struct frame_s {
     sfVector2f mouse;
     sfVector2i real_mouse;
     float z_buffer[800];
+    int **light_map;
 } frame_t;
 
     #define FRAME frame
@@ -403,7 +418,7 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
     #define ENEMIESALIVE frame->game->nb_enemies_alive
 
     #define ENVIRONMENT frame->game->environment
-    #define ENV_TEXTURE frame->game->environment[(int) vertical.z].texture
+    #define ENV_TEXTURE frame->game->environment[(int) prms.ray_index].texture
 
     #define INVENTORY frame->game->player->inventory
 
@@ -497,8 +512,14 @@ void cast_floor_ceiling_rays(frame_t *frame);
 void render_wall_column(sfRenderWindow *window, int column,
     float wall_height, sfColor color);
 void cast_all_rays(frame_t *frame);
-void render_wall_column_textured(frame_t *frame, sfVector2f column_wall_height,
-    sfVector2f hits, sfVector3f vertical);
+void render_wall_column_textured(frame_t *frame, wall_render_params_t prms);
+
+//FLASHLIGHT
+int init_flashlight(frame_t *frame);
+void clear_light_map(frame_t *frame);
+void calculate_player_lighting(frame_t *frame);
+float get_light_intensity(frame_t *frame, world_pos_t world_pos);
+void destroy_flashlight(frame_t *frame);
 
 //ITEMS
 void draw_item(frame_t *frame, item_t *item);
