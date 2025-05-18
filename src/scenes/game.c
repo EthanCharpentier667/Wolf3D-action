@@ -105,5 +105,6 @@ int game(frame_t *frame)
     draw_inventory(frame);
     update_enemies(frame);
     draw_hud(frame);
+    update_doors(frame);
     return 0;
 }

@@ -38,7 +38,7 @@ void calculate_item_dimensions(item_render_data_t *data,
     data->sprite_end_x = data->screen_x + data->sprite_width / 2;
     data->vertical_offset = WINDOWY / 2 - data->projected_height / 2;
     data->vertical_offset += (int)(WINDOWY * tanf(player->angle.y) / 2);
-    data->vertical_offset -= (itempos.z * TILE_SIZE) / perp_distance;
+    data->vertical_offset -= (itempos.z * TILE_SIZE * WINDOWY) / perp_distance;
 }
 
 void render_item_columns(frame_t *frame, sfTexture *item_texture,
@@ -79,8 +79,7 @@ void draw_item(frame_t *frame, item_t *item)
         if (name != NULL) {
             snprintf(name, strlen(item->name) + 5, "[E] %s", item->name);
             draw_3d_text(frame, v3f(item->pos.x, item->pos.y,
-                item->pos.z + data.tex_size.y * item->scale.y),
-                name, v2f(0.4f, 0.4f));
+                item->pos.z + 0.25f), name, v2f(0.4f, 0.4f));
             free(name);
         }
     }
