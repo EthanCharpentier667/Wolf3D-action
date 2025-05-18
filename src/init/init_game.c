@@ -22,7 +22,7 @@ static int init_environment(frame_t *frame)
 {
     int result = 0;
 
-    frame->game->environment = malloc(sizeof(environment_t));
+    frame->game->environment = malloc(sizeof(environment_ray_t));
     if (!frame->game->environment)
         return 84;
     frame->game->nb_env = 0;
@@ -164,7 +164,7 @@ int init_game(frame_t *frame)
     if (init_player(frame) == 84 || init_map(frame) == 84
         || init_items(frame) == 84 || init_enemies(frame) == 84 ||
         init_hud(frame) == 84 || init_inventory(frame) == 84
-        || init_environment(frame) == 84)
+        || init_environment(frame) == 84 || init_flashlight(frame) == 84)
         return 84;
     frame->game->saves = malloc(sizeof(saves_t));
     if (!frame->game->saves)

@@ -11,7 +11,7 @@ int create_environment(frame_t *frame, char *str,
     sfIntRect rec, sfVector2f scale)
 {
     frame->game->environment = realloc(frame->game->environment,
-        sizeof(environment_t) * (frame->game->nb_env + 1));
+        sizeof(environment_ray_t) * (frame->game->nb_env + 1));
     if (!frame->game->environment)
         return 84;
     frame->game->environment[frame->game->nb_env].texture =
