@@ -88,7 +88,13 @@ static void draw_sprite_strip(frame_t *frame, raycasting_data_t *data,
 {
     sfIntRect rect = {tex_coords.x, tex_coords.y,
         data->strip_width, strip.strip_height};
+    ray_data_t ray = calculate_ray_data(data, strip);
+    world_pos_t world_pos = calculate_world_position(data, ray);
+    float light = get_light_intensity(frame, world_pos);
+    sfColor light_color = sfColor_fromRGBA(
+        255, 255, 255, (sfUint8)(255 * light));
 
+    sfSprite_setColor(data->sprite, light_color);
     sfSprite_setTextureRect(data->sprite, rect);
     sfSprite_setPosition(data->sprite, v2f(strip.x, strip.y));
     sfRenderWindow_drawSprite(WINDOW, data->sprite, NULL);
