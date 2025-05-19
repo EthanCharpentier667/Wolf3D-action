@@ -67,7 +67,7 @@ static void configure_wall_shape(frame_t *frame, int x, int y, int wall_index)
 static bool process_map_cell(frame_t *frame, int x, int y)
 {
     if (MAP2D[y][x] > 0) {
-        if (create_wall_shape(frame) != 0)
+        if (!create_wall_shape(frame))
             return false;
         configure_wall_shape(frame, x, y, HUD->minimap->nb_walls);
         HUD->minimap->nb_walls++;
@@ -78,15 +78,16 @@ static bool process_map_cell(frame_t *frame, int x, int y)
 static bool init_minimap_walls(frame_t *frame)
 {
     int total_cells = MAP_WIDTH * MAP_HEIGHT;
-    int status = 0;
+    bool status = 0;
 
-    status = allocate_wall_shapes(frame, total_cells);
+    if (!allocate_wall_shapes(frame, total_cells))
+        return false;
     for (int y = 0; y < MAP_HEIGHT; y++) {
         for (int x = 0; x < MAP_WIDTH; x++) {
             status = process_map_cell(frame, x, y);
         }
     }
-    if (status != 0)
+    if (!status)
         return false;
     return true;
 }
