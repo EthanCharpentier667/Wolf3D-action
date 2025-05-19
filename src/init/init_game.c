@@ -18,13 +18,13 @@ const int map[MAP_HEIGHT][MAP_WIDTH] = {
     {1, 1, 1, 3, 1, 1, 1, 1}
 };
 
-static int init_environment(frame_t *frame)
+static bool init_environment(frame_t *frame)
 {
     int result = 0;
 
     frame->game->environment = malloc(sizeof(environment_ray_t));
     if (!frame->game->environment)
-        return 84;
+        return false;
     frame->game->nb_env = 0;
     for (int i = 0; ENVIRONNEMENT_INFOS[i].texture; i++) {
         result += create_environment(frame, ENVIRONNEMENT_INFOS[i].texture,
@@ -37,27 +37,28 @@ static int init_environment(frame_t *frame)
             ENVIRONNEMENT_INFOS[i].type;
     }
     if (result != 0)
-        return 84;
-    return 0;
+        return false;
+    return true;
 }
 
-static int init_hud(frame_t *frame)
+static bool init_hud(frame_t *frame)
 {
     int result = 0;
 
     frame->game->hud = malloc(sizeof(hud_t));
     if (!frame->game->hud)
-        return 84;
+        return false;
     frame->game->hud->life = &frame->img->img[frame->img->nb_img - 1];
-    result = init_minimap(frame);
+    if (!init_minimap(frame))
+        return false;
     for (int i = 0; WEAPON_INFOS[i].texture_path; i++)
         result += create_weapon(frame, i);
     if (result != 0)
-        return 84;
-    return 0;
+        return false;
+    return true;
 }
 
-static int init_enemies(frame_t *frame)
+static bool init_enemies(frame_t *frame)
 {
     int result = 0;
 
@@ -73,12 +74,12 @@ static int init_enemies(frame_t *frame)
         ENEMY[NBENEMIES - 1].damages = ENEMY_INFOS[i].damages;
     }
     if (result != 0)
-        return 84;
+        return false;
     ENEMIESALIVE = NBENEMIES;
-    return 0;
+    return true;
 }
 
-static int init_items(frame_t *frame)
+static bool init_items(frame_t *frame)
 {
     int result = 0;
 
@@ -93,80 +94,71 @@ static int init_items(frame_t *frame)
         ITEM[NBITEMS - 1].description = ITEM_INFOS[i].description;
     }
     if (result != 0)
-        return 84;
-    return 0;
+        return false;
+    return true;
 }
 
-static int allocate_map(frame_t *frame)
+static bool allocate_map(frame_t *frame)
 {
     MAP = malloc(sizeof(map_t));
     if (!MAP)
-        return 84;
-    return 0;
+        return false;
+    return true;
 }
 
-// Allocate and initialize the 2D map array
-static int init_map_2d(frame_t *frame)
+static bool init_map_2d(frame_t *frame)
 {
     MAP2D = malloc(sizeof(int *) * MAP_HEIGHT);
     if (!MAP2D)
-        return 84;
+        return false;
     for (int i = 0; i < MAP_HEIGHT; i++) {
         MAP2D[i] = malloc(sizeof(int) * MAP_WIDTH);
         if (!MAP2D[i])
-            return 84;
+            return false;
         for (int j = 0; j < MAP_WIDTH; j++)
             MAP2D[i][j] = map[i][j];
     }
-    return 0;
+    return true;
 }
 
-static int load_map_textures(frame_t *frame)
+static bool load_map_textures(frame_t *frame)
 {
     MAP->floortexture = sfTexture_createFromFile(RES"concrete.png", NULL);
     MAP->ceilingtexture = sfTexture_createFromFile(RES"w_ceiling.jpg", NULL);
     if (!MAP->floortexture || !MAP->ceilingtexture)
-        return 84;
-    return 0;
+        return false;
+    return true;
 }
 
-// Main map initialization function
-static int init_map(frame_t *frame)
+static bool init_map(frame_t *frame)
 {
-    int status = 0;
-
-    status = allocate_map(frame);
-    if (status != 0)
-        return status;
-    status = init_map_2d(frame);
-    if (status != 0)
-        return status;
+    if (!allocate_map(frame) || !init_map_2d(frame))
+        return false;
     MAP->width = MAP_WIDTH;
     MAP->height = MAP_HEIGHT;
-    status = load_map_textures(frame);
-    if (status != 0)
-        return status;
-    return 0;
+    if (!load_map_textures(frame))
+        return false;
+    return true;
 }
 
-int init_game(frame_t *frame)
+bool init_game(frame_t *frame)
 {
     sfVideoMode desktop = sfVideoMode_getDesktopMode();
 
     frame->game = malloc(sizeof(game_t));
     if (!frame->game)
-        return 84;
+        return false;
     frame->game->level = 0;
     frame->ui->scene = MAINMENU;
     frame->center = (sfVector2i){desktop.width / 2, desktop.height / 2};
-    if (init_player(frame) == 84 || init_map(frame) == 84
-        || init_items(frame) == 84 || init_enemies(frame) == 84 ||
-        init_hud(frame) == 84 || init_inventory(frame) == 84
-        || init_environment(frame) == 84 || init_flashlight(frame) == 84)
-        return 84;
+    if (!init_player(frame) || !init_map(frame)
+        || !init_items(frame) || !init_enemies(frame)
+        || !init_hud(frame) || !init_inventory(frame)
+        || !init_environment(frame) || !init_flashlight(frame))
+        return false;
     frame->game->saves = malloc(sizeof(saves_t));
     if (!frame->game->saves)
-        return 84;
+        return false;
     frame->game->saves->nb_saves = 0;
-    return 0;
+    return true;
 }

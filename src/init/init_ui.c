@@ -17,11 +17,11 @@ static int init_sliders(frame_t *frame)
             SLIDERS_INFOS[i].size, SLIDERS_INFOS[i].initial_value);
     }
     if (result != 0)
-        return 84;
-    return 0;
+        return false;
+    return true;
 }
 
-int init_texts(ui_t *iu)
+bool init_texts(ui_t *iu)
 {
     int result = 0;
 
@@ -30,8 +30,8 @@ int init_texts(ui_t *iu)
         result += create_text(iu, TEXTS_INFOS[i].text, TEXTS_INFOS[i].color,
             TEXTS_INFOS[i].infos);
     if (result > 0)
-        return 84;
-    return 0;
+        return false;
+    return true;
 }
 
 int init_helpboxed_button(ui_t *ui, char *path, sfFloatRect infos, int action)
@@ -49,13 +49,13 @@ int init_helpboxed_button(ui_t *ui, char *path, sfFloatRect infos, int action)
     return result;
 }
 
-int init_buttons(frame_t *frame)
+bool init_buttons(frame_t *frame)
 {
     int result = 0;
 
     frame->ui->button = malloc(sizeof(button_t));
     if (!frame->ui->button)
-        return 84;
+        return false;
     frame->ui->nb_buttons = 0;
     for (int i = 0; BUTTON_INFOS[i].path; i++) {
         if (BUTTON_INFOS[i].help == NULL)
@@ -66,24 +66,22 @@ int init_buttons(frame_t *frame)
                 BUTTON_INFOS[i].infos, BUTTON_INFOS[i].action);
     }
     if (result > 0)
-        return 84;
+        return false;
     applied_button(frame->ui);
-    return 0;
+    return true;
 }
 
-int init_ui(frame_t *frame)
+bool init_ui(frame_t *frame)
 {
     frame->ui = malloc(sizeof(ui_t));
     if (!frame->ui)
-        return 84;
-    if (init_texts(frame->ui) == 84 || init_buttons(frame) == 84
-        || init_sliders(frame) == 84)
-        return 84;
-    init_buttons(frame);
-    init_texts(frame->ui);
+        return false;
+    if (!init_texts(frame->ui) || !init_buttons(frame)
+        || !init_sliders(frame) || !init_settings(frame))
+        return false;
     frame->window_size.x = WINDOWX;
     frame->window_size.y = WINDOWY;
     UI->refactor.x = 1;
     UI->refactor.y = 1;
-    return 0;
+    return true;
 }

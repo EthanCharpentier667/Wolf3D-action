@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 
     if (!frame)
         return 84;
-    if (init_frame(frame) == 84) {
+    if (!init_frame(frame)) {
         fprintf(stderr, "Error: Could not initialize frame\n");
         free(frame);
         return 84;

@@ -40,17 +40,18 @@ static int create_doors(frame_t *frame)
     return frame->game->doors->door_count;
 }
 
-int init_doors(frame_t *frame)
+bool init_doors(frame_t *frame)
 {
     int door_count = get_map_count();
 
     frame->game->doors = malloc(sizeof(doors_t));
     if (!frame->game->doors)
-        return 84;
+        return false;
     frame->game->doors->doors = malloc(sizeof(door_t) * door_count);
     if (!frame->game->doors->doors)
-        return 84;
-    create_doors(frame);
+        return false;
+    if (create_doors(frame) != door_count)
+        return false;
     frame->game->doors->door_count = door_count;
-    return 0;
+    return true;
 }

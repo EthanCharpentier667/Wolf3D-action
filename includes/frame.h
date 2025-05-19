@@ -162,6 +162,23 @@ typedef struct saves_s {
     int nb_saves;
 } saves_t;
 
+typedef struct keybind_s {
+    int up;
+    int down;
+    int left;
+    int right;
+    int interact;
+    int shoot;
+    int pause;
+} keybind_t;
+
+typedef struct settings_s {
+    float sound_volume;
+    float music_volume;
+    sfVector2u resolution;
+    keybind_t *keybinds;
+} settings_t;
+
 typedef struct ui_s {
     int scene;
     text_t *texts;
@@ -169,6 +186,7 @@ typedef struct ui_s {
     musics_t *musics;
     button_t *button;
     slider_t *sliders;
+    settings_t *settings;
     int nb_sliders;
     int nb_texts;
     int nb_musics;
@@ -515,13 +533,14 @@ int draw_all(frame_t *frame);
 int draw_images(frame_t *frame);
 
 // INIT
-int init_frame(frame_t *frame);
-int init_ambiants(frame_t *frame);
-int init_game(frame_t *frame);
-int init_ui(frame_t *frame);
-int init_player(frame_t *frame);
-int init_minimap(frame_t *frame);
-int init_doors(frame_t *frame);
+bool init_frame(frame_t *frame);
+bool init_ambiants(frame_t *frame);
+bool init_game(frame_t *frame);
+bool init_ui(frame_t *frame);
+bool init_player(frame_t *frame);
+bool init_minimap(frame_t *frame);
+bool init_doors(frame_t *frame);
+bool init_settings(frame_t *frame);
 void destroy_all(frame_t *frame);
 
 //UTILS
@@ -562,7 +581,7 @@ void cast_all_rays(frame_t *frame);
 void render_wall_column_textured(frame_t *frame, wall_render_params_t prms);
 
 //FLASHLIGHT
-int init_flashlight(frame_t *frame);
+bool init_flashlight(frame_t *frame);
 void clear_light_map(frame_t *frame);
 void calculate_player_lighting(frame_t *frame);
 float get_light_intensity(frame_t *frame, world_pos_t world_pos);
@@ -590,7 +609,7 @@ void follow_player(frame_t *frame, enemy_t *enemy);
 void update_enemies(frame_t *frame);
 
 //INVENTORY
-int init_inventory(frame_t *frame);
+bool init_inventory(frame_t *frame);
 void pick_item(frame_t *frame, item_t *item);
 void draw_inventory(frame_t *frame);
 void handle_inventory_event(frame_t *frame, sfEvent *event);

@@ -51,11 +51,11 @@ static void init_items(frame_t *frame)
     }
 }
 
-int init_inventory(frame_t *frame)
+bool init_inventory(frame_t *frame)
 {
     PLAYER->inventory = malloc(sizeof(inventory_t));
     if (!PLAYER->inventory)
-        return (84);
+        return (false);
     INVENTORY->nb_items = 0;
     INVENTORY->is_open = false;
     init_background(frame);
@@ -63,10 +63,8 @@ int init_inventory(frame_t *frame)
     init_item_buttons(frame);
     init_inventory_infos(frame);
     INVENTORY->font = sfFont_createFromFile(FONTPATH);
-    if (!INVENTORY->font) {
-        fprintf(stderr, "Failed to load font\n");
-        return (84);
-    }
+    if (!INVENTORY->font)
+        return (false);
     INVENTORY->selected_item = -1;
-    return (0);
+    return (true);
 }

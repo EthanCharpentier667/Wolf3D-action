@@ -31,6 +31,7 @@ SRC	=	includes/inititliser.c          \
         $(INIT_DIR)init.c                       \
         $(INIT_DIR)init_minimap.c               \
         $(INIT_DIR)init_doors.c             \
+        $(INIT_DIR)init_settings.c             \
         $(SCENES_DIR)mainmenu.c                 \
         $(SCENES_DIR)game.c                     \
         $(SCENES_DIR)settings.c                    \

@@ -37,11 +37,11 @@ static int init_musics(ui_t *iu)
     return 0;
 }
 
-int init_ambiants(frame_t *frame)
+bool init_ambiants(frame_t *frame)
 {
     if (init_sounds(frame->ui) > 0)
-        return 84;
+        return false;
     if (init_musics(frame->ui) > 0)
-        return 84;
-    return 0;
+        return false;
+    return true;
 }
