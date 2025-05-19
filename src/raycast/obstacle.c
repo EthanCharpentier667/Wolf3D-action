@@ -14,7 +14,8 @@ int is_osbtacle(frame_t *frame, int x, int y)
 
     if (x_pos < 0 || x_pos >= MAP_WIDTH || y_pos < 0 || y_pos >= MAP_HEIGHT)
         return 0;
-    if (MAP2D[y_pos][x_pos] == DOOR_OPEN)
+    if (MAP2D[y_pos][x_pos] == DOOR_OPEN
+        || MAP2D[y_pos][x_pos] > frame->game->nb_env)
         return 0;
     return map[y_pos][x_pos];
 }
