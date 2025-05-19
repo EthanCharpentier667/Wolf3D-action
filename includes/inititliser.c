@@ -120,9 +120,6 @@ const struct env_infos_s ENVIRONNEMENT_INFOS[] = {
     {RES "wall2.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 2},
     {RES "wall3.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 3},
     {RES "wall4.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 4},
-    //{RES "door.png", {0, 0, 128, 128}, {1, 1},
-    //    false, false, true, DOOR_CLOSED},
-    //{RES "door.png", {0, 0, 0, 0}, {1, 1}, false, true, true, 5},
     {NULL, {0, 0, 0, 0}, {0, 0}, false, false, false, 0}
 };
 
