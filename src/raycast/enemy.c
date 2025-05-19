@@ -129,5 +129,7 @@ void draw_enemy(frame_t *frame, int index)
     if (data.distance > 1000.0f)
         return;
     render_enemy_columns(frame, index, &data);
+    if (ENEMY[index].is_dead)
+        return;
     draw_health_bar_3d(frame, index, data.tex_size.y, v2f(0.5f, 0.15f));
 }

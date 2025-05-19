@@ -37,5 +37,7 @@ bool init_player(frame_t *frame)
     PLAYER->flashlight_range = 250.0f;
     PLAYER->flashlight_width = 2 * M_PI;
     PLAYER->flashlight_intensity = 1.0f;
+    PLAYER->life = 100;
+    PLAYER->max_life = 100;
     return true;
 }

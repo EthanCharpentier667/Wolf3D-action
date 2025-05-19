@@ -26,6 +26,7 @@ int create_enemy(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos)
     ENEMY[NBENEMIES].follow_player = true;
     ENEMY[NBENEMIES].is_attacking = false;
     ENEMY[NBENEMIES].clock = sfClock_create();
+    ENEMY[NBENEMIES].attack_cd_clock = sfClock_create();
     NBENEMIES++;
     return 0;
 }

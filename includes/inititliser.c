@@ -16,13 +16,13 @@ const struct item_infos_s ITEM_INFOS[] = {
         {-1, -1, -1, -1}, "key", true, false, "The Key Of The Door"},
     {RES "key.png", {0.5, 0.5}, {250, 280, -0.50},
         {-1, -1, -1, -1}, "key", true, false, "The Door of the Key"},
-    {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, NULL, false, false, NULL}
+    {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, NULL, false, false, NULL},
 };
 
 const struct enemy_infos_s ENEMY_INFOS[] = {
     {RES "enemy.png", {2.5, 2.5}, {250, 250, -0.90},
-        {0, 0, 65, 65}, 0.5, 100, 50, 4},
-    {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0}
+        {0, 0, 65, 65}, 0.5, 100, 75, 10, 1},
+    {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0, 0}
 };
 
 const struct button_infos_s BUTTON_INFOS[] = {
@@ -123,10 +123,10 @@ const struct env_infos_s ENVIRONNEMENT_INFOS[] = {
     {NULL, {0, 0, 0, 0}, {0, 0}, false, false, false, 0}
 };
 
-// Format: texture_path, scale, rec, total_frames, frame_width, frame_height,
+//Format: texture_path, scale, rec, total_frames, frame_width, frame_height,
 //name, attack_range, damage
 const struct weapon_infos_s WEAPON_INFOS[] = {
     {RES "knife.png", {0.6, 0.6}, {0, 0, 728, 650},
-        5, 728, 650, "Knife", 100.0f, 50},
+        5, 728, 650, "Knife", 40.0f, 50},
     {NULL, {0, 0}, {0, 0, 0, 0}, 0, 0, 0, NULL, 0.0f, 0}
 };

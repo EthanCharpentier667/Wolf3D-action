@@ -337,6 +337,9 @@ typedef struct enemy_s {
     bool is_dead;
     int life;
     int max_life;
+    sfClock *attack_cd_clock;
+    float attack_cooldown;
+    bool can_attack;
 } enemy_t;
 
 typedef struct inventory_s {
@@ -458,7 +461,7 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
 
     #define FOV (M_PI / 3)
     #define NUM_RAYS WINDOWX
-    #define MOUSE_SENSITIVITY 0.0015
+    #define MOUSE_SENSITIVITY 0.0008
     #define MOUSE_SLIDE 16.5
     #define MAX_CAM_Y M_PI / 2
 
@@ -538,6 +541,7 @@ int create_slider(ui_t *ui, sfVector2f pos,
     sfVector2f size, float initial_value);
 int create_environment(frame_t *frame, char *str,
     sfIntRect rec, sfVector2f scale);
+int create_hud(frame_t *frame);
 
 //DRAW
 int draw_all(frame_t *frame);
@@ -611,8 +615,8 @@ void render_item_columns(frame_t *frame, sfTexture *item_texture,
     item_render_data_t *data, sfVector2f scale);
 void draw_3d_text(frame_t *frame, sfVector3f pos,
     char *text, sfVector2f scale);
-//ENEMIES
 
+//ENEMIES
 void draw_enemy(frame_t *frame, int index);
 void draw_health_bar_3d(frame_t *frame, int index,
     float enemyheight, sfVector2f bar_scale);
@@ -635,6 +639,7 @@ void draw_hud(frame_t *frame);
 void rotate_player(player_t *player, frame_t *frame);
 void update_player(player_t *player, clocks_t *clock, frame_t *frame);
 float get_delta_time(clocks_t *clock);
+void damage_player(frame_t *frame, enemy_t *enemy, int damage);
 
 //MATH
 float lerp(float a, float b, float mult);
