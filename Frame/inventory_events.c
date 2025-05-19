@@ -9,14 +9,16 @@
 
 static void toggle_inventory(frame_t *frame, sfEvent *event)
 {
-    if (event->type == sfEvtKeyPressed && event->key.code == sfKeyI) {
+    if (event->type == sfEvtKeyPressed
+        && event->key.code == KEYBIND->inventory) {
         PLAYER->inventory->is_open = !PLAYER->inventory->is_open;
     }
 }
 
 static void pickup_item_event(frame_t *frame, sfEvent *event)
 {
-    if (event->type == sfEvtKeyPressed && event->key.code == sfKeyE) {
+    if (event->type == sfEvtKeyPressed
+        && event->key.code == KEYBIND->interact) {
         for (int i = 0; i < frame->game->nb_items; i++) {
             pick_item(frame, &frame->game->items[i]);
         }

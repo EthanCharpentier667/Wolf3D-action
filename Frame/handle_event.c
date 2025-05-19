@@ -10,7 +10,22 @@
 #include "frame.h"
 #include <stdlib.h>
 
-static void handle_doors_event(frame_t *frame, sfEvent *event)
+static void handle_keybinds_event(frame_t *frame, sfEvent *event)
+{
+    sfKeyCode *key_code = NULL;
+
+    if (frame->ui->settings->keybinding == false)
+        return;
+    key_code = get_button_keycode(frame, UI->settings->last_action);
+    if (event->type == sfEvtKeyPressed) {
+        if (event->key.code != sfKeyEscape)
+            *key_code = event->key.code;
+        frame->ui->settings->keybinding = false;
+        UI->settings->last_action = -1;
+    }
+}
+
+static void handle_doors_event(frame_t *frame)
 {
     static bool e_key_pressed = false;
     bool current_e_key_state = sfKeyboard_isKeyPressed(sfKeyE);
@@ -32,7 +47,8 @@ int handle_event(sfEvent *event, frame_t *frame)
         buttons_event(event, frame);
         handle_slider_events(frame, event);
         handle_inventory_event(frame, event);
-        handle_doors_event(frame, event);
+        handle_doors_event(frame);
+        handle_keybinds_event(frame, event);
     }
     return 0;
 }

@@ -9,16 +9,17 @@
 
 static bool init_keybinds(frame_t *frame)
 {
-    UI->settings->keybinds = malloc(sizeof(keybind_t));
-    if (!UI->settings->keybinds)
+    KEYBIND = malloc(sizeof(keybind_t));
+    if (!KEYBIND)
         return false;
-    UI->settings->keybinds->up = sfKeyZ;
-    UI->settings->keybinds->down = sfKeyS;
-    UI->settings->keybinds->left = sfKeyQ;
-    UI->settings->keybinds->right = sfKeyD;
-    UI->settings->keybinds->shoot = sfKeyP;
-    UI->settings->keybinds->interact = sfKeyE;
-    UI->settings->keybinds->pause = sfKeyEscape;
+    KEYBIND->up = sfKeyZ;
+    KEYBIND->down = sfKeyS;
+    KEYBIND->left = sfKeyQ;
+    KEYBIND->right = sfKeyD;
+    KEYBIND->shoot = sfKeyL;
+    KEYBIND->interact = sfKeyE;
+    KEYBIND->pause = sfKeyP;
+    KEYBIND->inventory = sfKeyI;
     return true;
 }
 
