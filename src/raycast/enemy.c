@@ -65,7 +65,7 @@ static int calculate_direction_index(float angle_degrees)
 static void animate_enemy(frame_t *frame, int index)
 {
     float game_time = sfTime_asSeconds(
-        sfClock_getElapsedTime(frame->clock[2].clock));
+        sfClock_getElapsedTime(ENEMY[index].clock));
     int animation_frame = (int)(game_time * 5.0f) % 4;
 
     if (ENEMY[index].is_moving && !ENEMY[index].is_dead) {
