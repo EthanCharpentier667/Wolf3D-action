@@ -74,7 +74,7 @@ static void calculate_health_bar_position(frame_t *frame,
     sfVector3f healthbar_pos = {
         ENEMY[(int) enemy_infos.x].pos.x,
         ENEMY[(int) enemy_infos.x].pos.y,
-        ENEMY[(int) enemy_infos.x].pos.z + 200.0f + enemy_infos.y
+        ENEMY[(int) enemy_infos.x].pos.z + 1.0f
     };
 
     calculate_item_position(frame, healthbar_pos,

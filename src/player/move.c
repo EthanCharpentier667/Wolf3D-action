@@ -65,10 +65,10 @@ static void move_player(frame_t *frame, player_t *player)
     sfVector2i move = {0, 0};
     sfVector2f pos = {0, 0};
 
-    move.x += sfKeyboard_isKeyPressed(sfKeyZ) -
-        sfKeyboard_isKeyPressed(sfKeyS);
-    move.y += sfKeyboard_isKeyPressed(sfKeyQ) -
-        sfKeyboard_isKeyPressed(sfKeyD);
+    move.x += sfKeyboard_isKeyPressed(KEYBIND->up) -
+        sfKeyboard_isKeyPressed(KEYBIND->down);
+    move.y += sfKeyboard_isKeyPressed(KEYBIND->left) -
+        sfKeyboard_isKeyPressed(KEYBIND->right);
     pos = set_walk_pos(frame, move, player);
     player->pos.x += pos.x;
     player->pos.y += pos.y;

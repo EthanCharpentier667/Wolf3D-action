@@ -28,6 +28,7 @@
     #include "scene.h"
     #include "environnement.h"
     #include "weapon.h"
+    #include "keyname.h"
 
     #define MAX_SAVES_DISPLAYED 6
     #define MAX_ITEMS 20
@@ -162,14 +163,20 @@ typedef struct saves_s {
     int nb_saves;
 } saves_t;
 
+typedef struct {
+    int action;
+    sfKeyCode *key_address;
+} key_mapping_t;
+
 typedef struct keybind_s {
-    int up;
-    int down;
-    int left;
-    int right;
-    int interact;
-    int shoot;
-    int pause;
+    sfKeyCode up;
+    sfKeyCode down;
+    sfKeyCode left;
+    sfKeyCode right;
+    sfKeyCode interact;
+    sfKeyCode shoot;
+    sfKeyCode pause;
+    sfKeyCode inventory;
 } keybind_t;
 
 typedef struct settings_s {
@@ -177,6 +184,8 @@ typedef struct settings_s {
     float music_volume;
     sfVector2u resolution;
     keybind_t *keybinds;
+    int last_action;
+    bool keybinding;
 } settings_t;
 
 typedef struct ui_s {
@@ -490,6 +499,8 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
 
     #define UI frame->ui
 
+    #define KEYBIND frame->ui->settings->keybinds
+
     #define HUD frame->game->hud
     #define QUART_LIFE (PLAYER->max_life / 4)
     #define MID_LIFE (PLAYER->max_life / 2)
@@ -632,5 +643,9 @@ float clamp(float value, float min, float max);
 //GAME
 int loads_saved_games(frame_t *frame);
 void free_save(saves_t *saves, frame_t *frame);
+
+//KEYBINDS
+sfKeyCode *get_button_keycode(frame_t *frame, int action);
+const char *get_key_name(sfKeyCode key_code);
 
 #endif /* !FRAME_H_ */

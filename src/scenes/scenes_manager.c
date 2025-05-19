@@ -29,5 +29,6 @@ int scene_manager(frame_t *frame)
         }
     }
     draw_all(frame);
+    settings(frame);
     return 0;
 }

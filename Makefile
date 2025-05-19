@@ -75,6 +75,8 @@ SRC	=	includes/inititliser.c          \
         $(ACTION_DIR)settings.c                   \
         $(ACTION_DIR)quit.c                  \
         $(ACTION_DIR)load.c                 \
+        $(ACTION_DIR)resolution.c                   \
+        $(ACTION_DIR)keybinds.c                      \
         $(COMMON_DIR)math.c                     \
         $(GAME_DIR)load.c       \
         $(INVENTORY_DIR)init_inventory.c       \

@@ -30,6 +30,19 @@ const struct button_infos_s BUTTON_INFOS[] = {
         NULL, &do_play, MAINMENU},
     {SETTING, {325, 375, 0.5, 0.5}, RES "settings.png",
         NULL, &do_settings, MAINMENU},
+    {BSETTINGS_CONTROLS, {100, 250, 0.5, 0.5}, RES "controls.png",
+        NULL, &do_settings_control, SETTINGS_RESOLUTION |
+        SETTINGS_CONTROLS | SETTINGS_AUDIO},
+    {BSETTINGS_RESOLUTION, {100, 350, 0.5, 0.5}, RES "resolution.png",
+        NULL, &do_settings_video, SETTINGS_RESOLUTION |
+        SETTINGS_CONTROLS | SETTINGS_AUDIO},
+    {BSETTINGS_AUDIO, {100, 450, 0.5, 0.5}, RES "audio.png",
+        NULL, &do_settings, SETTINGS_RESOLUTION |
+        SETTINGS_CONTROLS | SETTINGS_AUDIO},
+    {ADD_RESOLUTION, {325, 300, 0.5, 0.5}, RES "resadd.png",
+        NULL, &do_add_resolution, SETTINGS_RESOLUTION},
+    {SUB_RESOLUTION, {325, 375, 0.5, 0.5}, RES "ressub.png",
+        NULL, &do_sub_resolution, SETTINGS_RESOLUTION},
     {BACK_TO_MAINMENU, {5, 5, 0.5, 0.5}, RES "go_back.png",
         NULL, &do_mainmenu, LOADS | SETTINGS_RESOLUTION |
         SETTINGS_CONTROLS | SETTINGS_AUDIO},
@@ -37,6 +50,18 @@ const struct button_infos_s BUTTON_INFOS[] = {
         NULL, &do_mm_quit, MAINMENU},
     {LOAD, {325, 450, 1.25, 1.25}, RES "load.png",
         NULL, &do_load, MAINMENU},
+    {KEY_UP, {375, 300, 0.5, 0.5}, RES "keybind.png",
+        NULL, NULL, SETTINGS_CONTROLS},
+    {KEY_DOWN, {375, 375, 0.5, 0.5}, RES "keybind.png",
+        NULL, NULL, SETTINGS_CONTROLS},
+    {KEY_LEFT, {375, 450, 0.5, 0.5}, RES "keybind.png",
+        NULL, NULL, SETTINGS_CONTROLS},
+    {KEY_RIGHT, {375, 525, 0.5, 0.5}, RES "keybind.png",
+        NULL, NULL, SETTINGS_CONTROLS},
+    {KEY_INTERACT, {575, 300, 0.5, 0.5}, RES "keybind.png",
+        NULL, NULL, SETTINGS_CONTROLS},
+    {KEY_INVENTORY, {575, 375, 0.5, 0.5}, RES "keybind.png",
+        NULL, NULL, SETTINGS_CONTROLS},
     {0, {0, 0, 0, 0}, NULL, NULL, NULL, END}
 };
 
@@ -44,7 +69,8 @@ const struct images_infos_s IMAGES_INFOS[] = {
     {RES "background.png", {0.325, 0.5}, {0, 0}, MAINMENU |
         SETTINGS_RESOLUTION | SETTINGS_CONTROLS | SETTINGS_AUDIO | LOADS},
     {RES "logo.png", {0.7, 0.8}, {125, 50}, MAINMENU},
-    {RES "settings-logo.png", {0.4, 0.5}, {160, -100}, SETTINGS_AUDIO},
+    {RES "settings-logo.png", {0.4, 0.5}, {160, -100}, SETTINGS_AUDIO |
+        SETTINGS_CONTROLS | SETTINGS_RESOLUTION},
     {RES "loads.png", {0.4, 0.4}, {180, -50}, LOADS},
     {NULL, {0, 0}, {0, 0}, END},
 };
@@ -56,6 +82,12 @@ const struct images_rec_infos_s IMAGES_REC_INFOS[] = {
 const struct text_infos_s TEXTS_INFOS[] = {
     {"SOUNDS VOLUME:", {255, 255, 255, 255}, {30, 200, 250}, SETTINGS_AUDIO},
     {"MUSICS VOLUME:", {255, 255, 255, 255}, {30, 200, 350}, SETTINGS_AUDIO},
+    {"E", {255, 255, 255, 255}, {30, 200, 350}, SETTINGS_CONTROLS},
+    {"Foward: ", {255, 255, 255, 255}, {30, 250, 305}, SETTINGS_CONTROLS},
+    {"Back: ", {255, 255, 255, 255}, {30, 250, 380}, SETTINGS_CONTROLS},
+    {"Left: ", {255, 255, 255, 255}, {30, 250, 455}, SETTINGS_CONTROLS},
+    {"Right: ", {255, 255, 255, 255}, {30, 250, 530}, SETTINGS_CONTROLS},
+    {"Interact: ", {255, 255, 255, 255}, {30, 450, 305}, SETTINGS_CONTROLS},
     {NULL, {0, 0, 0, 255}, {0, 0, 0}, END},
 };
 
@@ -79,7 +111,6 @@ const struct slider_infos_s SLIDERS_INFOS[] = {
 const struct scenes_infos_s SCENES_INFOS[] = {
     {MAINMENU, &mainmenu},
     {GAME, &game},
-    {SETTINGS_AUDIO | SETTINGS_CONTROLS | SETTINGS_RESOLUTION, &settings},
     {LOADS, &load_scene},
     {END, NULL}
 };
