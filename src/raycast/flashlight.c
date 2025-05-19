@@ -86,7 +86,7 @@ static void cast_lighting_ray(frame_t *frame, float ray_angle)
         if (!(mx >= 0 && mx < MAP_WIDTH && my >= 0 && my < MAP_HEIGHT))
             break;
         apply_light_to_cell(frame, rp, mx, my);
-        if (MAP2D[my][mx] > 0) {
+        if (MAP2D[my][mx] > 0 && MAP2D[my][mx] != DOOR_OPEN) {
             cmp_wall_l(frame, rp, rd, v2f(cmp_intensity_ap(frame, rp), 0.5f));
             break;
         }

@@ -37,6 +37,7 @@ static void open_door(frame_t *frame, door_t *door)
     if (door) {
         door->state = DOOR_OPENING;
         MAP2D[door->map_y][door->map_x] = DOOR_OPENING;
+        frame->light_map[door->map_y][door->map_x] = DOOR_OPENING;
     }
 }
 
@@ -45,6 +46,7 @@ static void close_door(frame_t *frame, door_t *door)
     if (door) {
         door->state = DOOR_CLOSING;
         MAP2D[door->map_y][door->map_x] = DOOR_CLOSING;
+        frame->light_map[door->map_y][door->map_x] = DOOR_CLOSING;
     }
 }
 
@@ -59,9 +61,9 @@ void interact_with_door(frame_t *frame)
         return;
     if (!door)
         return;
-    if (tile == DOOR_CLOSED || tile == DOOR_CLOSING) {
+    if (tile == DOOR_CLOSED) {
         open_door(frame, door);
-    } else if (tile == DOOR_OPEN || tile == DOOR_OPENING) {
+    } else if (tile == DOOR_OPEN) {
         close_door(frame, door);
     }
 }
@@ -74,6 +76,7 @@ static void update_opening_door(frame_t *frame, door_t *door,
         door->offset = 1.0f;
         door->state = DOOR_OPEN;
         MAP2D[door->map_y][door->map_x] = DOOR_OPEN;
+        frame->light_map[door->map_y][door->map_x] = DOOR_OPEN;
     }
 }
 
@@ -85,6 +88,7 @@ static void update_closing_door(frame_t *frame, door_t *door,
         door->offset = 0.0f;
         door->state = DOOR_CLOSED;
         MAP2D[door->map_y][door->map_x] = DOOR_CLOSED;
+        frame->light_map[door->map_y][door->map_x] = DOOR_CLOSED;
     }
 }
 
@@ -106,7 +110,7 @@ static void update_single_door(frame_t *frame, door_t *door,
 
 void update_doors(frame_t *frame)
 {
-    const float door_speed = 0.25f;
+    const float door_speed = 0.1f;
     door_t *door = NULL;
     float dt = 0.0f;
 
