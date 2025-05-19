@@ -27,6 +27,7 @@
     #include "slider.h"
     #include "scene.h"
     #include "environnement.h"
+    #include "weapon.h"
 
     #define MAX_SAVES_DISPLAYED 6
     #define MAX_ITEMS 20
@@ -187,10 +188,34 @@ typedef struct minimap_s {
     sfConvexShape *direction;
 } minimap_t;
 
+typedef enum weapon_state_e {
+    WEAPON_IDLE,
+    WEAPON_ATTACKING,
+    WEAPON_COOLDOWN
+} weapon_state_t;
+
+typedef struct weapon_s {
+    sfTexture *texture;
+    sfSprite *sprite;
+    sfIntRect rec;
+    sfVector2f scale;
+    int total_frames;
+    int frame_width;
+    int frame_height;
+    char *name;
+    float animation_timer;
+    float attack_cooldown;
+    float attack_range;
+    int damage;
+    weapon_state_t state;
+    int current_frame;
+} weapon_t;
+
 typedef struct hud_s {
     img_t *life;
     text_t *life_text;
     minimap_t *minimap;
+    weapon_t *weapon;
 } hud_t;
 
 typedef struct wall_render_params_s {

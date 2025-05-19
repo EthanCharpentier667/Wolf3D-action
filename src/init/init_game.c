@@ -48,12 +48,10 @@ static int init_hud(frame_t *frame)
     frame->game->hud = malloc(sizeof(hud_t));
     if (!frame->game->hud)
         return 84;
-    result += create_rec_obj(frame->img, RES"life.png",
-        frct(0.0, 0.0, 0, 0), irct(0, 0, 400, 400));
     frame->game->hud->life = &frame->img->img[frame->img->nb_img - 1];
-    result += create_text(frame->ui, "LIFE", sfWhite, v3f(1, 2000, 2000));
-    frame->game->hud->life_text = &frame->ui->texts[frame->ui->nb_texts - 1];
     result = init_minimap(frame);
+    for (int i = 0; WEAPON_INFOS[i].texture_path; i++)
+        result += create_weapon(frame, i);
     if (result != 0)
         return 84;
     return 0;

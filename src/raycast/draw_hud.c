@@ -54,9 +54,15 @@ void draw_minimap(frame_t *frame)
     sfRenderWindow_drawConvexShape(WINDOW, minimap->direction, NULL);
 }
 
+void draw_weapon(frame_t *frame)
+{
+    weapon_t *weapon = HUD->weapon;
+
+    sfRenderWindow_drawSprite(WINDOW, weapon->sprite, NULL);
+}
+
 void draw_hud(frame_t *frame)
 {
-    draw_life(frame);
-    draw_life_text(frame);
     draw_minimap(frame);
+    draw_weapon(frame);
 }
