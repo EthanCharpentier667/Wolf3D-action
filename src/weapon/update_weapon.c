@@ -64,6 +64,8 @@ static void handle_attack_state(weapon_t *weapon,
         if (weapon->current_frame >= weapon->total_frames) {
             weapon->state = WEAPON_COOLDOWN;
             weapon->attack_cooldown = 0.3f;
+            weapon->current_frame = 0;
+            weapon->animation_timer = 0;
         }
     }
 }
