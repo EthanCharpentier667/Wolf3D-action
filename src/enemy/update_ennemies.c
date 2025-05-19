@@ -45,9 +45,10 @@ static void animate_attack(frame_t *frame, enemy_t *enemy)
         (animation_duration / animation_total));
 
     if (current_frame >= animation_total) {
+        if (enemy->can_attack)
+            damage_player(frame, enemy, enemy->damages);
         sfClock_restart(enemy->clock);
         current_frame = 0;
-        PLAYER->life -= enemy->damages;
     }
     enemy->rec.top = enemy->rec.height * 6;
     enemy->rec.left = enemy->rec.width * current_frame;
@@ -58,11 +59,18 @@ static void handle_attack(frame_t *frame, enemy_t *enemy)
     float dx = PLAYER->pos.x - enemy->pos.x;
     float dy = PLAYER->pos.y - enemy->pos.y;
     float length = sqrtf(dx * dx + dy * dy);
+    float elapsed = 0.0f;
 
+    if (!enemy->can_attack) {
+        elapsed =
+            sfTime_asSeconds(sfClock_getElapsedTime(enemy->attack_cd_clock));
+        if (elapsed >= enemy->attack_cooldown)
+            enemy->can_attack = true;
+    }
     if (length >= enemy->attack_range) {
         enemy->is_attacking = false;
         return;
-    } else if (length < 50) {
+    } else if (length < 75) {
         animate_attack(frame, enemy);
         enemy->is_attacking = true;
         enemy->is_moving = false;

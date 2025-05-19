@@ -67,7 +67,7 @@ static bool init_hud(frame_t *frame)
     frame->game->hud = malloc(sizeof(hud_t));
     if (!frame->game->hud)
         return false;
-    frame->game->hud->life = &frame->img->img[frame->img->nb_img - 1];
+    result += create_hud(frame);
     if (!init_minimap(frame))
         return false;
     for (int i = 0; WEAPON_INFOS[i].texture_path; i++)
@@ -85,12 +85,14 @@ static bool init_enemies(frame_t *frame)
     for (int i = 0; ENEMY_INFOS[i].path; i++) {
         result += create_enemy(frame, ENEMY_INFOS[i].path,
             ENEMY_INFOS[i].scale, ENEMY_INFOS[i].pos);
+        ENEMY[NBENEMIES - 1].can_attack = false;
         ENEMY[NBENEMIES - 1].rec = ENEMY_INFOS[i].rec;
         ENEMY[NBENEMIES - 1].speed = ENEMY_INFOS[i].speed;
         ENEMY[NBENEMIES - 1].life = ENEMY_INFOS[i].life;
         ENEMY[NBENEMIES - 1].max_life = ENEMY_INFOS[i].life;
         ENEMY[NBENEMIES - 1].attack_range = ENEMY_INFOS[i].attack_range;
         ENEMY[NBENEMIES - 1].damages = ENEMY_INFOS[i].damages;
+        ENEMY[NBENEMIES - 1].attack_cooldown = ENEMY_INFOS[i].attack_cooldown;
     }
     if (result != 0)
         return false;
