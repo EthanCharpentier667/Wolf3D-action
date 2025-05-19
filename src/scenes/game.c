@@ -94,11 +94,14 @@ void draw_objects_by_distance(frame_t *frame)
 
 int game(frame_t *frame)
 {
+    float delta_time = get_delta_time(&(frame->clock[2]));
+
     sfRenderWindow_clear(WINDOW, sfBlack);
     clear_light_map(frame);
     applied(frame->img);
     update_player(PLAYER, &(frame->clock[1]), frame);
     calculate_player_lighting(frame);
+    update_weapon(frame, delta_time);
     cast_floor_ceiling_rays(frame);
     cast_all_rays(frame);
     draw_objects_by_distance(frame);

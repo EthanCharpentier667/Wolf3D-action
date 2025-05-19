@@ -44,7 +44,8 @@ void rotate_player(player_t *player, frame_t *frame)
 {
     static bool active = false;
 
-    if (sfKeyboard_isKeyPressed(sfKeyEscape)) {
+    if (sfKeyboard_isKeyPressed(sfKeyEscape) ||
+        sfKeyboard_isKeyPressed(sfKeyP)) {
         active = !active;
         sfRenderWindow_setMouseCursorVisible(WINDOW, active);
     }

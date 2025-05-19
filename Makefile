@@ -21,6 +21,7 @@ ENEMY_DIR=	$(SRC_DIR)enemy/
 ACTION_DIR=	$(SRC_DIR)actions/
 GAME_DIR=	$(SRC_DIR)game/
 INVENTORY_DIR=	$(SRC_DIR)inventory/
+WEAPON_DIR=	$(SRC_DIR)weapon/
 
 SRC	=	includes/inititliser.c          \
         $(INIT_DIR)init_game.c                  \
@@ -47,6 +48,7 @@ SRC	=	includes/inititliser.c          \
         $(CREATE_DIR)enemy.c \
         $(CREATE_DIR)slider.c                 \
         $(CREATE_DIR)environment.c         \
+        $(CREATE_DIR)weapon.c         \
         $(FRAME_DIR)buttons_events.c            \
         $(FRAME_DIR)destroy.c                   \
         $(FRAME_DIR)draw.c                      \
@@ -83,6 +85,8 @@ SRC	=	includes/inititliser.c          \
         $(INVENTORY_DIR)draw_inv_bg.c       \
         $(ENEMY_DIR)pathfinding.c       \
         $(ENEMY_DIR)update_ennemies.c       \
+        $(WEAPON_DIR)update_weapon.c       \
+        $(WEAPON_DIR)find_enemy_in_range.c       \
 
 OBJ	=	$(SRC:.c=.o)
 

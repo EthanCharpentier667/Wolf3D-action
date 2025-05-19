@@ -94,3 +94,11 @@ const struct env_infos_s ENVIRONNEMENT_INFOS[] = {
     //{RES "door.png", {0, 0, 0, 0}, {1, 1}, false, true, true, 5},
     {NULL, {0, 0, 0, 0}, {0, 0}, false, false, false, 0}
 };
+
+// Format: texture_path, scale, rec, total_frames, frame_width, frame_height,
+//name, attack_range, damage
+const struct weapon_infos_s WEAPON_INFOS[] = {
+    {RES "knife.png", {0.6, 0.6}, {0, 0, 728, 650},
+        5, 728, 650, "Knife", 100.0f, 50},
+    {NULL, {0, 0}, {0, 0, 0, 0}, 0, 0, 0, NULL, 0.0f, 0}
+};
