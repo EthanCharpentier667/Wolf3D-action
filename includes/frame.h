@@ -298,7 +298,8 @@ typedef struct draw_object_s {
     float distance;
     enum {
         ITEM_OBJ,
-        ENEMY_OBJ
+        ENEMY_OBJ,
+        FIXED_OBJ
     } type;
     union {
         struct {
@@ -307,6 +308,9 @@ typedef struct draw_object_s {
         struct {
             int index;
         } enemy;
+        struct {
+            int index;
+        } fixed_object;
     } data;
 } draw_object_t;
 
