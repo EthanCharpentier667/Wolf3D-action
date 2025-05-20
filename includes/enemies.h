@@ -19,7 +19,9 @@ struct enemy_infos_s {
     int life;
     float attack_range;
     float damages;
+    float attack_cooldown;
 };
+
 extern const struct enemy_infos_s ENEMY_INFOS[];
 
 #endif /* !ENEMIES_H_ */

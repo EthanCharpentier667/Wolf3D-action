@@ -25,10 +25,11 @@ sfRenderWindow *create_window(int w, int h, char *name)
     settings.attributeFlags = sfContextDefault;
     window = sfRenderWindow_create(mode, name,
         sfClose | sfResize, &settings);
-    if (!window) {
-        fprintf(stderr, "Failed to create SFML window\n");
+    if (!window)
         return NULL;
-    }
     sfRenderWindow_setFramerateLimit(window, 60);
+    sfRenderWindow_setPosition(window,
+        (sfVector2i){(sfVideoMode_getDesktopMode().width - w) / 2,
+        (sfVideoMode_getDesktopMode().height - h) / 2});
     return window;
 }

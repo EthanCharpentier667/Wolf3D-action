@@ -50,6 +50,7 @@ SRC	=	includes/inititliser.c          \
         $(CREATE_DIR)slider.c                 \
         $(CREATE_DIR)environment.c         \
         $(CREATE_DIR)weapon.c         \
+        $(CREATE_DIR)hud.c         \
         $(FRAME_DIR)buttons_events.c            \
         $(FRAME_DIR)destroy.c                   \
         $(FRAME_DIR)draw.c                      \
@@ -88,6 +89,7 @@ SRC	=	includes/inititliser.c          \
         $(INVENTORY_DIR)draw_inv_bg.c       \
         $(ENEMY_DIR)pathfinding.c       \
         $(ENEMY_DIR)update_ennemies.c       \
+        $(ENEMY_DIR)damage_player.c       \
         $(WEAPON_DIR)update_weapon.c       \
         $(WEAPON_DIR)find_enemy_in_range.c       \
 
