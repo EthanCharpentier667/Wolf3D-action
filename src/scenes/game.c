@@ -21,7 +21,7 @@ static int compare_objects(const void *a, const void *b)
 
 static void init_objects_array(frame_t *frame, draw_object_t **objects)
 {
-    int total = NBITEMS + NBENEMIES;
+    int total = NBITEMS + NBENEMIES + NB_FIXED_OBJECTS;
 
     *objects = malloc(sizeof(draw_object_t) * total);
     if (*objects == NULL)
@@ -62,6 +62,23 @@ static int add_enemies_to_objects(frame_t *frame,
     return count;
 }
 
+static int add_fixed_objects_to_objects(frame_t *frame,
+    draw_object_t *objects, int count)
+{
+    float dx = 0;
+    float dy = 0;
+
+    for (int i = 0; i < NB_FIXED_OBJECTS; i++) {
+        dx = FIXED_OBJECTS[i].position.x - PLAYER->pos.x;
+        dy = FIXED_OBJECTS[i].position.y - PLAYER->pos.y;
+        objects[count].distance = sqrt(dx * dx + dy * dy);
+        objects[count].type = FIXED_OBJ;
+        objects[count].data.fixed_object.index = i;
+        count++;
+    }
+    return count;
+}
+
 static int calculate_distances(frame_t *frame, draw_object_t **objects)
 {
     int count = 0;
@@ -71,6 +88,7 @@ static int calculate_distances(frame_t *frame, draw_object_t **objects)
         return 0;
     count = add_items_to_objects(frame, *objects, count);
     count = add_enemies_to_objects(frame, *objects, count);
+    count = add_fixed_objects_to_objects(frame, *objects, count);
     return count;
 }
 
@@ -83,11 +101,13 @@ void draw_objects_by_distance(frame_t *frame)
         return;
     qsort(objects, count, sizeof(draw_object_t), compare_objects);
     for (int i = 0; i < count; i++) {
-        if (objects[i].type == ITEM_OBJ) {
+        if (objects[i].type == ITEM_OBJ)
             draw_item(frame, &ITEM[objects[i].data.item.index]);
-        } else {
+        if (objects[i].type == ENEMY_OBJ)
             draw_enemy(frame, objects[i].data.enemy.index);
-        }
+        if (objects[i].type == FIXED_OBJ)
+            render_fixed_object(frame,
+                &FIXED_OBJECTS[objects[i].data.fixed_object.index]);
     }
     free(objects);
 }
@@ -105,7 +125,6 @@ int game(frame_t *frame)
     cast_floor_ceiling_rays(frame);
     cast_all_rays(frame);
     draw_objects_by_distance(frame);
-    draw_all_fixed_objects(frame);
     draw_inventory(frame);
     update_enemies(frame);
     draw_hud(frame);
