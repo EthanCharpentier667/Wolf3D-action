@@ -20,82 +20,105 @@ static sfVector2i get_player_facing_tile(frame_t *frame)
     return front;
 }
 
-static door_t *find_door_at_position(frame_t *frame, int x, int y)
+static fixed_object_t *find_door_at_position(frame_t *frame, int x, int y)
 {
-    door_t *door = NULL;
+    fixed_object_t *object = NULL;
+    int obj_x = 0;
+    int obj_y = 0;
 
-    for (int i = 0; i < frame->game->doors->door_count; i++) {
-        door = &frame->game->doors->doors[i];
-        if (door->map_x == x && door->map_y == y)
-            return door;
+    for (int i = 0; i < NB_FIXED_OBJECTS; i++) {
+        object = &frame->game->fixed_objects[i];
+        obj_x = (int)(object->position.x / TILE_SIZE);
+        obj_y = (int)(object->position.y / TILE_SIZE);
+        if (obj_x == x && obj_y == y &&
+            (object->solid == DOOR_CLOSED || object->solid == DOOR_OPEN))
+            return object;
     }
     return NULL;
 }
 
-static void open_door(frame_t *frame, door_t *door)
+static void open_door(frame_t *frame, fixed_object_t *door)
 {
+    int map_x = 0;
+    int map_y = 0;
+
     if (door) {
-        door->state = DOOR_OPENING;
-        MAP2D[door->map_y][door->map_x] = DOOR_OPENING;
-        frame->light_map[door->map_y][door->map_x] = DOOR_OPENING;
+        door->solid = DOOR_OPENING;
+        map_x = (int)(door->position.x / TILE_SIZE);
+        map_y = (int)(door->position.y / TILE_SIZE);
+        MAP2D[map_y][map_x] = -1;
     }
 }
 
-static void close_door(frame_t *frame, door_t *door)
+static void close_door(frame_t *frame, fixed_object_t *door)
 {
+    int map_x = 0;
+    int map_y = 0;
+
     if (door) {
-        door->state = DOOR_CLOSING;
-        MAP2D[door->map_y][door->map_x] = DOOR_CLOSING;
-        frame->light_map[door->map_y][door->map_x] = DOOR_CLOSING;
+        door->solid = DOOR_CLOSING;
+        map_x = (int)(door->position.x / TILE_SIZE);
+        map_y = (int)(door->position.y / TILE_SIZE);
+        MAP2D[map_y][map_x] = -1;
     }
 }
 
 void interact_with_door(frame_t *frame)
 {
     sfVector2i front = get_player_facing_tile(frame);
-    int tile = MAP2D[front.y][front.x];
-    door_t *door = find_door_at_position(frame, front.x, front.y);
+    fixed_object_t *door = find_door_at_position(frame, front.x, front.y);
 
     if (front.x < 0 || front.x >= MAP_WIDTH
         || front.y < 0 || front.y >= MAP_HEIGHT)
         return;
     if (!door)
         return;
-    if (tile == DOOR_CLOSED) {
+    sfClock_restart(frame->clock[4].clock);
+    if (door->solid == DOOR_CLOSED) {
         open_door(frame, door);
-    } else if (tile == DOOR_OPEN) {
+    } else if (door->solid == DOOR_OPEN) {
         close_door(frame, door);
     }
 }
 
-static void update_opening_door(frame_t *frame, door_t *door,
+static void update_opening_door(frame_t *frame, fixed_object_t *door,
     float dt, float speed)
 {
+    int map_x = 0;
+    int map_y = 0;
+
     door->offset += speed * dt;
     if (door->offset >= 1.0f) {
         door->offset = 1.0f;
-        door->state = DOOR_OPEN;
-        MAP2D[door->map_y][door->map_x] = DOOR_OPEN;
-        frame->light_map[door->map_y][door->map_x] = DOOR_OPEN;
+        door->solid = DOOR_OPEN;
+        map_x = (int)(door->position.x / TILE_SIZE);
+        map_y = (int)(door->position.y / TILE_SIZE);
+        MAP2D[map_y][map_x] = 0;
     }
+    door->rec.left = door->rec.width * door->offset;
 }
 
-static void update_closing_door(frame_t *frame, door_t *door,
+static void update_closing_door(frame_t *frame, fixed_object_t *door,
     float dt, float speed)
 {
+    int map_x = 0;
+    int map_y = 0;
+
     door->offset -= speed * dt;
     if (door->offset <= 0.0f) {
         door->offset = 0.0f;
-        door->state = DOOR_CLOSED;
-        MAP2D[door->map_y][door->map_x] = DOOR_CLOSED;
-        frame->light_map[door->map_y][door->map_x] = DOOR_CLOSED;
+        door->solid = DOOR_CLOSED;
+        map_x = (int)(door->position.x / TILE_SIZE);
+        map_y = (int)(door->position.y / TILE_SIZE);
+        MAP2D[map_y][map_x] = -1;
     }
+    door->rec.left = door->rec.width * door->offset;
 }
 
-static void update_single_door(frame_t *frame, door_t *door,
+static void update_single_door(frame_t *frame, fixed_object_t *door,
     float dt, float speed)
 {
-    switch (door->state) {
+    switch (door->solid) {
         case DOOR_OPENING:
             update_opening_door(frame, door, dt, speed);
             break;
@@ -105,18 +128,18 @@ static void update_single_door(frame_t *frame, door_t *door,
         default:
             break;
     }
-    sfClock_restart(door->anim_clock);
 }
 
 void update_doors(frame_t *frame)
 {
-    const float door_speed = 0.1f;
-    door_t *door = NULL;
-    float dt = 0.0f;
+    const float door_speed = 0.01f;
+    fixed_object_t *object = NULL;
+    float dt = sfTime_asSeconds(sfClock_getElapsedTime(frame->clock[4].clock));
 
-    for (int i = 0; i < frame->game->doors->door_count; i++) {
-        door = &frame->game->doors->doors[i];
-        dt = sfTime_asSeconds(sfClock_getElapsedTime(door->anim_clock));
-        update_single_door(frame, door, dt, door_speed);
+    for (int i = 0; i < NB_FIXED_OBJECTS; i++) {
+        object = &frame->game->fixed_objects[i];
+        if (object->solid == DOOR_OPENING || object->solid == DOOR_CLOSING) {
+            update_single_door(frame, object, dt, door_speed);
+        }
     }
 }

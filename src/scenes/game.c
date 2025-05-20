@@ -105,6 +105,7 @@ int game(frame_t *frame)
     cast_floor_ceiling_rays(frame);
     cast_all_rays(frame);
     draw_objects_by_distance(frame);
+    draw_all_fixed_objects(frame);
     draw_inventory(frame);
     update_enemies(frame);
     draw_hud(frame);

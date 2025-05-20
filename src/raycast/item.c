@@ -22,6 +22,7 @@ void calculate_item_position(frame_t *frame, sfVector3f itempos,
     data->screen_x = (int)((data->rel_angle + FOV / 2) / FOV * WINDOWX);
     data->ceiling_height = itempos.z;
     data->tex_size = sfTexture_getSize(item_texture);
+    data->pos = itempos;
 }
 
 void calculate_item_dimensions(item_render_data_t *data,
@@ -39,6 +40,17 @@ void calculate_item_dimensions(item_render_data_t *data,
     data->vertical_offset = WINDOWY / 2 - data->projected_height / 2;
     data->vertical_offset += (int)(WINDOWY * tanf(player->angle.y) / 2);
     data->vertical_offset -= (itempos.z * TILE_SIZE * WINDOWY) / perp_distance;
+}
+
+void set_light_color(frame_t *frame, sfSprite *sprite,
+    item_render_data_t *data)
+{
+    float light = get_light_intensity(frame,
+        (world_pos_t){data->pos.x, data->pos.y});
+    sfColor color = sfColor_fromRGBA(255 * light,
+        255 * light, 255 * light, 255);
+
+    sfSprite_setColor(sprite, color);
 }
 
 void render_item_columns(frame_t *frame, sfTexture *item_texture,
@@ -59,6 +71,7 @@ void render_item_columns(frame_t *frame, sfTexture *item_texture,
         sfSprite_setTextureRect(sprite, subrect);
         sfSprite_setPosition(sprite, v2f((float)x, data->vertical_offset));
         sfSprite_setScale(sprite, v2f(1.0f, data->scale_factor * scale.y));
+        set_light_color(frame, sprite, data);
         sfRenderWindow_drawSprite(WINDOW, sprite, NULL);
     }
     sfSprite_destroy(sprite);
