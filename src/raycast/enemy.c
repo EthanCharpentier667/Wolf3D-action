@@ -96,29 +96,29 @@ static void calcul_angle_to_player(frame_t *frame, int index)
     ENEMY[index].rec.left = direction_index * 2 * ENEMY[index].rec.width;
 }
 
-static void render_enemy_columns(frame_t *frame, int i,
+static void render_enemy_columns(frame_t *frame, int index,
     item_render_data_t *data)
 {
     float tex_percent_x = 0;
     int tex_x = 0;
-    sfSprite *sprt = sfSprite_create();
+    sfSprite *sprite = sfSprite_create();
     sfIntRect subrect = {0, 0, 0, 0};
+    enemy_t enemy = ENEMY[index];
 
-    calcul_angle_to_player(frame, i);
+    calcul_angle_to_player(frame, index);
     for (int x = data->sprite_start_x; x < data->sprite_end_x; x++) {
         if (x < 0 || x >= WINDOWX || data->distance >= frame->z_buffer[x])
             continue;
         tex_percent_x = (float)(x - data->sprite_start_x) / data->sprite_width;
-        tex_x = ENEMY[i].rec.left + (tex_percent_x * ENEMY[i].rec.width);
-        sfSprite_setTexture(sprt, ENEMY[i].texture, sfTrue);
-        subrect = irct(tex_x, ENEMY[i].rec.top, 1, ENEMY[i].rec.height);
-        sfSprite_setTextureRect(sprt, subrect);
-        sfSprite_setPosition(sprt, v2f((float)x, data->vertical_offset));
-        sfSprite_setScale(sprt, v2f(1, data->scale_factor * ENEMY[i].scale.y));
-        set_light_color(frame, sprt, data);
-        sfRenderWindow_drawSprite(WINDOW, sprt, NULL);
+        tex_x = enemy.rec.left + (tex_percent_x * enemy.rec.width);
+        sfSprite_setTexture(sprite, enemy.texture, sfTrue);
+        subrect = irct(tex_x, enemy.rec.top, 1, enemy.rec.height);
+        sfSprite_setTextureRect(sprite, subrect);
+        sfSprite_setPosition(sprite, v2f((float)x, data->vertical_offset));
+        sfSprite_setScale(sprite, v2f(1, data->scale_factor * enemy.scale.y));
+        sfRenderWindow_drawSprite(WINDOW, sprite, NULL);
     }
-    sfSprite_destroy(sprt);
+    sfSprite_destroy(sprite);
 }
 
 void draw_enemy(frame_t *frame, int index)
