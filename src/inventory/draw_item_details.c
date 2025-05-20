@@ -52,8 +52,8 @@ static void draw_item_image(frame_t *frame, item_t *item,
 
     sfSprite_setTexture(sprite, item->texture, sfTrue);
     bounds = sfSprite_getLocalBounds(sprite);
-    scale_x = (panel_width * 0.6f) / bounds.width;
-    scale_y = (panel_width * 0.6f) / bounds.height;
+    scale_x = (panel_width * 0.5f) / bounds.width;
+    scale_y = (panel_width * 0.5f) / bounds.height;
     scale = (scale_x < scale_y) ? scale_x : scale_y;
     sfSprite_setScale(sprite, v2f(scale, scale));
     sfSprite_setOrigin(sprite, v2f(bounds.width / 2, bounds.height / 2));
@@ -77,7 +77,7 @@ static void draw_item_description(frame_t *frame, sfVector2f pos,
     wrap_text(description, panel_width - 30);
     sfText_setPosition(description, v2f(
         pos.x + 15,
-        pos.y + 200));
+        pos.y + 240));
     sfRenderWindow_drawText(WINDOW, description, NULL);
     sfText_destroy(description);
 }
@@ -124,8 +124,8 @@ static void draw_use_button(frame_t *frame, sfVector2f pos, sfVector2f panel)
     sfText *use_text = sfText_create();
     sfFloatRect useTextBounds;
 
-    setup_button_shape(frame, use_button,
-        v2f(pos.x + panel.x - 140, pos.y + panel.y - 60),
+    setup_button_shape(frame, use_button, v2f(
+        pos.x + panel.x - 140, pos.y + panel.y - 60),
         sfColor_fromRGBA(30, 120, 30, 200));
     sfText_setFont(use_text, INVENTORY->font);
     sfText_setString(use_text, "Use");
@@ -134,8 +134,7 @@ static void draw_use_button(frame_t *frame, sfVector2f pos, sfVector2f panel)
     useTextBounds = sfText_getLocalBounds(use_text);
     sfText_setPosition(use_text, v2f(
         pos.x + panel.x - 140 + (120 - useTextBounds.width) / 2,
-        pos.x + panel.y - 60 + (40 - useTextBounds.height) / 2 - 5
-    ));
+        pos.y + panel.y - 60 + (40 - useTextBounds.height) / 2 - 5));
     sfRenderWindow_drawText(WINDOW, use_text, NULL);
     sfText_destroy(use_text);
     sfRectangleShape_destroy(use_button);

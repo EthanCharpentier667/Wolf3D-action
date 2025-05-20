@@ -44,8 +44,8 @@ void use_item(frame_t *frame, int item_index)
 {
     if (item_index < 0 || item_index >= INVENTORY->nb_items)
         return;
-    if (strcmp(INVENTORY->items[item_index].name, "Health Potion") == 0) {
-        PLAYER->life += 25;
+    if (strcmp(INVENTORY->items[item_index].name, "Heal") == 0) {
+        PLAYER->life += 20;
         if (PLAYER->life > PLAYER->max_life)
             PLAYER->life = PLAYER->max_life;
     }
@@ -58,4 +58,20 @@ void use_item(frame_t *frame, int item_index)
         INVENTORY->nb_items--;
         INVENTORY->selected_item = -1;
     }
+}
+
+bool use_item_key(frame_t *frame)
+{
+    int index = -1;
+
+    for (int i = 0; i < INVENTORY->nb_items; i++) {
+        if (strcmp(INVENTORY->items[i].name, "key") == 0) {
+            index = i;
+            break;
+        }
+    }
+    if (index < 0)
+        return false;
+    use_item(frame, index);
+    return true;
 }

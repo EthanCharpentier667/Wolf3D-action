@@ -10,13 +10,16 @@
 static sfVector2i get_player_facing_tile(frame_t *frame)
 {
     sfVector2i front = {0, 0};
-    int player_x = (int)(PLAYER->pos.x / TILE_SIZE);
-    int player_y = (int)(PLAYER->pos.y / TILE_SIZE);
+    float player_x = PLAYER->pos.x;
+    float player_y = PLAYER->pos.y;
     float dir_x = cosf(PLAYER->angle.x);
     float dir_y = sinf(PLAYER->angle.x);
+    float interaction_distance = 0.8f * TILE_SIZE;
+    float target_x = player_x + dir_x * interaction_distance;
+    float target_y = player_y + dir_y * interaction_distance;
 
-    front.x = player_x + (int)(dir_x * 1.5f);
-    front.y = player_y + (int)(dir_y * 1.5f);
+    front.x = (int)(target_x / TILE_SIZE);
+    front.y = (int)(target_y / TILE_SIZE);
     return front;
 }
 
@@ -75,7 +78,8 @@ void interact_with_door(frame_t *frame)
         return;
     sfClock_restart(frame->clock[4].clock);
     if (door->solid == DOOR_CLOSED) {
-        open_door(frame, door);
+        if (use_item_key(frame))
+            open_door(frame, door);
     } else if (door->solid == DOOR_OPEN) {
         close_door(frame, door);
     }
