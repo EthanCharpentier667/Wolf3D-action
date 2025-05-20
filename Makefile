@@ -30,8 +30,8 @@ SRC	=	includes/inititliser.c          \
         $(INIT_DIR)init_player.c                \
         $(INIT_DIR)init.c                       \
         $(INIT_DIR)init_minimap.c               \
-        $(INIT_DIR)init_doors.c             \
         $(INIT_DIR)init_settings.c             \
+        $(INIT_DIR)init_objects.c             \
         $(SCENES_DIR)mainmenu.c                 \
         $(SCENES_DIR)game.c                     \
         $(SCENES_DIR)settings.c                    \
@@ -51,6 +51,7 @@ SRC	=	includes/inititliser.c          \
         $(CREATE_DIR)environment.c         \
         $(CREATE_DIR)weapon.c         \
         $(CREATE_DIR)hud.c         \
+        $(CREATE_DIR)fixed_objects.c         \
         $(FRAME_DIR)buttons_events.c            \
         $(FRAME_DIR)destroy.c                   \
         $(FRAME_DIR)draw.c                      \
@@ -70,6 +71,7 @@ SRC	=	includes/inititliser.c          \
         $(RAYCAST_DIR)healthbar.c             \
         $(RAYCAST_DIR)flashlight.c             \
         $(RAYCAST_DIR)update_door.c             \
+        $(RAYCAST_DIR)fixed_object.c             \
         $(PLAYER_DIR)move.c                     \
         $(PLAYER_DIR)cam.c                      \
         $(ACTION_DIR)play.c                     \

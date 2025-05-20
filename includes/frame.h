@@ -29,6 +29,7 @@
     #include "environnement.h"
     #include "weapon.h"
     #include "keyname.h"
+    #include "fixed_object.h"
 
     #define MAX_SAVES_DISPLAYED 6
     #define MAX_ITEMS 20
@@ -49,6 +50,7 @@ typedef struct {
     int sprite_start_x;
     int sprite_end_x;
     float vertical_offset;
+    sfVector3f pos;
 } item_render_data_t;
 
 typedef struct text_s {
@@ -361,18 +363,15 @@ typedef struct inventory_s {
     sfFont *font;
 } inventory_t;
 
-typedef struct door_s {
-    int map_x;
-    int map_y;
+typedef struct fixed_object_s {
+    sfVector3f position;
+    float angle;
+    sfTexture *texture;
+    sfVector2f dimensions;
+    int solid;
+    sfIntRect rec;
     float offset;
-    int state;
-    sfClock *anim_clock;
-} door_t;
-
-typedef struct doors_s {
-    door_t *doors;
-    int door_count;
-} doors_t;
+} fixed_object_t;
 
 typedef struct player_s {
     sfVector2f pos;
@@ -411,7 +410,8 @@ typedef struct game_s {
     saves_t *saves;
     hud_t *hud;
     environment_ray_t *environment;
-    doors_t *doors;
+    fixed_object_t *fixed_objects;
+    int nb_fixed_objects;
     int nb_items;
     int nb_enemies;
     int nb_enemies_alive;
@@ -441,10 +441,10 @@ typedef struct frame_s {
 
     #define FRAME frame
 
-    #define DOOR_CLOSED 5
-    #define DOOR_OPENING 6
-    #define DOOR_OPEN 7
-    #define DOOR_CLOSING 8
+    #define DOOR_CLOSED 4
+    #define DOOR_OPENING 2
+    #define DOOR_OPEN 1
+    #define DOOR_CLOSING 3
 
     #define WINDOW frame->window
 
@@ -494,7 +494,8 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
 
     #define ENVIRONMENT frame->game->environment
     #define ENV_TEXTURE frame->game->environment[(int) prms.ray_index].texture
-    #define DOORS frame->game->doors->doors
+    #define FIXED_OBJECTS frame->game->fixed_objects
+    #define NB_FIXED_OBJECTS frame->game->nb_fixed_objects
 
     #define INVENTORY frame->game->player->inventory
 
@@ -542,6 +543,8 @@ int create_slider(ui_t *ui, sfVector2f pos,
 int create_environment(frame_t *frame, char *str,
     sfIntRect rec, sfVector2f scale);
 int create_hud(frame_t *frame);
+bool create_fixed_object(frame_t *frame, sfVector3f pos,
+    float angle, char *path);
 
 //DRAW
 int draw_all(frame_t *frame);
@@ -554,7 +557,7 @@ bool init_game(frame_t *frame);
 bool init_ui(frame_t *frame);
 bool init_player(frame_t *frame);
 bool init_minimap(frame_t *frame);
-bool init_doors(frame_t *frame);
+bool init_objects(frame_t *frame);
 bool init_settings(frame_t *frame);
 void destroy_all(frame_t *frame);
 
@@ -603,7 +606,8 @@ float get_light_intensity(frame_t *frame, world_pos_t world_pos);
 void destroy_flashlight(frame_t *frame);
 void update_doors(frame_t *frame);
 void interact_with_door(frame_t *frame);
-void draw_all_doors(frame_t *frame);
+void set_light_color(frame_t *frame, sfSprite *sprite,
+    item_render_data_t *data);
 
 //ITEMS
 void draw_item(frame_t *frame, item_t *item);
@@ -615,6 +619,11 @@ void render_item_columns(frame_t *frame, sfTexture *item_texture,
     item_render_data_t *data, sfVector2f scale);
 void draw_3d_text(frame_t *frame, sfVector3f pos,
     char *text, sfVector2f scale);
+
+//OBJECT - NON BILLBOARD
+
+void render_fixed_object(frame_t *frame, fixed_object_t *object);
+void draw_all_fixed_objects(frame_t *frame);
 
 //ENEMIES
 void draw_enemy(frame_t *frame, int index);

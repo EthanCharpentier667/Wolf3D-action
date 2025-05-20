@@ -40,7 +40,7 @@ static bool init_images(frame_t *frame)
 static bool init_clocks(frame_t *frame)
 {
     int result = 0;
-    int nbclocks = 5;
+    int nbclocks = 10;
 
     CLOCK = malloc(sizeof(clocks_t) * nbclocks);
     if (!CLOCK)
@@ -63,7 +63,7 @@ bool init_frame(frame_t *frame)
     sfRenderWindow_setFramerateLimit(WINDOW, 120);
     if (!init_ui(frame) || !init_images(frame) ||
         !init_clocks(frame) || !init_ambiants(frame) ||
-        !init_game(frame) || !init_doors(frame)) {
+        !init_game(frame) || !init_objects(frame)) {
         sfRenderWindow_destroy(WINDOW);
         return false;
     }

@@ -7,6 +7,12 @@
 
 #include "frame.h"
 
+const struct fixed_object_infos_s FIXED_OBJECT_INFOS[] = {
+    {RES "door.png", {128 + 32, 96, 0}, M_PI / 2,
+        {64, 64}, DOOR_CLOSED, {0, 0, 128, 128}},
+    {NULL, {0, 0, 0.1}, 0, {0, 0}, 0, {0, 0, 0, 0}}
+};
+
 const struct item_infos_s ITEM_INFOS[] = {
     {RES "lamp.png", {0.7, 0.7}, {250, 250, 0.1},
         {-1, -1, -1, -1}, "lamp", false, false, NULL},

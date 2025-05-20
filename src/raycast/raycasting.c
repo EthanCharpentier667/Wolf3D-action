@@ -61,7 +61,7 @@ float cast_single_ray(float ray_angle, frame_t *frame)
         ray_pos.x += ray_dir.x * ray_step;
         ray_pos.y += ray_dir.y * ray_step;
         obstacle = is_osbtacle(frame, ray_pos.x, ray_pos.y);
-        if (obstacle != 0) {
+        if (obstacle > 0) {
             corrected_dist = ray_length * cos(ray_angle - PLAYER->angle.x);
             draw_wall_cols(frame, v2f(corrected_dist, ray_angle),
                 ray_pos, obstacle);
