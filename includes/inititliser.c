@@ -18,10 +18,12 @@ const struct item_infos_s ITEM_INFOS[] = {
         {-1, -1, -1, -1}, "lamp", false, false, NULL},
     {RES "barrel.png", {0.6, 0.6}, {150, 230, -0.50},
         {-1, -1, -1, -1}, "barrel", false, false, NULL},
-    {RES "key.png", {0.5, 0.5}, {250, 300, -0.50},
+    {RES "key.png", {0.5, 0.5}, {110, 96, -0.50},
         {-1, -1, -1, -1}, "key", true, false, "The Key Of The Door"},
     {RES "key.png", {0.5, 0.5}, {250, 280, -0.50},
         {-1, -1, -1, -1}, "key", true, false, "The Door of the Key"},
+    {RES "heal.png", {0.4, 0.4}, {450, 300, -0.50},
+        {-1, -1, -1, -1}, "Heal", true, true, "Heal of 20 HP"},
     {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, NULL, false, false, NULL},
 };
 

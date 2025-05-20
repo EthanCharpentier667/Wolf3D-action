@@ -645,6 +645,7 @@ void draw_item_details(frame_t *frame, float pos_x, float pos_y);
 void use_item(frame_t *frame, int item_index);
 void drop_item(frame_t *frame, int item_index);
 void draw_inventory_background(frame_t *frame);
+bool use_item_key(frame_t *frame);
 
 void draw_hud(frame_t *frame);
 
