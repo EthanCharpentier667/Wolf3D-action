@@ -333,6 +333,7 @@ typedef struct enemy_s {
     sfVector2f scale;
     sfVector2f direction;
     sfIntRect rec;
+    char *drop;
     float angle;
     float speed;
     float damages;
@@ -646,6 +647,8 @@ void use_item(frame_t *frame, int item_index);
 void drop_item(frame_t *frame, int item_index);
 void draw_inventory_background(frame_t *frame);
 bool use_item_key(frame_t *frame);
+int get_item_index(char *name);
+void drop_item_at_pos(frame_t *frame, int item_index, sfVector2f pos);
 
 void draw_hud(frame_t *frame);
 

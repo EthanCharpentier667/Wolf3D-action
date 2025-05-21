@@ -7,32 +7,36 @@
 
 #include "frame.h"
 
+// PATH ; POS ; ANGLE; SCALE ; TYPE ; REC
 const struct fixed_object_infos_s FIXED_OBJECT_INFOS[] = {
     {RES "door.png", {128 + 32, 96, 0}, M_PI / 2,
         {64, 64}, DOOR_CLOSED, {0, 0, 128, 128}},
     {NULL, {0, 0, 0.1}, 0, {0, 0}, 0, {0, 0, 0, 0}}
 };
 
+// PATH ; SCALE ; POSITION ; REC ; NAME: ; IS_PICKABLE ; IS_USEABLE ; DESCRIPTION
 const struct item_infos_s ITEM_INFOS[] = {
     {RES "lamp.png", {0.7, 0.7}, {250, 250, 0.1},
         {-1, -1, -1, -1}, "lamp", false, false, NULL},
     {RES "barrel.png", {0.6, 0.6}, {150, 230, -0.50},
         {-1, -1, -1, -1}, "barrel", false, false, NULL},
     {RES "key.png", {0.5, 0.5}, {110, 96, -0.50},
-        {-1, -1, -1, -1}, "key", true, false, "The Key Of The Door"},
+        {-1, -1, -1, -1}, "Key", true, false, "The Key Of The Door"},
     {RES "key.png", {0.5, 0.5}, {250, 280, -0.50},
-        {-1, -1, -1, -1}, "key", true, false, "The Door of the Key"},
+        {-1, -1, -1, -1}, "Key", true, false, "The Key Of The Door"},
     {RES "heal.png", {0.4, 0.4}, {450, 300, -0.50},
         {-1, -1, -1, -1}, "Heal", true, true, "Heal of 20 HP"},
     {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, NULL, false, false, NULL},
 };
 
+// PATH ; SCALE ; POSITION ; REC ; SPEED ; LIFE ; DAMAGE ; ATTACK_RANGE ; COOLDOWN ; DROP (name of item or NULL if no drops)
 const struct enemy_infos_s ENEMY_INFOS[] = {
     {RES "enemy.png", {2.5, 2.5}, {250, 250, -0.90},
-        {0, 0, 65, 65}, 0.5, 100, 75, 10, 1},
-    {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0, 0}
+        {0, 0, 65, 65}, 0.5, 100, 75, 10, 1, "key"},
+    {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0, 0, NULL}
 };
 
+// TYPE ; SCALE & POSITION ; REC ; PATH ; HELPBOX_TEXT ; ACTION ; SCENE | SCENES
 const struct button_infos_s BUTTON_INFOS[] = {
     {PLAY, {325, 300, 0.5, 0.5}, RES "play.png",
         NULL, &do_play, MAINMENU},

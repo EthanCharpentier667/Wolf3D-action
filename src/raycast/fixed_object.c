@@ -121,7 +121,7 @@ static void render_segment(frame_t *frame, render_context_t *ctx,
 
     if (segment->corrected_dist < 0.1f)
         return;
-    if (segment->screen_y < 0 || segment->screen_y > WINDOWY)
+    if (segment->screen_x < 0 || segment->screen_y > WINDOWX)
         return;
     if (frame->z_buffer[segment->screen_x] < segment->corrected_dist)
         return;
