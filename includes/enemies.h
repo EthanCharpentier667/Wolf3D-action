@@ -20,6 +20,7 @@ struct enemy_infos_s {
     float attack_range;
     float damages;
     float attack_cooldown;
+    char *drop_item;
 };
 
 extern const struct enemy_infos_s ENEMY_INFOS[];

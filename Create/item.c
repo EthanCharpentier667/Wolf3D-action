@@ -7,6 +7,18 @@
 
 #include "frame.h"
 
+static int find_id(frame_t *frame)
+{
+    int id = 0;
+
+    for (int i = 0; i < NBITEMS; i++) {
+        if (ITEM[i].id != id)
+            break;
+        id++;
+    }
+    return (id);
+}
+
 int create_item(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos)
 {
     if (NBITEMS == 0)
@@ -20,7 +32,7 @@ int create_item(frame_t *frame, char *str, sfVector2f scale, sfVector3f pos)
         return 84;
     ITEM[NBITEMS].scale = scale;
     ITEM[NBITEMS].pos = pos;
-    ITEM[NBITEMS].id = NBITEMS;
+    ITEM[NBITEMS].id = find_id(frame);
     NBITEMS++;
     return 0;
 }

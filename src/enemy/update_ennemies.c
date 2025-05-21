@@ -22,16 +22,19 @@ static void animate_die(enemy_t *enemy)
     enemy->rec.left = enemy->rec.width * current_frame;
 }
 
-static void handle_die(enemy_t *enemy)
+static void handle_die(frame_t *frame, enemy_t *enemy)
 {
+    int item_index = 0;
+
     if (enemy->life <= 0 && enemy->is_dead == false) {
         sfClock_restart(enemy->clock);
+        item_index = get_item_index(enemy->drop);
+        if (item_index > 0)
+            drop_item_at_pos(frame, item_index,
+                v2f(enemy->pos.x, enemy->pos.y));
         enemy->is_dead = true;
         enemy->is_moving = false;
         enemy->is_attacking = false;
-    }
-    if (sfKeyboard_isKeyPressed(sfKeyK)) {
-        enemy->life--;
     }
 }
 
@@ -84,7 +87,7 @@ void update_enemies(frame_t *frame)
             animate_die(&ENEMY[i]);
             continue;
         }
-        handle_die(&ENEMY[i]);
+        handle_die(frame, &ENEMY[i]);
         handle_attack(frame, &ENEMY[i]);
         if (ENEMY[i].follow_player)
             follow_player(frame, &ENEMY[i]);

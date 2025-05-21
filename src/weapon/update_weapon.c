@@ -19,11 +19,6 @@ float normalize_weapon_angle(float angle)
 void damage_enemy(frame_t *frame, enemy_t *enemy, int damage)
 {
     enemy->life -= damage;
-    if (enemy->life <= 0) {
-        enemy->life = 0;
-        enemy->is_dead = true;
-        ENEMIESALIVE--;
-    }
 }
 
 static void update_weapon_cooldown(weapon_t *weapon, float delta_time)
