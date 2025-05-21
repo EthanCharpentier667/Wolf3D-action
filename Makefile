@@ -22,6 +22,7 @@ ACTION_DIR=	$(SRC_DIR)actions/
 GAME_DIR=	$(SRC_DIR)game/
 INVENTORY_DIR=	$(SRC_DIR)inventory/
 WEAPON_DIR=	$(SRC_DIR)weapon/
+VFX_DIR=	$(SRC_DIR)vfx/
 
 SRC	=	includes/inititliser.c          \
         $(INIT_DIR)init_game.c                  \
@@ -39,7 +40,6 @@ SRC	=	includes/inititliser.c          \
         $(SCENES_DIR)loads_scene.c                    \
         $(CREATE_DIR)button.c                   \
         $(CREATE_DIR)clocks.c                   \
-        $(CREATE_DIR)framebuffer.c              \
         $(CREATE_DIR)sound.c                    \
         $(CREATE_DIR)sprite.c                   \
         $(CREATE_DIR)text.c                     \
@@ -94,6 +94,12 @@ SRC	=	includes/inititliser.c          \
         $(ENEMY_DIR)damage_player.c       \
         $(WEAPON_DIR)update_weapon.c       \
         $(WEAPON_DIR)find_enemy_in_range.c       \
+        $(VFX_DIR)draw_vfx.c       \
+        $(VFX_DIR)create_vfx.c       \
+        $(VFX_DIR)linked_list_mana.c       \
+        $(VFX_DIR)vfx_info.c       \
+        $(VFX_DIR)fb_mana.c       \
+        $(VFX_DIR)init_vfx.c       \
 
 OBJ	=	$(SRC:.c=.o)
 

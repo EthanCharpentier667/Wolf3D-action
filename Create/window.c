@@ -8,7 +8,7 @@
 #include <SFML/Audio.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "fb.h"
+
 
 
 sfRenderWindow *create_window(int w, int h, char *name)

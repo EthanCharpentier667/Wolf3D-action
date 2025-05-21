@@ -74,10 +74,12 @@ bool init_buttons(frame_t *frame)
 bool init_ui(frame_t *frame)
 {
     frame->ui = malloc(sizeof(ui_t));
+    memset(frame->ui, 0, sizeof(ui_t));
     if (!frame->ui)
         return false;
     if (!init_texts(frame->ui) || !init_buttons(frame)
-        || !init_sliders(frame) || !init_settings(frame))
+        || !init_sliders(frame) || !init_settings(frame)
+        || !init_vfxs(frame))
         return false;
     frame->window_size.x = WINDOWX;
     frame->window_size.y = WINDOWY;

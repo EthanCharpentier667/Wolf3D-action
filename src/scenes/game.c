@@ -112,6 +112,15 @@ void draw_objects_by_distance(frame_t *frame)
     free(objects);
 }
 
+void update_all(frame_t *frame, float delta_time)
+
+{
+    update_enemies(frame);
+    update_weapon(frame, delta_time);
+    update_doors(frame);
+    update_vfxs(UI->vfx_infos.vfxs, delta_time);
+}
+
 int game(frame_t *frame)
 {
     float delta_time = get_delta_time(&(frame->clock[2]));
@@ -121,13 +130,11 @@ int game(frame_t *frame)
     applied(frame->img);
     update_player(PLAYER, &(frame->clock[1]), frame);
     calculate_player_lighting(frame);
-    update_weapon(frame, delta_time);
     cast_floor_ceiling_rays(frame);
     cast_all_rays(frame);
     draw_objects_by_distance(frame);
     draw_inventory(frame);
-    update_enemies(frame);
     draw_hud(frame);
-    update_doors(frame);
+    update_all(frame, delta_time);
     return 0;
 }

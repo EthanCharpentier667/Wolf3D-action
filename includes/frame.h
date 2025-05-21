@@ -30,6 +30,7 @@
     #include "weapon.h"
     #include "keyname.h"
     #include "fixed_object.h"
+    #include "vfx.h"
 
     #define MAX_SAVES_DISPLAYED 6
     #define MAX_ITEMS 20
@@ -190,6 +191,11 @@ typedef struct settings_s {
     bool keybinding;
 } settings_t;
 
+typedef struct {
+    framebuffer_t *sparkle;
+    linked_list_t *vfxs;
+} vfxs_infos_t;
+
 typedef struct ui_s {
     int scene;
     text_t *texts;
@@ -198,6 +204,7 @@ typedef struct ui_s {
     button_t *button;
     slider_t *sliders;
     settings_t *settings;
+    vfxs_infos_t vfx_infos;
     int nb_sliders;
     int nb_texts;
     int nb_musics;

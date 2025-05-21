@@ -10,7 +10,7 @@
 #include <SFML/Window.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "fb.h"
+
 #include "frame.h"
 
 int create_text(ui_t *ui, char *text,
