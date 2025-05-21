@@ -39,6 +39,22 @@ typedef struct {
     sfVector3f origin_pos;
 } vfx_t;
 
+typedef struct emit_s {
+    unsigned int min_nb;
+    unsigned int max_nb;
+    obj_info_t start_info;
+    obj_info_t final_info;
+    obj_info_t randf_info;
+    obj_info_t rands_info;
+} emit_t;
+
+typedef struct emit_settings_s {
+    float strength;
+    float sizes;
+    float rotation;
+    sfColor color;
+} emit_settings_t;
+
 linked_list_t *create_lists(void *data, int len);
 linked_list_t *add_element(linked_list_t *head, void *data);
 void *del_element(linked_list_t *head, linked_list_t *element);
@@ -50,7 +66,7 @@ void my_put_pixel(framebuffer_t *buffer, unsigned int x,
     unsigned int y, sfColor color);
 bool framebuffer_create(const char *filepath, framebuffer_t **fb);
 
-obj_info_t to_obj_info(sfFloatRect cframe, float angle,
+obj_info_t create_obj_info(sfFloatRect cframe, float angle,
     sfColor color, float time_stamp);
 sfFloatRect calculate_vfx_render(player_t *player,
     sfVector3f vfx_pos, sfFloatRect addon);
@@ -64,5 +80,14 @@ void draw_vfxs(player_t *player, sfRenderWindow *window, linked_list_t *vfxs);
 void set_framebuffer_to_sprite(vfx_t *vfx, framebuffer_t *fb);
 linked_list_t *create_vfx(linked_list_t *vfxs, framebuffer_t *fb,
     obj_info_t info, obj_info_t f_info);
+
+emit_t create_emit(unsigned int min_nb, unsigned int max_nb,
+    obj_info_t s_infos, obj_info_t f_infos);
+bool set_emit(emit_t *buff, obj_info_t rands_infos,
+    obj_info_t randf_info);
+void play_emit(linked_list_t *vfxs,
+    emit_t *emit, framebuffer_t *fb);
+emit_settings_t create_emit_settings(float strength, float sizes,
+    float rot, sfColor color);
 
 #endif /* !VFX_H_ */

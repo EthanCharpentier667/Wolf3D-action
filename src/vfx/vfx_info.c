@@ -7,7 +7,7 @@
 
 #include "frame.h"
 
-obj_info_t to_obj_info(sfFloatRect cframe, float angle,
+obj_info_t create_obj_info(sfFloatRect cframe, float angle,
     sfColor color, float time_stamp)
 {
     obj_info_t info = {0};
@@ -47,7 +47,6 @@ sfFloatRect calculate_vfx_render(player_t *player,
     sfFloatRect result;
     result.left = screen_x + addon.left * WINDOWX / forward;
     result.top = screen_y + addon.top  * WINDOWY / forward;
-    dprintf(1, "|| %d %f\n", screen_x, addon.left * TILE_SIZE * WINDOWY / forward);
     result.width = projected_width;
     result.height = projected_height;
 

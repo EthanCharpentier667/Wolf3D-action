@@ -29,3 +29,8 @@ float clamp(float value, float min, float max)
     }
     return value;
 }
+
+float rand_range(int min, int max)
+{
+    return min + rand() % (max - min + 1);
+}

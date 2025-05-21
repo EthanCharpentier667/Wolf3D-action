@@ -113,7 +113,6 @@ void draw_objects_by_distance(frame_t *frame)
 }
 
 void update_all(frame_t *frame, float delta_time)
-
 {
     update_enemies(frame);
     update_weapon(frame, delta_time);

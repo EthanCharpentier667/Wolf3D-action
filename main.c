@@ -9,6 +9,7 @@
 
 int main(int argc, char **argv)
 {
+    srand(time(NULL));
     frame_t *frame = malloc(sizeof(frame_t));
 
     if (!frame)
