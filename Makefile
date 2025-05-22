@@ -100,6 +100,8 @@ SRC	=	includes/inititliser.c          \
         $(VFX_DIR)vfx_info.c       \
         $(VFX_DIR)fb_mana.c       \
         $(VFX_DIR)init_vfx.c       \
+        $(VFX_DIR)emit.c       \
+        $(VFX_DIR)emit_functions.c       \
 
 OBJ	=	$(SRC:.c=.o)
 

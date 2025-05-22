@@ -85,9 +85,11 @@ emit_t create_emit(unsigned int min_nb, unsigned int max_nb,
     obj_info_t s_infos, obj_info_t f_infos);
 bool set_emit(emit_t *buff, obj_info_t rands_infos,
     obj_info_t randf_info);
-void play_emit(linked_list_t *vfxs,
-    emit_t *emit, framebuffer_t *fb);
+bool play_emit(linked_list_t *vfxs,
+    emit_t *emit, framebuffer_t *fb, sfVector3f origin_pos);
 emit_settings_t create_emit_settings(float strength, float sizes,
     float rot, sfColor color);
+bool emit_splatter(linked_list_t *vfxs, framebuffer_t *fb,
+    emit_settings_t *emit_s, sfVector3f abs_pos);
 
 #endif /* !VFX_H_ */

@@ -12,9 +12,11 @@ emit_t create_emit(unsigned int min_nb, unsigned int max_nb,
 {
     emit_t emit = {0};
 
+    memset(&emit, 0, sizeof(emit));
     emit.min_nb = min_nb;
     emit.max_nb = max_nb;
-    memset(&emit, 0, sizeof(emit));
+    emit.start_info = s_infos;
+    emit.final_info = f_infos;
     return emit;
 }
 
@@ -69,24 +71,31 @@ static void rand_obj_info(obj_info_t *buff, obj_info_t *raw, obj_info_t *rand)
         raw->time_stamp + rand->time_stamp / 2);
     buff->cframe.left = rand_range(raw->cframe.left - rand->cframe.left / 2,
         raw->cframe.left + rand->cframe.left / 2);
-    buff->cframe.top = rand_range(raw->cframe.top - raw->cframe.top / 2,
+    buff->cframe.top = rand_range(raw->cframe.top - rand->cframe.top / 2,
         raw->cframe.top + raw->cframe.top / 2);
-    buff->cframe.width = rand_range(raw->cframe.width - raw->cframe.width / 2,
+    buff->cframe.width = rand_range(raw->cframe.width - rand->cframe.width / 2,
         raw->cframe.width + raw->cframe.width / 2);
     buff->cframe.height = rand_range(raw->cframe.height -
         raw->cframe.height / 2, raw->cframe.height + raw->cframe.height / 2);
 }
 
-void play_emit(linked_list_t *vfxs,
-    emit_t *emit, framebuffer_t *fb)
+bool play_emit(linked_list_t *vfxs,
+    emit_t *emit, framebuffer_t *fb, sfVector3f origin_pos)
 {
     int nb = rand_range(emit->min_nb, emit->max_nb);
     obj_info_t temp_start = {0};
     obj_info_t temp_end = {0};
+    linked_list_t *elem = NULL;
+    vfx_t *vfx = NULL;
 
     for (int i = 0; i < nb; i++) {
         rand_obj_info(&temp_start, &emit->start_info, &emit->rands_info);
         rand_obj_info(&temp_end, &emit->final_info, &emit->randf_info);
-        create_vfx(vfxs, fb, temp_start, temp_end);
+        elem = create_vfx(vfxs, fb, temp_start, temp_end);
+        if (!elem)
+            return true;
+        vfx = (vfx_t *)elem->data;
+        vfx->origin_pos = origin_pos;
     }
+    return false;
 }

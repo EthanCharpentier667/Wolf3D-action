@@ -666,7 +666,7 @@ void damage_player(frame_t *frame, enemy_t *enemy, int damage);
 //MATH
 float lerp(float a, float b, float mult);
 float clamp(float value, float min, float max);
-float rand_range(int min, int max);
+float rand_range(float min, float max);
 
 //GAME
 int loads_saved_games(frame_t *frame);
