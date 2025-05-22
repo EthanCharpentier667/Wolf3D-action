@@ -714,4 +714,11 @@ void free_save(saves_t *saves, frame_t *frame);
 sfKeyCode *get_button_keycode(frame_t *frame, int action);
 const char *get_key_name(sfKeyCode key_code);
 
+//LOAD
+bool load_map_data(frame_t *frame, FILE *file);
+bool load_inventory_data(frame_t *frame, FILE *file);
+bool load_objects_data(frame_t *frame, FILE *file);
+bool load_items_data(frame_t *frame, FILE *file);
+bool load_enemies_data(frame_t *frame, FILE *file);
+
 #endif /* !FRAME_H_ */
