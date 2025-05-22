@@ -135,10 +135,15 @@ const struct env_infos_s ENVIRONNEMENT_INFOS[] = {
     {NULL, {0, 0, 0, 0}, {0, 0}, false, false, false, 0}
 };
 
-//Format: texture_path, scale, rec, total_frames, frame_width, frame_height,
-//name, attack_range, damage
+//Format: texture_path, alt_texture_path, scale,
+//rec, total_frames, alt_total_frames,frame_width, frame_height, name,
+//attack_range, damage, ammo_capacity, fire_rate, windup_time, type
 const struct weapon_infos_s WEAPON_INFOS[] = {
-    {RES "knife.png", {0.6, 0.6}, {0, 0, 728, 650},
-        5, 728, 650, "Knife", 40.0f, 50},
-    {NULL, {0, 0}, {0, 0, 0, 0}, 0, 0, 0, NULL, 0.0f, 0}
+    {RES "knife.png", NULL, {0.6, 0.6}, {0, 0, 728, 650},
+        5, 0, 728, 650, "Knife", 40.0f, 50, 0, 0.0f, 0.0f, WEAPON_TYPE_MELEE},
+    {RES "Machine_Gun_Ajustement.png", RES "Machine_Gun_Tir.png", {0.6, 0.6},
+        {0, 0, 728, 650}, 4, 2, 728, 650, "Machine Gun", 200.0f, 10, 200,
+        20.0f, 0.5f, WEAPON_TYPE_AUTOMATIC},
+    {NULL, NULL, {0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0,
+        NULL, 0.0f, 0, 0, 0.0f, 0.0f, 0}
 };

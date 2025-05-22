@@ -94,6 +94,10 @@ SRC	=	includes/inititliser.c          \
         $(ENEMY_DIR)damage_player.c       \
         $(WEAPON_DIR)update_weapon.c       \
         $(WEAPON_DIR)find_enemy_in_range.c       \
+        $(WEAPON_DIR)knife_behavior.c       \
+        $(WEAPON_DIR)machine_gun.c       \
+        $(WEAPON_DIR)reload_weapons.c       \
+        $(WEAPON_DIR)switch_weapons.c       \
 
 OBJ	=	$(SRC:.c=.o)
 
