@@ -76,6 +76,7 @@ void interact_with_door(frame_t *frame)
         return;
     if (!door)
         return;
+    printf("Door found at (%d, %d)\n", front.x, front.y);
     sfClock_restart(frame->clock[4].clock);
     if (door->solid == DOOR_CLOSED) {
         if (use_item_key(frame))

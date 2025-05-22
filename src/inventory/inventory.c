@@ -36,11 +36,11 @@ static item_t copy_item(item_t *item)
     new_item.texture = item->texture;
     new_item.scale = item->scale;
     new_item.rec = item->rec;
-    new_item.name = item->name;
+    strcpy(new_item.name, item->name);
     new_item.pickable = item->pickable;
     new_item.id = item->id;
     new_item.useable = item->useable;
-    new_item.description = item->description;
+    strcpy(new_item.description, item->description);
     return (new_item);
 }
 

@@ -77,6 +77,8 @@ static void move_player(frame_t *frame, player_t *player)
 void update_player(player_t *player, clocks_t *clock, frame_t *frame)
 {
     player->delta_time = get_delta_time(clock);
+    if (player->pause)
+        return;
     move_player(frame, player);
     rotate_player(player, frame);
 }

@@ -74,6 +74,8 @@ SRC	=	includes/inititliser.c          \
         $(RAYCAST_DIR)fixed_object.c             \
         $(PLAYER_DIR)move.c                     \
         $(PLAYER_DIR)cam.c                      \
+        $(ACTION_DIR)change_scene.c                  \
+        $(ACTION_DIR)save.c                  \
         $(ACTION_DIR)play.c                     \
         $(ACTION_DIR)settings.c                   \
         $(ACTION_DIR)quit.c                  \
@@ -82,6 +84,7 @@ SRC	=	includes/inititliser.c          \
         $(ACTION_DIR)keybinds.c                      \
         $(COMMON_DIR)math.c                     \
         $(GAME_DIR)load.c       \
+        $(GAME_DIR)load_frame.c       \
         $(INVENTORY_DIR)init_inventory.c       \
         $(INVENTORY_DIR)inventory.c       \
         $(INVENTORY_DIR)draw_inventory.c       \

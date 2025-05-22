@@ -17,17 +17,17 @@ int load_save_callback(frame_t *frame, int button_index)
     for (int i = 0; i < UI->nb_buttons; i++) {
         if (BUTTON[i].action == SAVES_LIST)
             save_index++;
-        if (save_index == button_index)
+        if (i == button_index)
             break;
     }
-    if (button_index < 0 || button_index >= UI->nb_buttons) {
-        fprintf(stderr, "Error: Button index out of range\n");
+    if (button_index < 0 || button_index >= UI->nb_buttons)
         return 84;
-    }
     snprintf(filepath, sizeof(filepath), "sswolfs/save-%s.ww2",
         frame->game->saves->name[save_index]);
-    printf("Loading save name: %s\n", frame->game->saves->name[save_index]);
-    printf("Loading save file: %s\n", filepath);
+    load_frame(frame, filepath);
+    frame->save = strdup(filepath);
+    change_scene(frame, GAME);
+    free_save(frame->game->saves, frame);
     return 0;
 }
 
@@ -64,6 +64,6 @@ int do_load(frame_t *frame)
     free_save(frame->game->saves, frame);
     if (loads_saved_games(frame) == 84)
         return 84;
-    UI->scene = LOADS;
+    change_scene(frame, LOADS);
     return 0;
 }

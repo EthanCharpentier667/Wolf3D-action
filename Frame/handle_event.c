@@ -10,6 +10,20 @@
 #include "frame.h"
 #include <stdlib.h>
 
+static void handle_pause_event(frame_t *frame)
+{
+    if (sfKeyboard_isKeyPressed(sfKeyEscape) ||
+        sfKeyboard_isKeyPressed(KEYBIND->pause)) {
+        PLAYER->pause = !PLAYER->pause;
+        UI->pause = !UI->pause;
+        if (PLAYER->pause) {
+            frame->sceenshot = sfRenderWindow_capture(WINDOW);
+            sfRenderWindow_setMouseCursorVisible(WINDOW, true);
+            PLAYER->inventory->is_open = false;
+        }
+    }
+}
+
 static void handle_keybinds_event(frame_t *frame, sfEvent *event)
 {
     sfKeyCode *key_code = NULL;
@@ -49,6 +63,7 @@ int handle_event(sfEvent *event, frame_t *frame)
         handle_inventory_event(frame, event);
         handle_doors_event(frame);
         handle_keybinds_event(frame, event);
+        handle_pause_event(frame);
     }
     return 0;
 }

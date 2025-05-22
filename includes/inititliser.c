@@ -14,29 +14,32 @@ const struct fixed_object_infos_s FIXED_OBJECT_INFOS[] = {
     {NULL, {0, 0, 0.1}, 0, {0, 0}, 0, {0, 0, 0, 0}}
 };
 
-// PATH ; SCALE ; POSITION ; REC ; NAME: ; IS_PICKABLE ; IS_USEABLE ; DESCRIPTION
+// PATH ; SCALE ; POSITION ; REC ; NAME: ;
+// IS_PICKABLE ; IS_USEABLE ; DESCRIPTION
 const struct item_infos_s ITEM_INFOS[] = {
     {RES "lamp.png", {0.7, 0.7}, {250, 250, 0.1},
-        {-1, -1, -1, -1}, "lamp", false, false, NULL},
+        {-1, -1, -1, -1}, "lamp", false, false, ""},
     {RES "barrel.png", {0.6, 0.6}, {150, 230, -0.50},
-        {-1, -1, -1, -1}, "barrel", false, false, NULL},
+        {-1, -1, -1, -1}, "barrel", false, false, ""},
     {RES "key.png", {0.5, 0.5}, {110, 96, -0.50},
         {-1, -1, -1, -1}, "Key", true, false, "The Key Of The Door"},
     {RES "key.png", {0.5, 0.5}, {250, 280, -0.50},
         {-1, -1, -1, -1}, "Key", true, false, "The Key Of The Door"},
     {RES "heal.png", {0.4, 0.4}, {450, 300, -0.50},
         {-1, -1, -1, -1}, "Heal", true, true, "Heal of 20 HP"},
-    {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, NULL, false, false, NULL},
+    {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, "", false, false, ""},
 };
 
-// PATH ; SCALE ; POSITION ; REC ; SPEED ; LIFE ; DAMAGE ; ATTACK_RANGE ; COOLDOWN ; DROP (name of item or NULL if no drops)
+// PATH ; SCALE ; POSITION ; REC ; SPEED ; LIFE
+// DAMAGE ; ATTACK_RANGE ; COOLDOWN ; DROP (name of item or NULL if no drops)
 const struct enemy_infos_s ENEMY_INFOS[] = {
     {RES "enemy.png", {2.5, 2.5}, {250, 250, -0.90},
         {0, 0, 65, 65}, 0.5, 100, 75, 10, 1, "key"},
     {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0, 0, NULL}
 };
 
-// TYPE ; SCALE & POSITION ; REC ; PATH ; HELPBOX_TEXT ; ACTION ; SCENE | SCENES
+// TYPE ; SCALE & POSITION ; REC ; PATH
+// HELPBOX_TEXT ; ACTION ; SCENE | SCENES
 const struct button_infos_s BUTTON_INFOS[] = {
     {PLAY, {325, 300, 0.5, 0.5}, RES "play.png",
         NULL, &do_play, MAINMENU},
@@ -55,13 +58,19 @@ const struct button_infos_s BUTTON_INFOS[] = {
         NULL, &do_add_resolution, SETTINGS_RESOLUTION},
     {SUB_RESOLUTION, {325, 375, 0.5, 0.5}, RES "ressub.png",
         NULL, &do_sub_resolution, SETTINGS_RESOLUTION},
-    {BACK_TO_MAINMENU, {5, 5, 0.5, 0.5}, RES "go_back.png",
-        NULL, &do_mainmenu, LOADS | SETTINGS_RESOLUTION |
+    {BACK, {5, 5, 0.5, 0.5}, RES "go_back.png",
+        NULL, &do_goback, LOADS | SETTINGS_RESOLUTION |
         SETTINGS_CONTROLS | SETTINGS_AUDIO},
     {QUIT, {325, 525, 1.25, 1.25}, RES "quit.png",
         NULL, &do_mm_quit, MAINMENU},
     {LOAD, {325, 450, 1.25, 1.25}, RES "load.png",
         NULL, &do_load, MAINMENU},
+    {QUIT_GAME, {325, 400, 1.5, 1.5}, RES "quit.png",
+        NULL, &do_game_quit, PAUSE},
+    {RESUME, {325, 200, 1.5, 1.5}, RES "resume.png",
+        NULL, &do_resume, PAUSE},
+    {SETTING, {325, 300, 0.58, 0.58}, RES "settings.png",
+        NULL, &do_settings, PAUSE},
     {KEY_UP, {375, 300, 0.5, 0.5}, RES "keybind.png",
         NULL, NULL, SETTINGS_CONTROLS},
     {KEY_DOWN, {375, 375, 0.5, 0.5}, RES "keybind.png",
@@ -74,6 +83,8 @@ const struct button_infos_s BUTTON_INFOS[] = {
         NULL, NULL, SETTINGS_CONTROLS},
     {KEY_INVENTORY, {575, 375, 0.5, 0.5}, RES "keybind.png",
         NULL, NULL, SETTINGS_CONTROLS},
+    {KEY_PAUSE, {575, 450, 0.5, 0.5}, RES "keybind.png",
+        NULL, NULL, SETTINGS_CONTROLS},
     {0, {0, 0, 0, 0}, NULL, NULL, NULL, END}
 };
 
@@ -84,6 +95,8 @@ const struct images_infos_s IMAGES_INFOS[] = {
     {RES "settings-logo.png", {0.4, 0.5}, {160, -100}, SETTINGS_AUDIO |
         SETTINGS_CONTROLS | SETTINGS_RESOLUTION},
     {RES "loads.png", {0.4, 0.4}, {180, -50}, LOADS},
+    {RES "panel.png", {0.4, 0.5}, {200, 60}, PAUSE},
+    {RES "pause.png", {0.3, 0.3}, {250, -50}, PAUSE},
     {NULL, {0, 0}, {0, 0}, END},
 };
 
@@ -95,11 +108,13 @@ const struct text_infos_s TEXTS_INFOS[] = {
     {"SOUNDS VOLUME:", {255, 255, 255, 255}, {30, 200, 250}, SETTINGS_AUDIO},
     {"MUSICS VOLUME:", {255, 255, 255, 255}, {30, 200, 350}, SETTINGS_AUDIO},
     {"E", {255, 255, 255, 255}, {30, 200, 350}, SETTINGS_CONTROLS},
-    {"Foward: ", {255, 255, 255, 255}, {30, 250, 305}, SETTINGS_CONTROLS},
-    {"Back: ", {255, 255, 255, 255}, {30, 250, 380}, SETTINGS_CONTROLS},
-    {"Left: ", {255, 255, 255, 255}, {30, 250, 455}, SETTINGS_CONTROLS},
-    {"Right: ", {255, 255, 255, 255}, {30, 250, 530}, SETTINGS_CONTROLS},
-    {"Interact: ", {255, 255, 255, 255}, {30, 450, 305}, SETTINGS_CONTROLS},
+    {"Forward: ", {255, 255, 255, 255}, {30, 240, 305}, SETTINGS_CONTROLS},
+    {"Backward: ", {255, 255, 255, 255}, {30, 240, 380}, SETTINGS_CONTROLS},
+    {"Left: ", {255, 255, 255, 255}, {30, 240, 455}, SETTINGS_CONTROLS},
+    {"Right: ", {255, 255, 255, 255}, {30, 240, 530}, SETTINGS_CONTROLS},
+    {"Interact: ", {255, 255, 255, 255}, {30, 440, 305}, SETTINGS_CONTROLS},
+    {"Inventory: ", {255, 255, 255, 255}, {30, 440, 380}, SETTINGS_CONTROLS},
+    {"Pause: ", {255, 255, 255, 255}, {30, 440, 455}, SETTINGS_CONTROLS},
     {NULL, {0, 0, 0, 255}, {0, 0, 0}, END},
 };
 
