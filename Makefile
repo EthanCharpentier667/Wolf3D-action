@@ -85,6 +85,11 @@ SRC	=	includes/inititliser.c          \
         $(COMMON_DIR)math.c                     \
         $(GAME_DIR)load.c       \
         $(GAME_DIR)load_frame.c       \
+        $(GAME_DIR)load_map_data.c       \
+        $(GAME_DIR)load_inventory_data.c       \
+        $(GAME_DIR)load_objects_data.c       \
+        $(GAME_DIR)load_items_data.c       \
+        $(GAME_DIR)load_enemies_data.c       \
         $(INVENTORY_DIR)init_inventory.c       \
         $(INVENTORY_DIR)inventory.c       \
         $(INVENTORY_DIR)draw_inventory.c       \
