@@ -71,6 +71,19 @@ bool init_buttons(frame_t *frame)
     return true;
 }
 
+bool init_pause_menu(frame_t *frame)
+{
+    UI->pause_menu = malloc(sizeof(pause_menu_t));
+    if (!UI->pause_menu)
+        return false;
+    UI->pause_menu->background = &(frame->img->img[4]);
+    UI->pause_menu->logo = &(frame->img->img[5]);
+    UI->pause_menu->resume = &(BUTTON[11]);
+    UI->pause_menu->settings = &(BUTTON[12]);
+    UI->pause_menu->quit = &(BUTTON[10]);
+    return true;
+}
+
 bool init_ui(frame_t *frame)
 {
     frame->ui = malloc(sizeof(ui_t));
@@ -78,11 +91,14 @@ bool init_ui(frame_t *frame)
     if (!frame->ui)
         return false;
     if (!init_texts(frame->ui) || !init_buttons(frame)
-        || !init_sliders(frame) || !init_settings(frame))
+        || !init_sliders(frame) || !init_settings(frame) ||
+        !init_pause_menu(frame))
         return false;
     frame->window_size.x = WINDOWX;
     frame->window_size.y = WINDOWY;
     UI->refactor.x = 1;
     UI->refactor.y = 1;
+    frame->ui->pause = false;
+    UI->last_scene = MAINMENU;
     return true;
 }

@@ -24,5 +24,7 @@ int main(int argc, char **argv)
         scene_manager(frame);
         sfRenderWindow_display(WINDOW);
     }
+    if (frame->played)
+        do_save(frame);
     return 0;
 }

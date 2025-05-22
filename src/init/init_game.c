@@ -117,10 +117,10 @@ static bool init_items(frame_t *frame)
         result += create_item(frame, ITEM_INFOS[i].path,
             ITEM_INFOS[i].scale, ITEM_INFOS[i].pos);
         ITEM[NBITEMS - 1].rec = ITEM_INFOS[i].rec;
-        ITEM[NBITEMS - 1].name = ITEM_INFOS[i].name;
+        strcpy(ITEM[NBITEMS - 1].name, ITEM_INFOS[i].name);
         ITEM[NBITEMS - 1].pickable = ITEM_INFOS[i].pickable;
         ITEM[NBITEMS - 1].useable = ITEM_INFOS[i].useable;
-        ITEM[NBITEMS - 1].description = ITEM_INFOS[i].description;
+        strcpy(ITEM[NBITEMS - 1].description, ITEM_INFOS[i].description);
     }
     if (result != 0)
         return false;

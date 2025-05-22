@@ -112,6 +112,23 @@ void draw_objects_by_distance(frame_t *frame)
     free(objects);
 }
 
+static void draw_pausemenu(frame_t *frame)
+{
+    if (!UI->pause)
+        return;
+    UI->pause_menu->resume->disabled = false;
+    UI->pause_menu->quit->disabled = false;
+    UI->pause_menu->settings->disabled = false;
+    sfSprite_setColor(UI->pause_menu->background->sprite,
+        sfColor_fromRGBA(0, 0, 0, 150));
+    sfRenderWindow_drawSprite(WINDOW,
+        UI->pause_menu->background->sprite, NULL);
+    sfRenderWindow_drawSprite(WINDOW, UI->pause_menu->logo->sprite, NULL);
+    sfRenderWindow_drawSprite(WINDOW, UI->pause_menu->resume->sprite, NULL);
+    sfRenderWindow_drawSprite(WINDOW, UI->pause_menu->quit->sprite, NULL);
+    sfRenderWindow_drawSprite(WINDOW, UI->pause_menu->settings->sprite, NULL);
+}
+
 int game(frame_t *frame)
 {
     float delta_time = get_delta_time(&(frame->clock[2]));
@@ -129,5 +146,6 @@ int game(frame_t *frame)
     update_enemies(frame);
     draw_hud(frame);
     update_doors(frame);
+    draw_pausemenu(frame);
     return 0;
 }

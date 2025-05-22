@@ -28,18 +28,17 @@ static int scan_save_file(const char *filepath,
     const char *imagepath, save_info_t *save)
 {
     FILE *save_file = fopen(filepath, "r");
-    char name[64] = {0};
-    char date[32] = {0};
+    game_infos_t *game_infos = malloc(sizeof(game_infos_t));
 
     if (!save_file)
         return 84;
-    fscanf(save_file, "Name: %63[^\n]\n", name);
-    fscanf(save_file, "Date: %31[^\n]\n", date);
+    fread(game_infos, sizeof(game_infos_t), 1, save_file);
     fclose(save_file);
     strncpy(save->filename, filepath, sizeof(save->filename));
     strncpy(save->imagepath, imagepath, sizeof(save->imagepath));
-    strncpy(save->name, name, sizeof(save->name));
-    strncpy(save->date, date, sizeof(save->date));
+    strncpy(save->name, game_infos->name, sizeof(save->name));
+    strncpy(save->date, game_infos->date, sizeof(save->date));
+    free(game_infos);
     return 0;
 }
 
@@ -109,7 +108,7 @@ static int create_save_button(frame_t *frame, save_info_t *save,
 
     if (save->has_thumbnail) {
         result = init_save_button(UI, save->imagepath,
-            (sfFloatRect){pos.x, pos.y, 0.1, 0.1}, save->name);
+            (sfFloatRect){pos.x, pos.y, 0.15, 0.15}, save->name);
     } else {
         result = init_save_button(UI, RES "default_save.png",
             (sfFloatRect){pos.x, pos.y, 0.1, 0.1}, save->name);

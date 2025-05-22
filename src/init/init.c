@@ -61,12 +61,15 @@ bool init_frame(frame_t *frame)
     sfRenderWindow_clear(WINDOW, sfBlack);
     sfRenderWindow_display(WINDOW);
     sfRenderWindow_setFramerateLimit(WINDOW, 120);
-    if (!init_ui(frame) || !init_images(frame) ||
+    if (!init_images(frame) || !init_ui(frame) ||
         !init_clocks(frame) || !init_ambiants(frame) ||
         !init_game(frame) || !init_objects(frame)) {
         sfRenderWindow_destroy(WINDOW);
         return false;
     }
-    frame->ui->scene = MAINMENU;
+    frame->save = NULL;
+    frame->name = NULL;
+    frame->sceenshot = NULL;
+    frame->played = false;
     return true;
 }

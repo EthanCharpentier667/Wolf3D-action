@@ -10,8 +10,10 @@
 static void toggle_inventory(frame_t *frame, sfEvent *event)
 {
     if (event->type == sfEvtKeyPressed
-        && event->key.code == KEYBIND->inventory) {
+        && event->key.code == KEYBIND->inventory && !UI->pause) {
         PLAYER->inventory->is_open = !PLAYER->inventory->is_open;
+        PLAYER->pause = !PLAYER->pause;
+        sfRenderWindow_setMouseCursorVisible(WINDOW, sfTrue);
     }
 }
 
