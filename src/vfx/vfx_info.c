@@ -18,6 +18,7 @@ obj_info_t create_obj_info(sfFloatRect cframe, float angle,
     info.time_stamp = time_stamp;
     return info;
 }
+
 sfFloatRect calculate_vfx_render(player_t *player,
     sfVector3f vfx_pos, sfFloatRect addon)
 {

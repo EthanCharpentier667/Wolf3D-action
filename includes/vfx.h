@@ -55,6 +55,13 @@ typedef struct emit_settings_s {
     sfColor color;
 } emit_settings_t;
 
+typedef struct {
+    framebuffer_t *sparkle;
+    framebuffer_t *smoke;
+    linked_list_t *vfxs;
+} vfxs_infos_t;
+
+
 linked_list_t *create_lists(void *data, int len);
 linked_list_t *add_element(linked_list_t *head, void *data);
 void *del_element(linked_list_t *head, linked_list_t *element);
@@ -76,7 +83,7 @@ void free_vfx(void *data);
 void free_vfxs(frame_t *frame);
 bool update_vfx(vfx_t *vfx, float delta_time);
 void update_vfxs(linked_list_t *vfxs, float delta_time);
-void draw_vfxs(player_t *player, sfRenderWindow *window, linked_list_t *vfxs);
+void draw_vfxs(frame_t *frame, sfRenderWindow *window);
 void set_framebuffer_to_sprite(vfx_t *vfx, framebuffer_t *fb);
 linked_list_t *create_vfx(linked_list_t *vfxs, framebuffer_t *fb,
     obj_info_t info, obj_info_t f_info);
@@ -90,6 +97,12 @@ bool play_emit(linked_list_t *vfxs,
 emit_settings_t create_emit_settings(float strength, float sizes,
     float rot, sfColor color);
 bool emit_splatter(linked_list_t *vfxs, framebuffer_t *fb,
+    emit_settings_t *emit_s, sfVector3f abs_pos);
+bool emit_slow(linked_list_t *vfxs, framebuffer_t *fb,
+    emit_settings_t *emit_s, sfVector3f abs_pos);
+bool absorb_splatter(linked_list_t *vfxs, framebuffer_t *fb,
+    emit_settings_t *emit_s, sfVector3f abs_pos);
+bool absorb_slow(linked_list_t *vfxs, framebuffer_t *fb,
     emit_settings_t *emit_s, sfVector3f abs_pos);
 
 #endif /* !VFX_H_ */

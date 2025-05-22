@@ -79,6 +79,6 @@ int draw_all(frame_t *frame)
     draw_texts(frame);
     draw_buttons(frame);
     draw_sliders(frame);
-    draw_vfxs(PLAYER, frame->window, UI->vfx_infos.vfxs);
+    draw_vfxs(frame, frame->window);
     return 0;
 }

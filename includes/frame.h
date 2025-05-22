@@ -192,11 +192,6 @@ typedef struct settings_s {
     bool keybinding;
 } settings_t;
 
-typedef struct {
-    framebuffer_t *sparkle;
-    linked_list_t *vfxs;
-} vfxs_infos_t;
-
 typedef struct ui_s {
     int scene;
     text_t *texts;

@@ -12,7 +12,9 @@ bool init_vfxs(frame_t *frame)
     int err = 0;
     vfxs_infos_t *vfx_infos = &UI->vfx_infos;
 
-    err = framebuffer_create("src/assets/logo.png", &vfx_infos->sparkle);
+    err += framebuffer_create("src/assets/logo.png", &vfx_infos->sparkle);
+    err += framebuffer_create("src/assets/vfx_assets/smoke.png",
+        &vfx_infos->smoke);
     vfx_infos->vfxs = create_lists(NULL, 1);
     err += !vfx_infos->vfxs;
     return !(bool)err;
