@@ -29,6 +29,7 @@ bool init_objects(frame_t *frame)
     FIXED_OBJECTS = malloc(sizeof(fixed_object_t));
     if (!FIXED_OBJECTS)
         return false;
+    NB_FIXED_OBJECTS = 0;
     if (!create_objects(frame))
         return false;
     return true;

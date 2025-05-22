@@ -10,10 +10,11 @@
 bool create_fixed_object(frame_t *frame, sfVector3f pos,
     float angle, char *path)
 {
-    FIXED_OBJECTS = realloc(FIXED_OBJECTS,
-        sizeof(fixed_object_t) * (NB_FIXED_OBJECTS + 1));
+    if (NB_FIXED_OBJECTS > 0)
+        FIXED_OBJECTS = realloc(FIXED_OBJECTS,
+            sizeof(fixed_object_t) * (NB_FIXED_OBJECTS + 1));
     if (!FIXED_OBJECTS)
-        return NULL;
+        return false;
     FIXED_OBJECTS[NB_FIXED_OBJECTS].position = pos;
     FIXED_OBJECTS[NB_FIXED_OBJECTS].angle = angle;
     FIXED_OBJECTS[NB_FIXED_OBJECTS].texture
