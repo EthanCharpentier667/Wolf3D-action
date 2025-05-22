@@ -100,6 +100,7 @@ static bool init_enemies(frame_t *frame)
         ENEMY[NBENEMIES - 1].attack_range = ENEMY_INFOS[i].attack_range;
         ENEMY[NBENEMIES - 1].damages = ENEMY_INFOS[i].damages;
         ENEMY[NBENEMIES - 1].attack_cooldown = ENEMY_INFOS[i].attack_cooldown;
+        ENEMY[NBENEMIES - 1].drop = ENEMY_INFOS[i].drop_item;
     }
     if (result != 0)
         return false;
