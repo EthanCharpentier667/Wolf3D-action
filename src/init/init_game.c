@@ -21,17 +21,17 @@
 const int map[MAP_HEIGHT][MAP_WIDTH] = {
     {1, 1, 1, 2, 1, 1, 1, 1, 3, 2, 3, 1, 1, 1, 1, 1},
     {3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 3, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 4, 1, 3, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 1, 3, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1},
     {3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-    {1, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
     {1, 1, 1, 2, 1, 1, 1, 1, 3, 2, 3, 1, 1, 1, 1, 1}
@@ -67,11 +67,18 @@ static bool init_hud(frame_t *frame)
     frame->game->hud = malloc(sizeof(hud_t));
     if (!frame->game->hud)
         return false;
+    HUD->weapon = NULL;
+    HUD->nb_weapons = 0;
+    HUD->selected_weapon = 0;
     result += create_hud(frame);
     if (!init_minimap(frame))
         return false;
-    for (int i = 0; WEAPON_INFOS[i].texture_path; i++)
-        result += create_weapon(frame, i);
+    if (WEAPON_INFOS[0].texture_path)
+        result += create_weapon(frame, 0);
+    else {
+        printf("ERROR: No weapon definitions found!\n");
+        return false;
+    }
     if (result != 0)
         return false;
     return true;

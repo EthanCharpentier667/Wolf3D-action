@@ -35,7 +35,7 @@ static void process_enemy(int index, float *closest_dist,
     enemy_t **closest_enemy, frame_t *frame)
 {
     enemy_t *current = &ENEMY[index];
-    weapon_t *weapon = HUD->weapon;
+    weapon_t *weapon = HUD->weapon[HUD->selected_weapon];
     float distance = 0.0f;
 
     if (!is_enemy_valid(current))
@@ -51,7 +51,7 @@ static void process_enemy(int index, float *closest_dist,
 
 enemy_t *find_enemy_in_range(frame_t *frame)
 {
-    float closest_dist = HUD->weapon->attack_range;
+    float closest_dist = HUD->weapon[HUD->selected_weapon]->attack_range;
     enemy_t *closest_enemy = NULL;
 
     for (int i = 0; i < NBENEMIES; i++)

@@ -33,6 +33,7 @@
 
     #define MAX_SAVES_DISPLAYED 6
     #define MAX_ITEMS 20
+    #define CURRENT_WEAPON (HUD->weapon[HUD->selected_weapon])
 
 typedef struct {
     float dx;
@@ -220,15 +221,21 @@ typedef struct minimap_s {
 typedef enum weapon_state_e {
     WEAPON_IDLE,
     WEAPON_ATTACKING,
-    WEAPON_COOLDOWN
+    WEAPON_COOLDOWN,
+    WEAPON_WINDUP,
+    WEAPON_FIRING,
+    WEAPON_WINDDOWN
 } weapon_state_t;
 
 typedef struct weapon_s {
     sfTexture *texture;
+    sfTexture *alt_texture;
     sfSprite *sprite;
     sfIntRect rec;
     sfVector2f scale;
+    sfVector2f position;
     int total_frames;
+    int alt_total_frames;
     int frame_width;
     int frame_height;
     char *name;
@@ -238,13 +245,23 @@ typedef struct weapon_s {
     int damage;
     weapon_state_t state;
     int current_frame;
+    int ammo;
+    int ammo_capacity;
+    float fire_rate;
+    float windup_timer;
+    float windup_time;
+    bool is_trigger_held;
+    weapon_type_t type;
+    void (*update_behavior)(struct weapon_s *, struct frame_s *, float);
 } weapon_t;
 
 typedef struct hud_s {
     img_t *life;
     text_t *life_text;
     minimap_t *minimap;
-    weapon_t *weapon;
+    weapon_t **weapon;
+    int nb_weapons;
+    int selected_weapon;
 } hud_t;
 
 typedef struct wall_render_params_s {
