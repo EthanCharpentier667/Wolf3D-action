@@ -57,7 +57,7 @@ float cast_single_ray(float ray_angle, frame_t *frame)
     float corrected_dist = 0;
     int obstacle = 0;
 
-    while (ray_length < 1000) {
+    while (ray_length < MAX_RAY_LENGTH) {
         ray_pos.x += ray_dir.x * ray_step;
         ray_pos.y += ray_dir.y * ray_step;
         obstacle = is_osbtacle(frame, ray_pos.x, ray_pos.y);

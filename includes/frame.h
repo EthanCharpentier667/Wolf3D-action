@@ -497,7 +497,7 @@ typedef struct frame_s {
 
     #define PLAYER frame->game->player
     #define TILE_SIZE 64
-    #define MAX_RAY_LENGTH 400.0f
+    #define MAX_RAY_LENGTH 1500.0f
     #define MAP_WIDTH 16
     #define MAP_HEIGHT 16
 
@@ -561,6 +561,8 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
     #define L_VW_Y (map_p_y + dir_y * radius - dir_x * radius * 0.5f)
     #define R_VW_X (map_p_x + dir_x * radius - dir_y * radius * 0.5f)
     #define R_VW_Y (map_p_y + dir_y * radius + dir_x * radius * 0.5f)
+
+    #define SPRINT_MOD 1.8f
 
 
 //CREATION
