@@ -73,7 +73,7 @@ static void handle_attack(frame_t *frame, enemy_t *enemy)
     if (length >= enemy->attack_range) {
         enemy->is_attacking = false;
         return;
-    } else if (length < 75) {
+    } else if (length < enemy->attack_range) {
         animate_attack(frame, enemy);
         enemy->is_attacking = true;
         enemy->is_moving = false;
