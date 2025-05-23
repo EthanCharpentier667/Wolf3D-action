@@ -41,14 +41,20 @@ static void update_weapon_visual(weapon_t *weapon)
 
 void handle_weapon_input(frame_t *frame)
 {
-    if (sfKeyboard_isKeyPressed(sfKeyC)) {
+    if (sfKeyboard_isKeyPressed(sfKeyNum1)) {
         switch_weapon(frame, 0);
-    } else if (sfKeyboard_isKeyPressed(sfKeyV)) {
+    } else if (sfKeyboard_isKeyPressed(sfKeyNum2)) {
         switch_weapon(frame, 1);
     }
-    if (sfKeyboard_isKeyPressed(sfKeyR)) {
-        reload_weapon(frame);
+    if (frame->event.type == sfEvtMouseWheelScrolled) {
+        if (frame->event.mouseWheelScroll.delta > 0)
+            switch_weapon(frame, (HUD->selected_weapon + 1) % HUD->nb_weapons);
+        else
+            switch_weapon(frame, (HUD->selected_weapon - 1 + HUD->nb_weapons)
+                % HUD->nb_weapons);
     }
+    if (sfKeyboard_isKeyPressed(sfKeyR))
+        reload_weapon(frame);
 }
 
 void update_weapon(frame_t *frame, float delta_time)

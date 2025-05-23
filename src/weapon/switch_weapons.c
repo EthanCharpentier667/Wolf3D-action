@@ -10,8 +10,11 @@
 void switch_weapon(frame_t *frame, int weapon_index)
 {
     int old_index = 0;
+    weapon_t *current_weapon = HUD->weapon[HUD->selected_weapon];
 
-    if (weapon_index < 0 || weapon_index >= HUD->nb_weapons)
+    if (weapon_index < 0 || weapon_index >= HUD->nb_weapons ||
+        (current_weapon->state == WEAPON_ATTACKING ||
+        current_weapon->state == WEAPON_FIRING))
         return;
     old_index = HUD->selected_weapon;
     if (old_index == weapon_index)

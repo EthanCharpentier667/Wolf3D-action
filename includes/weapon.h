@@ -12,6 +12,13 @@ typedef struct frame_s frame_t;
 typedef struct enemy_s enemy_t;
 typedef struct weapon_s weapon_t;
 
+typedef struct enemy_target_s {
+    float distance;
+    float center_offset;
+    float combined_score;
+    enemy_t *enemy;
+} enemy_target_t;
+
 typedef enum weapon_type {
     WEAPON_TYPE_MELEE,
     WEAPON_TYPE_AUTOMATIC
@@ -28,6 +35,7 @@ typedef struct weapon_infos_s {
     int frame_height;
     char *name;
     float attack_range;
+    float attack_width;
     int damage;
     int ammo_capacity;
     float fire_rate;
