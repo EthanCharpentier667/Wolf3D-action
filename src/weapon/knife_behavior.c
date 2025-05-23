@@ -24,7 +24,7 @@ static void handle_knife_idle(frame_t *frame, weapon_t *weapon)
     if ((sfMouse_isButtonPressed(sfMouseLeft) ||
         sfKeyboard_isKeyPressed(sfKeyL)) &&
         weapon->attack_cooldown <= 0 &&
-        !INVENTORY->is_open) {
+        !PLAYER->pause) {
         weapon->state = WEAPON_ATTACKING;
         weapon->animation_timer = 0;
         weapon->current_frame = 0;

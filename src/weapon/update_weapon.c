@@ -55,7 +55,7 @@ void update_weapon(frame_t *frame, float delta_time)
 {
     weapon_t *weapon = CURRENT_WEAPON;
     bool trigger_pressed = (sfMouse_isButtonPressed(sfMouseLeft) ||
-        sfKeyboard_isKeyPressed(sfKeyL)) && !INVENTORY->is_open;
+        sfKeyboard_isKeyPressed(sfKeyL)) && !PLAYER->pause;
 
     if (!weapon)
         return;
