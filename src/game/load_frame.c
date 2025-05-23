@@ -79,6 +79,7 @@ static bool load_environment_data(frame_t *frame, FILE *file)
     if (fread(env_temp, sizeof(environment_ray_t), frame->game->nb_env, file)
             != (unsigned long) frame->game->nb_env)
         return false;
+    free(env_temp);
     return true;
 }
 
@@ -119,6 +120,15 @@ static bool load_weapons_data(frame_t *frame, FILE *file)
     return true;
 }
 
+static void restore_pointer(frame_t *frame)
+{
+    UI->pause_menu->background = &(frame->img->img[4]);
+    UI->pause_menu->logo = &(frame->img->img[5]);
+    UI->pause_menu->resume = &(BUTTON[11]);
+    UI->pause_menu->settings = &(BUTTON[12]);
+    UI->pause_menu->quit = &(BUTTON[10]);
+}
+
 bool load_frame(frame_t *frame, char *save)
 {
     FILE *file = fopen(save, "r");
@@ -135,6 +145,7 @@ bool load_frame(frame_t *frame, char *save)
         fclose(file);
         return false;
     }
-    frame->save = strdup(save);
+    restore_pointer(frame);
+    fclose(file);
     return true;
 }
