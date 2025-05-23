@@ -21,26 +21,14 @@ emit_t create_emit(unsigned int min_nb, unsigned int max_nb,
 }
 
 bool set_emit(emit_t *buff, obj_info_t rands_infos,
-    obj_info_t randf_info)
+    obj_info_t randf_info, float gravity)
 {
     if (!buff)
         return true;
     buff->rands_info = rands_infos;
     buff->randf_info = randf_info;
+    buff->gravity = gravity;
     return false;
-}
-
-emit_settings_t create_emit_settings(float strength, float sizes,
-    float rot, sfColor color)
-{
-    emit_settings_t emit_s = {0};
-
-    memset(&emit_s, 0, sizeof(emit_settings_t));
-    emit_s.strength = strength;
-    emit_s.sizes = sizes;
-    emit_s.rotation = rot;
-    emit_s.color = color;
-    return emit_s;
 }
 
 static sfColor rand_color_info(sfColor raw_color, sfColor rand_color)
@@ -72,11 +60,11 @@ static void rand_obj_info(obj_info_t *buff, obj_info_t *raw, obj_info_t *rand)
     buff->cframe.left = rand_range(raw->cframe.left - rand->cframe.left / 2,
         raw->cframe.left + rand->cframe.left / 2);
     buff->cframe.top = rand_range(raw->cframe.top - rand->cframe.top / 2,
-        raw->cframe.top + raw->cframe.top / 2);
+        raw->cframe.top + rand->cframe.top / 2);
     buff->cframe.width = rand_range(raw->cframe.width - rand->cframe.width / 2,
-        raw->cframe.width + raw->cframe.width / 2);
+        raw->cframe.width + rand->cframe.width / 2);
     buff->cframe.height = rand_range(raw->cframe.height -
-        raw->cframe.height / 2, raw->cframe.height + raw->cframe.height / 2);
+        raw->cframe.height / 2, raw->cframe.height + rand->cframe.height / 2);
 }
 
 bool play_emit(linked_list_t *vfxs,
@@ -96,6 +84,7 @@ bool play_emit(linked_list_t *vfxs,
             return true;
         vfx = (vfx_t *)elem->data;
         vfx->origin_pos = origin_pos;
+        vfx->gravity = emit->gravity;
     }
     return false;
 }

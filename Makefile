@@ -101,7 +101,10 @@ SRC	=	includes/inititliser.c          \
         $(VFX_DIR)fb_mana.c       \
         $(VFX_DIR)init_vfx.c       \
         $(VFX_DIR)emit.c       \
+        $(VFX_DIR)emit_settings.c       \
         $(VFX_DIR)emit_functions.c       \
+        $(VFX_DIR)tim_vfx.c             \
+        $(VFX_DIR)combat_vfx.c             \
 
 OBJ	=	$(SRC:.c=.o)
 

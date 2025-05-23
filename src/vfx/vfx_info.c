@@ -20,7 +20,7 @@ obj_info_t create_obj_info(sfFloatRect cframe, float angle,
 }
 
 sfFloatRect calculate_vfx_render(player_t *player,
-    sfVector3f vfx_pos, sfFloatRect addon)
+    sfVector3f vfx_pos, sfFloatRect addon, float velocity)
 {
     float dx = vfx_pos.x - player->pos.x;
     float dy = vfx_pos.y - player->pos.y;
@@ -47,7 +47,7 @@ sfFloatRect calculate_vfx_render(player_t *player,
 
     sfFloatRect result;
     result.left = screen_x + addon.left * WINDOWX / forward;
-    result.top = screen_y + addon.top  * WINDOWY / forward;
+    result.top = screen_y + (addon.top + velocity) * WINDOWY / forward;
     result.width = projected_width;
     result.height = projected_height;
 

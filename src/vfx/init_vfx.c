@@ -15,6 +15,10 @@ bool init_vfxs(frame_t *frame)
     err += framebuffer_create("src/assets/logo.png", &vfx_infos->sparkle);
     err += framebuffer_create("src/assets/vfx_assets/smoke.png",
         &vfx_infos->smoke);
+    err += framebuffer_create("src/assets/vfx_assets/droplet.png",
+        &vfx_infos->droplet);
+    err += framebuffer_create("src/assets/vfx_assets/splash.png",
+        &vfx_infos->splash);
     vfx_infos->vfxs = create_lists(NULL, 1);
     err += !vfx_infos->vfxs;
     return !(bool)err;

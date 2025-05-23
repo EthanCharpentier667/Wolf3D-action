@@ -37,6 +37,8 @@ typedef struct {
     obj_info_t s_info;
     obj_info_t f_info;
     sfVector3f origin_pos;
+    float gravity;
+    float velocity;
 } vfx_t;
 
 typedef struct emit_s {
@@ -46,6 +48,7 @@ typedef struct emit_s {
     obj_info_t final_info;
     obj_info_t randf_info;
     obj_info_t rands_info;
+    float gravity;
 } emit_t;
 
 typedef struct emit_settings_s {
@@ -53,11 +56,16 @@ typedef struct emit_settings_s {
     float sizes;
     float rotation;
     sfColor color;
+    float gravity;
+    float lifetime;
+    unsigned int nb;
 } emit_settings_t;
 
 typedef struct {
     framebuffer_t *sparkle;
     framebuffer_t *smoke;
+    framebuffer_t *droplet;
+    framebuffer_t *splash;
     linked_list_t *vfxs;
 } vfxs_infos_t;
 
@@ -76,7 +84,7 @@ bool framebuffer_create(const char *filepath, framebuffer_t **fb);
 obj_info_t create_obj_info(sfFloatRect cframe, float angle,
     sfColor color, float time_stamp);
 sfFloatRect calculate_vfx_render(player_t *player,
-    sfVector3f vfx_pos, sfFloatRect addon);
+    sfVector3f vfx_pos, sfFloatRect addon, float velocity);
 
 bool init_vfxs(frame_t *frame);
 void free_vfx(void *data);
@@ -91,18 +99,22 @@ linked_list_t *create_vfx(linked_list_t *vfxs, framebuffer_t *fb,
 emit_t create_emit(unsigned int min_nb, unsigned int max_nb,
     obj_info_t s_infos, obj_info_t f_infos);
 bool set_emit(emit_t *buff, obj_info_t rands_infos,
-    obj_info_t randf_info);
+    obj_info_t randf_info, float gravity);
 bool play_emit(linked_list_t *vfxs,
     emit_t *emit, framebuffer_t *fb, sfVector3f origin_pos);
 emit_settings_t create_emit_settings(float strength, float sizes,
     float rot, sfColor color);
+void set_emit_settings(emit_settings_t *emit_set,
+    float life_time, unsigned int nb, float gravity);
+
 bool emit_splatter(linked_list_t *vfxs, framebuffer_t *fb,
-    emit_settings_t *emit_s, sfVector3f abs_pos);
-bool emit_slow(linked_list_t *vfxs, framebuffer_t *fb,
-    emit_settings_t *emit_s, sfVector3f abs_pos);
-bool absorb_splatter(linked_list_t *vfxs, framebuffer_t *fb,
-    emit_settings_t *emit_s, sfVector3f abs_pos);
-bool absorb_slow(linked_list_t *vfxs, framebuffer_t *fb,
-    emit_settings_t *emit_s, sfVector3f abs_pos);
+    emit_settings_t *emit_set, sfVector3f abs_pos);
+bool emit_absorb(linked_list_t *vfxs, framebuffer_t *fb,
+    emit_settings_t *emit_set, sfVector3f abs_pos);
+bool emit_grow(linked_list_t *vfxs, framebuffer_t *fb,
+    emit_settings_t *emit_set, sfVector3f abs_pos);
+
+bool vfx_dust_impact(frame_t *frame, sfVector3f abs_pos);
+bool vfx_blood(frame_t *frame, sfVector3f abs_pos);
 
 #endif /* !VFX_H_ */
