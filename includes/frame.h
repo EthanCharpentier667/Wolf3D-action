@@ -254,6 +254,7 @@ typedef struct weapon_s {
     float animation_timer;
     float attack_cooldown;
     float attack_range;
+    float attack_width;
     int damage;
     weapon_state_t state;
     int current_frame;
