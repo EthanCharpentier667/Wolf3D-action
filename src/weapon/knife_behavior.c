@@ -18,7 +18,7 @@ static bool attempt_knife_damage(weapon_t *weapon, frame_t *frame)
     return false;
 }
 
-static void handle_knife_idle(frame_t *frame ,weapon_t *weapon)
+static void handle_knife_idle(frame_t *frame, weapon_t *weapon)
 {
     weapon->current_frame = 0;
     if ((sfMouse_isButtonPressed(sfMouseLeft) ||

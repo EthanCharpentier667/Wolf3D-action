@@ -492,6 +492,7 @@ typedef struct frame_s {
     #define DOOR_OPENING 2
     #define DOOR_OPEN 1
     #define DOOR_CLOSING 3
+    #define WINDOW_CLOSED 5
 
     #define WINDOW frame->window
 
@@ -696,7 +697,9 @@ int get_item_index(char *name);
 void drop_item_at_pos(frame_t *frame, int item_index, sfVector2f pos);
 int add_ammo(frame_t *frame, int ammo);
 int add_life(frame_t *frame, int life);
+void delete_used_item(frame_t *frame, int item_index);
 
+//HUD
 void draw_hud(frame_t *frame);
 
 //PLAYER
