@@ -42,7 +42,7 @@ void update_machinegun_behavior(weapon_t *weapon,
     frame_t *frame, float delta_time);
 void draw_weapon(frame_t *frame);
 enemy_t *find_enemy_in_range(frame_t *frame);
-void damage_enemy(frame_t *frame, enemy_t *enemy, int damage);
+void damage_enemy(enemy_t *enemy, int damage);
 float normalize_weapon_angle(float angle);
 void switch_weapon(frame_t *frame, int weapon_index);
 void reload_weapon(frame_t *frame);

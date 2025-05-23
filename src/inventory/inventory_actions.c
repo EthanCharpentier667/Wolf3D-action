@@ -45,18 +45,16 @@ void use_item(frame_t *frame, int item_index)
     if (item_index < 0 || item_index >= INVENTORY->nb_items)
         return;
     if (strcmp(INVENTORY->items[item_index].name, "Heal") == 0) {
-        PLAYER->life += 20;
-        if (PLAYER->life > PLAYER->max_life)
-            PLAYER->life = PLAYER->max_life;
+        if (add_life(frame, 20))
+            return;
+        delete_used_item(frame, item_index);
+        return;
     }
-    INVENTORY->item_coun[item_index]--;
-    if (INVENTORY->item_coun[item_index] <= 0) {
-        for (int i = item_index; i < INVENTORY->nb_items - 1; i++) {
-            INVENTORY->items[i] = INVENTORY->items[i + 1];
-            INVENTORY->item_coun[i] = INVENTORY->item_coun[i + 1];
-        }
-        INVENTORY->nb_items--;
-        INVENTORY->selected_item = -1;
+    if (strcmp(INVENTORY->items[item_index].name, "Ammo_box") == 0) {
+        if (add_ammo(frame, 40))
+            return;
+        delete_used_item(frame, item_index);
+        return;
     }
 }
 

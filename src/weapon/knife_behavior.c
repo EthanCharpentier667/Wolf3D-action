@@ -12,18 +12,19 @@ static bool attempt_knife_damage(weapon_t *weapon, frame_t *frame)
     enemy_t *target = find_enemy_in_range(frame);
 
     if (target) {
-        damage_enemy(frame, target, weapon->damage);
+        damage_enemy(target, weapon->damage);
         return true;
     }
     return false;
 }
 
-static void handle_knife_idle(weapon_t *weapon)
+static void handle_knife_idle(frame_t *frame, weapon_t *weapon)
 {
     weapon->current_frame = 0;
     if ((sfMouse_isButtonPressed(sfMouseLeft) ||
         sfKeyboard_isKeyPressed(sfKeyL)) &&
-        weapon->attack_cooldown <= 0) {
+        weapon->attack_cooldown <= 0 &&
+        !PLAYER->pause) {
         weapon->state = WEAPON_ATTACKING;
         weapon->animation_timer = 0;
         weapon->current_frame = 0;
@@ -64,7 +65,7 @@ void update_knife_behavior(weapon_t *weapon,
     }
     switch (weapon->state) {
         case WEAPON_IDLE:
-            handle_knife_idle(weapon);
+            handle_knife_idle(frame, weapon);
             break;
         case WEAPON_ATTACKING:
             handle_knife_attacking(weapon, frame, delta_time);

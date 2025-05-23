@@ -97,6 +97,7 @@ SRC	=	includes/inititliser.c          \
         $(INVENTORY_DIR)inventory_actions.c       \
         $(INVENTORY_DIR)handle_button_inventory_event.c       \
         $(INVENTORY_DIR)draw_inv_bg.c       \
+        $(INVENTORY_DIR)inventory_use_item_actions.c       \
         $(ENEMY_DIR)pathfinding.c       \
         $(ENEMY_DIR)update_ennemies.c       \
         $(ENEMY_DIR)damage_player.c       \
