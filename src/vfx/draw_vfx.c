@@ -48,11 +48,17 @@ bool update_vfx(vfx_t *vfx, float delta_time)
 {
     if (update_vfx_info(vfx, delta_time))
         return true;
-    sfSprite_setPosition(vfx->particle, v2f(vfx->info.cframe.left, vfx->info.cframe.top));
-    sfSprite_setScale(vfx->particle, v2f(vfx->info.cframe.width, vfx->info.cframe.height));
+    sfSprite_setPosition(vfx->particle,
+        v2f(vfx->info.cframe.left, vfx->info.cframe.top));
+    sfSprite_setScale(vfx->particle,
+        v2f(vfx->info.cframe.width, vfx->info.cframe.height));
     sfSprite_setColor(vfx->particle, vfx->info.color);
     sfSprite_setRotation(vfx->particle, vfx->info.angle);
-    vfx->velocity += vfx->gravity * delta_time;
+    if (vfx->gravity > 0)
+        vfx->velocity = pow(vfx->gravity, vfx->info.time_stamp * 0.7);
+    else
+        vfx->velocity = pow(vfx->gravity * -1,
+            vfx->info.time_stamp * 0.7) * -1;
     return false;
 }
 
@@ -110,7 +116,7 @@ void draw_vfxs(frame_t *frame, sfRenderWindow *window)
         vfx = (vfx_t *)elem->data;
         if (obstructed_vfx(vfx->origin_pos, vfx->info.cframe, frame))
             continue;
-        temp_rect = calculate_vfx_render(player, vfx->origin_pos,
+       temp_rect = calculate_vfx_render(player, vfx->origin_pos,
             vfx->info.cframe, vfx->velocity);
         tex_size = sfTexture_getSize(sfSprite_getTexture(vfx->particle));
         float scale_x = temp_rect.width  / (float)tex_size.x;

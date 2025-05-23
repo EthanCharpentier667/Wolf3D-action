@@ -19,6 +19,10 @@ bool init_vfxs(frame_t *frame)
         &vfx_infos->droplet);
     err += framebuffer_create("src/assets/vfx_assets/splash.png",
         &vfx_infos->splash);
+    err += framebuffer_create("src/assets/vfx_assets/impact.png",
+        &vfx_infos->impact);
+    err += framebuffer_create("src/assets/vfx_assets/bullet.png",
+        &vfx_infos->bullet);
     vfx_infos->vfxs = create_lists(NULL, 1);
     err += !vfx_infos->vfxs;
     return !(bool)err;

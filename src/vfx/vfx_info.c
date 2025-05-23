@@ -24,24 +24,18 @@ sfFloatRect calculate_vfx_render(player_t *player,
 {
     float dx = vfx_pos.x - player->pos.x;
     float dy = vfx_pos.y - player->pos.y;
-
     float dir_x = cosf(player->angle.x);
     float dir_y = sinf(player->angle.x);
     float right_x = -sinf(player->angle.x);
     float right_y = cosf(player->angle.x);
-
     float forward = dx * dir_x + dy * dir_y;
     float sideways = dx * right_x + dy * right_y;
-
     if (forward < 0.01f)
         forward = 0.01f;
-
     int screen_x = (int)(WINDOWX / 2 + sideways / forward * (WINDOWX / 2) / tanf(FOV / 2));
-
     float projected_height = addon.height * TILE_SIZE * WINDOWY / forward;
     float projected_width  = addon.width  * TILE_SIZE * WINDOWY / forward;
-
-    int screen_y = WINDOWY / 2 - projected_height / 2
+    int screen_y = WINDOWY / 2
         - (vfx_pos.z * TILE_SIZE * WINDOWY) / forward
         + (int)(WINDOWY * tanf(player->angle.y) / 2);
 
@@ -50,6 +44,17 @@ sfFloatRect calculate_vfx_render(player_t *player,
     result.top = screen_y + (addon.top + velocity) * WINDOWY / forward;
     result.width = projected_width;
     result.height = projected_height;
+    return result;
+}
 
+sfVector3f get_front(player_t *player, float range, sfVector3f addon)
+{
+    sfVector3f result = {
+        player->pos.x + cosf(player->angle.x) *
+            cosf(player->angle.y) * range + addon.x,
+        player->pos.y + sinf(player->angle.x) *
+            cosf(player->angle.y) * range + addon.y,
+        (sinf(player->angle.y) * range) / 100 + addon.z
+    };
     return result;
 }

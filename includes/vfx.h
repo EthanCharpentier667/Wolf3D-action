@@ -66,6 +66,8 @@ typedef struct {
     framebuffer_t *smoke;
     framebuffer_t *droplet;
     framebuffer_t *splash;
+    framebuffer_t *impact;
+    framebuffer_t *bullet;
     linked_list_t *vfxs;
 } vfxs_infos_t;
 
@@ -85,6 +87,7 @@ obj_info_t create_obj_info(sfFloatRect cframe, float angle,
     sfColor color, float time_stamp);
 sfFloatRect calculate_vfx_render(player_t *player,
     sfVector3f vfx_pos, sfFloatRect addon, float velocity);
+sfVector3f get_front(player_t *player, float range, sfVector3f addon);
 
 bool init_vfxs(frame_t *frame);
 void free_vfx(void *data);
@@ -113,8 +116,11 @@ bool emit_absorb(linked_list_t *vfxs, framebuffer_t *fb,
     emit_settings_t *emit_set, sfVector3f abs_pos);
 bool emit_grow(linked_list_t *vfxs, framebuffer_t *fb,
     emit_settings_t *emit_set, sfVector3f abs_pos);
+bool emit_burst(linked_list_t *vfxs, framebuffer_t *fb,
+    emit_settings_t *emit_set, sfVector3f abs_pos);
 
 bool vfx_dust_impact(frame_t *frame, sfVector3f abs_pos);
 bool vfx_blood(frame_t *frame, sfVector3f abs_pos);
+bool vfx_bullet_drop(frame_t *frame, sfVector3f abs_pos);
 
 #endif /* !VFX_H_ */
