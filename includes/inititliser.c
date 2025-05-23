@@ -38,6 +38,8 @@ const struct item_infos_s ITEM_INFOS[] = {
 const struct enemy_infos_s ENEMY_INFOS[] = {
     {RES "enemy.png", {2.5, 2.5}, {250, 250, -0.90},
         {0, 0, 65, 65}, 0.5, 100, 150, 10, 1, "key"},
+    {RES "enemy2.png", {2.5, 2.5}, {250, 300, -0.90},
+        {0, 0, 65, 65}, 0.5, 100, 150, 10, 1, "key"},
     {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0, 0, NULL}
 };
 
