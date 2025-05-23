@@ -137,8 +137,7 @@ static void draw_single_item(frame_t *frame, int i,
     draw_item_sprite(frame, i, pos);
     if (INVENTORY->item_buttons[i].hover)
         draw_item_highlight(frame, pos);
-    if (INVENTORY->items[i].name)
-        draw_item_name(frame, i, pos, font);
+    draw_item_name(frame, i, pos, font);
 }
 
 static void draw_inventory_items(frame_t *frame, sfFont *font)

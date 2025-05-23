@@ -35,6 +35,7 @@
 
     #define MAX_SAVES_DISPLAYED 6
     #define MAX_ITEMS 20
+    #define CURRENT_WEAPON (HUD->weapon[HUD->selected_weapon])
 
 typedef struct {
     float dx;
@@ -117,7 +118,8 @@ typedef enum scenes {
     SETTINGS_CONTROLS = 8,
     SETTINGS_RESOLUTION = 16,
     LOADS = 32,
-    END = 64
+    PAUSE = 64,
+    END = 128
 } scenes_t;
 
 typedef enum environment {
@@ -192,12 +194,22 @@ typedef struct settings_s {
     bool keybinding;
 } settings_t;
 
+typedef struct pause_menu_s {
+    img_t *background;
+    img_t *logo;
+    button_t *resume;
+    button_t *settings;
+    button_t *quit;
+} pause_menu_t;
+
 typedef struct ui_s {
     int scene;
+    int last_scene;
     text_t *texts;
     sound_t *sounds;
     musics_t *musics;
     button_t *button;
+    pause_menu_t *pause_menu;
     slider_t *sliders;
     settings_t *settings;
     vfxs_infos_t vfx_infos;
@@ -207,6 +219,7 @@ typedef struct ui_s {
     int nb_sounds;
     int nb_buttons;
     sfVector2f refactor;
+    bool pause;
 } ui_t;
 
 typedef struct minimap_s {
@@ -223,31 +236,48 @@ typedef struct minimap_s {
 typedef enum weapon_state_e {
     WEAPON_IDLE,
     WEAPON_ATTACKING,
-    WEAPON_COOLDOWN
+    WEAPON_COOLDOWN,
+    WEAPON_WINDUP,
+    WEAPON_FIRING,
+    WEAPON_WINDDOWN
 } weapon_state_t;
 
 typedef struct weapon_s {
     sfTexture *texture;
+    sfTexture *alt_texture;
     sfSprite *sprite;
     sfIntRect rec;
     sfVector2f scale;
+    sfVector2f position;
     int total_frames;
+    int alt_total_frames;
     int frame_width;
     int frame_height;
     char *name;
     float animation_timer;
     float attack_cooldown;
     float attack_range;
+    float attack_width;
     int damage;
     weapon_state_t state;
     int current_frame;
+    int ammo;
+    int ammo_capacity;
+    float fire_rate;
+    float windup_timer;
+    float windup_time;
+    bool is_trigger_held;
+    weapon_type_t type;
+    void (*update_behavior)(struct weapon_s *, struct frame_s *, float);
 } weapon_t;
 
 typedef struct hud_s {
     img_t *life;
     text_t *life_text;
     minimap_t *minimap;
-    weapon_t *weapon;
+    weapon_t **weapon;
+    int nb_weapons;
+    int selected_weapon;
 } hud_t;
 
 typedef struct wall_render_params_s {
@@ -317,16 +347,19 @@ typedef struct draw_object_s {
     } data;
 } draw_object_t;
 
+    #define MAXITEM_NAMELENGTH 256
+    #define MAXITEM_DESCRIPTIONLENGTH 512
+
 typedef struct item_s {
     sfVector3f pos;
     sfTexture *texture;
     sfVector2f scale;
     sfIntRect rec;
-    char *name;
+    char name[MAXITEM_NAMELENGTH];
     bool pickable;
     bool useable;
     int id;
-    char *description;
+    char description[MAXITEM_NAMELENGTH];
 } item_t;
 
 typedef struct enemy_s {
@@ -336,6 +369,7 @@ typedef struct enemy_s {
     sfVector2f scale;
     sfVector2f direction;
     sfIntRect rec;
+    char *drop;
     float angle;
     float speed;
     float damages;
@@ -396,6 +430,7 @@ typedef struct player_s {
     float flashlight_range;
     float flashlight_width;
     float flashlight_intensity;
+    bool pause;
 } player_t;
 
 typedef struct environment_ray_s {
@@ -429,6 +464,11 @@ typedef struct game_s {
     #define WINDOWX 800
     #define WINDOWY 600
 
+typedef struct game_infos_s {
+    char name[128];
+    char date[128];
+} game_infos_t;
+
 typedef struct frame_s {
     sfRenderWindow *window;
     sfVector2u window_size;
@@ -442,8 +482,12 @@ typedef struct frame_s {
     game_t *game;
     sfVector2f mouse;
     sfVector2i real_mouse;
+    sfImage *sceenshot;
+    char *save;
+    char *name;
     int **light_map;
     float z_buffer[WINDOWX];
+    bool played;
 } frame_t;
 
     #define FRAME frame
@@ -452,12 +496,13 @@ typedef struct frame_s {
     #define DOOR_OPENING 2
     #define DOOR_OPEN 1
     #define DOOR_CLOSING 3
+    #define WINDOW_CLOSED 5
 
     #define WINDOW frame->window
 
     #define PLAYER frame->game->player
     #define TILE_SIZE 64
-    #define MAX_RAY_LENGTH 400.0f
+    #define MAX_RAY_LENGTH 1500.0f
     #define MAP_WIDTH 16
     #define MAP_HEIGHT 16
 
@@ -521,6 +566,8 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
     #define L_VW_Y (map_p_y + dir_y * radius - dir_x * radius * 0.5f)
     #define R_VW_X (map_p_x + dir_x * radius - dir_y * radius * 0.5f)
     #define R_VW_Y (map_p_y + dir_y * radius + dir_x * radius * 0.5f)
+
+    #define SPRINT_MOD 1.8f
 
 
 //CREATION
@@ -589,6 +636,7 @@ void enable_button(frame_t *frame, int *button_indexes, int nb_buttons);
 sfVector2f get_mouseposition(sfRenderWindow *window);
 
 int scene_manager(frame_t *frame);
+void change_scene(frame_t *frame, int scene);
 //SCENES
 int mainmenu(frame_t *frame);
 int game(frame_t *frame);
@@ -649,7 +697,13 @@ void use_item(frame_t *frame, int item_index);
 void drop_item(frame_t *frame, int item_index);
 void draw_inventory_background(frame_t *frame);
 bool use_item_key(frame_t *frame);
+int get_item_index(char *name);
+void drop_item_at_pos(frame_t *frame, int item_index, sfVector2f pos);
+int add_ammo(frame_t *frame, int ammo);
+int add_life(frame_t *frame, int life);
+void delete_used_item(frame_t *frame, int item_index);
 
+//HUD
 void draw_hud(frame_t *frame);
 
 //PLAYER
@@ -664,11 +718,19 @@ float clamp(float value, float min, float max);
 float rand_range(float min, float max);
 
 //GAME
+bool load_frame(frame_t *frame, char *save);
 int loads_saved_games(frame_t *frame);
 void free_save(saves_t *saves, frame_t *frame);
 
 //KEYBINDS
 sfKeyCode *get_button_keycode(frame_t *frame, int action);
 const char *get_key_name(sfKeyCode key_code);
+
+//LOAD
+bool load_map_data(frame_t *frame, FILE *file);
+bool load_inventory_data(frame_t *frame, FILE *file);
+bool load_objects_data(frame_t *frame, FILE *file);
+bool load_items_data(frame_t *frame, FILE *file);
+bool load_enemies_data(frame_t *frame, FILE *file);
 
 #endif /* !FRAME_H_ */

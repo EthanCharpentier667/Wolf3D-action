@@ -120,6 +120,23 @@ void update_all(frame_t *frame, float delta_time)
     update_vfxs(UI->vfx_infos.vfxs, delta_time);
 }
 
+static void draw_pausemenu(frame_t *frame)
+{
+    if (!UI->pause)
+        return;
+    UI->pause_menu->resume->disabled = false;
+    UI->pause_menu->quit->disabled = false;
+    UI->pause_menu->settings->disabled = false;
+    sfSprite_setColor(UI->pause_menu->background->sprite,
+        sfColor_fromRGBA(0, 0, 0, 150));
+    sfRenderWindow_drawSprite(WINDOW,
+        UI->pause_menu->background->sprite, NULL);
+    sfRenderWindow_drawSprite(WINDOW, UI->pause_menu->logo->sprite, NULL);
+    sfRenderWindow_drawSprite(WINDOW, UI->pause_menu->resume->sprite, NULL);
+    sfRenderWindow_drawSprite(WINDOW, UI->pause_menu->quit->sprite, NULL);
+    sfRenderWindow_drawSprite(WINDOW, UI->pause_menu->settings->sprite, NULL);
+}
+
 int game(frame_t *frame)
 {
     float delta_time = get_delta_time(&(frame->clock[2]));
@@ -135,5 +152,6 @@ int game(frame_t *frame)
     draw_inventory(frame);
     draw_hud(frame);
     update_all(frame, delta_time);
+    draw_pausemenu(frame);
     return 0;
 }

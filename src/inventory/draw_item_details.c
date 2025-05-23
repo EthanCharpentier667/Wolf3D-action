@@ -70,7 +70,7 @@ static void draw_item_description(frame_t *frame, sfVector2f pos,
     sfText *description = sfText_create();
 
     sfText_setFont(description, INVENTORY->font);
-    sfText_setString(description, !item->description
+    sfText_setString(description, item->description[0] == '\0'
         ? "No description available" : item->description);
     sfText_setCharacterSize(description, 16);
     sfText_setColor(description, sfWhite);

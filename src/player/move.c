@@ -44,15 +44,18 @@ static sfVector2f set_walk_pos(frame_t *frame, sfVector2i move,
     sfVector2f res = {0, 0};
     int input_nb = ((bool)move.x + (bool)move.y);
     float angle = player->angle.x;
+    float speed = player->speed;
     sfVector2f pos = player->pos;
     sfVector2i collision = {0, 0};
 
     if (!input_nb)
         return res;
+    if (sfKeyboard_isKeyPressed(sfKeyLShift))
+        speed *= SPRINT_MOD;
     res.x = (cos(angle) * move.x + sin(angle) * move.y);
-    res.x *= player->speed * player->delta_time;
+    res.x *= speed * player->delta_time;
     res.y = (sin(angle) * move.x + cos(angle) * -1 * move.y);
-    res.y *= player->speed * player->delta_time;
+    res.y *= speed * player->delta_time;
     collision = check_collisions(frame, v2f(pos.x + res.x, pos.y + res.y),
         player->pos, player->size);
     res.x *= !collision.x;
@@ -77,6 +80,8 @@ static void move_player(frame_t *frame, player_t *player)
 void update_player(player_t *player, clocks_t *clock, frame_t *frame)
 {
     player->delta_time = get_delta_time(clock);
+    if (player->pause)
+        return;
     move_player(frame, player);
     rotate_player(player, frame);
 }

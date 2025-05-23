@@ -74,6 +74,8 @@ SRC	=	includes/inititliser.c          \
         $(RAYCAST_DIR)fixed_object.c             \
         $(PLAYER_DIR)move.c                     \
         $(PLAYER_DIR)cam.c                      \
+        $(ACTION_DIR)change_scene.c                  \
+        $(ACTION_DIR)save.c                  \
         $(ACTION_DIR)play.c                     \
         $(ACTION_DIR)settings.c                   \
         $(ACTION_DIR)quit.c                  \
@@ -82,6 +84,12 @@ SRC	=	includes/inititliser.c          \
         $(ACTION_DIR)keybinds.c                      \
         $(COMMON_DIR)math.c                     \
         $(GAME_DIR)load.c       \
+        $(GAME_DIR)load_frame.c       \
+        $(GAME_DIR)load_map_data.c       \
+        $(GAME_DIR)load_inventory_data.c       \
+        $(GAME_DIR)load_objects_data.c       \
+        $(GAME_DIR)load_items_data.c       \
+        $(GAME_DIR)load_enemies_data.c       \
         $(INVENTORY_DIR)init_inventory.c       \
         $(INVENTORY_DIR)inventory.c       \
         $(INVENTORY_DIR)draw_inventory.c       \
@@ -89,6 +97,7 @@ SRC	=	includes/inititliser.c          \
         $(INVENTORY_DIR)inventory_actions.c       \
         $(INVENTORY_DIR)handle_button_inventory_event.c       \
         $(INVENTORY_DIR)draw_inv_bg.c       \
+        $(INVENTORY_DIR)inventory_use_item_actions.c       \
         $(ENEMY_DIR)pathfinding.c       \
         $(ENEMY_DIR)update_ennemies.c       \
         $(ENEMY_DIR)damage_player.c       \
@@ -105,6 +114,10 @@ SRC	=	includes/inititliser.c          \
         $(VFX_DIR)emit_functions.c       \
         $(VFX_DIR)tim_vfx.c             \
         $(VFX_DIR)combat_vfx.c             \
+        $(WEAPON_DIR)knife_behavior.c       \
+        $(WEAPON_DIR)machine_gun.c       \
+        $(WEAPON_DIR)reload_weapons.c       \
+        $(WEAPON_DIR)switch_weapons.c       \
 
 OBJ	=	$(SRC:.c=.o)
 

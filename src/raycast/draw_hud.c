@@ -43,11 +43,36 @@ void draw_minimap(frame_t *frame)
     sfRenderWindow_drawConvexShape(WINDOW, minimap->direction, NULL);
 }
 
+void draw_ammo(frame_t *frame, weapon_t *weapon)
+{
+    sfText *ammo_text = sfText_create();
+    sfFont *font = sfFont_createFromFile(RES "contm.ttf");
+    char ammo_str[32];
+
+    if (weapon->ammo_capacity > 0) {
+        if (ammo_text && font) {
+            sprintf(ammo_str, "AMMO: %d/%d",
+                weapon->ammo, weapon->ammo_capacity);
+            sfText_setFont(ammo_text, font);
+            sfText_setCharacterSize(ammo_text, 24);
+            sfText_setPosition(ammo_text, (sfVector2f){10, WINDOWY - 40});
+            sfText_setString(ammo_text, ammo_str);
+            sfText_setColor(ammo_text, sfWhite);
+            sfRenderWindow_drawText(WINDOW, ammo_text, NULL);
+            sfText_destroy(ammo_text);
+            sfFont_destroy(font);
+        }
+    }
+}
+
 void draw_weapon(frame_t *frame)
 {
-    weapon_t *weapon = HUD->weapon;
+    weapon_t *weapon = CURRENT_WEAPON;
 
+    if (!weapon)
+        return;
     sfRenderWindow_drawSprite(WINDOW, weapon->sprite, NULL);
+    draw_ammo(frame, weapon);
 }
 
 void draw_hud(frame_t *frame)

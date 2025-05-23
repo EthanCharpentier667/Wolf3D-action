@@ -35,20 +35,21 @@ static void buttons_effect_hover_event(button_t *button)
         sfSprite_setTexture(button->sprite, button->texture[0], sfTrue);
 }
 
-static int click_action(frame_t *frame, button_t *button)
+static int click_action(frame_t *frame, button_t *button, int index)
 {
+    if (BUTTON[index].action == SAVES_LIST)
+            return load_save_callback(frame, index);
     for (int i = 0; i < frame->ui->nb_buttons; i++) {
         if (button->action < 0)
             return set_keybinds(frame, button->action);
         if (button->action == BUTTON_INFOS[i].action)
             return BUTTON_INFOS[i].func(frame);
-        if (button->action == SAVES_LIST)
-            return load_save_callback(frame, i);
     }
     return 0;
 }
 
-static int button_click_event(sfEvent *event, frame_t *frame, button_t *button)
+static int button_click_event(sfEvent *event, frame_t *frame,
+    button_t *button, int i)
 {
     if (event->type == sfEvtMouseButtonPressed
         && event->mouseButton.button == sfMouseLeft) {
@@ -59,7 +60,7 @@ static int button_click_event(sfEvent *event, frame_t *frame, button_t *button)
         button->hover = false;
         button->clicked = true;
         sfSound_play(frame->ui->sounds[1].sound);
-        return click_action(frame, button);
+        return click_action(frame, button, i);
     }
     return 0;
 }
@@ -109,7 +110,7 @@ void buttons_event(sfEvent *event, frame_t *frame)
         if (sfFloatRect_contains(&rect, frame->mouse.x, frame->mouse.y)) {
             play_hoversound(frame, i);
             frame->ui->button[i].hover = true;
-            button_click_event(event, frame, &frame->ui->button[i]);
+            button_click_event(event, frame, &frame->ui->button[i], i);
         } else {
             frame->ui->button[i].hover = false;
         }

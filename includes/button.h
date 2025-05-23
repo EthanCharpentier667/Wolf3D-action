@@ -36,10 +36,12 @@ enum buttons_actions {
     BSETTINGS_RESOLUTION,
     ADD_RESOLUTION,
     SUB_RESOLUTION,
-    BACK_TO_MAINMENU,
+    BACK,
     QUIT,
     LOAD,
     SAVE,
+    RESUME,
+    QUIT_GAME,
     AITEM,
     SAVES_LIST,
 };
@@ -55,14 +57,17 @@ struct button_infos_s {
 
 int do_play(frame_t *frame);
 int do_settings(frame_t *frame);
-int do_mainmenu(frame_t *frame);
+int do_goback(frame_t *frame);
+int do_game_quit(frame_t *frame);
 int do_mm_quit(frame_t *frame);
+int do_resume(frame_t *frame);
 int do_load(frame_t *frame);
 //int do_save(frame_t *frame);
 int do_settings_control(frame_t *frame);
 int do_settings_video(frame_t *frame);
 int do_add_resolution(frame_t *frame);
 int do_sub_resolution(frame_t *frame);
+int do_save(frame_t *frame);
 
 //SPECIAL - SAVES
 int load_save_callback(frame_t *frame, int button_index);

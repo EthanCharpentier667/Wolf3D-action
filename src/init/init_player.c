@@ -39,5 +39,7 @@ bool init_player(frame_t *frame)
     PLAYER->flashlight_intensity = 1.0f;
     PLAYER->life = 100;
     PLAYER->max_life = 100;
+    PLAYER->delta_time = 0;
+    PLAYER->pause = false;
     return true;
 }

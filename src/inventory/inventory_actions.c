@@ -45,19 +45,41 @@ void use_item(frame_t *frame, int item_index)
     if (item_index < 0 || item_index >= INVENTORY->nb_items)
         return;
     if (strcmp(INVENTORY->items[item_index].name, "Heal") == 0) {
-        PLAYER->life += 20;
-        if (PLAYER->life > PLAYER->max_life)
-            PLAYER->life = PLAYER->max_life;
+        if (add_life(frame, 20))
+            return;
+        delete_used_item(frame, item_index);
+        return;
     }
-    INVENTORY->item_coun[item_index]--;
-    if (INVENTORY->item_coun[item_index] <= 0) {
-        for (int i = item_index; i < INVENTORY->nb_items - 1; i++) {
-            INVENTORY->items[i] = INVENTORY->items[i + 1];
-            INVENTORY->item_coun[i] = INVENTORY->item_coun[i + 1];
-        }
-        INVENTORY->nb_items--;
-        INVENTORY->selected_item = -1;
+    if (strcmp(INVENTORY->items[item_index].name, "Ammo_box") == 0) {
+        if (add_ammo(frame, 40))
+            return;
+        delete_used_item(frame, item_index);
+        return;
     }
+}
+
+void drop_item_at_pos(frame_t *frame, int item_index, sfVector2f pos)
+{
+    if (create_item(frame, ITEM_INFOS[item_index].path,
+        ITEM_INFOS[item_index].scale,
+        v3f(pos.x, pos.y, ITEM_INFOS[item_index].pos.z)) == 84)
+        return;
+    ITEM[NBITEMS - 1].rec = ITEM_INFOS[item_index].rec;
+    strcpy(ITEM[NBITEMS - 1].name, ITEM_INFOS[item_index].name);
+    ITEM[NBITEMS - 1].pickable = ITEM_INFOS[item_index].pickable;
+    ITEM[NBITEMS - 1].useable = ITEM_INFOS[item_index].useable;
+    strcpy(ITEM[NBITEMS - 1].description, ITEM_INFOS[item_index].description);
+}
+
+int get_item_index(char *name)
+{
+    if (name == NULL)
+        return -1;
+    for (int i = 0; ITEM_INFOS[i].path; i++) {
+        if (strcmp(ITEM_INFOS[i].name, name) == 0)
+            return i;
+    }
+    return -1;
 }
 
 bool use_item_key(frame_t *frame)
@@ -65,7 +87,7 @@ bool use_item_key(frame_t *frame)
     int index = -1;
 
     for (int i = 0; i < INVENTORY->nb_items; i++) {
-        if (strcmp(INVENTORY->items[i].name, "key") == 0) {
+        if (strcmp(INVENTORY->items[i].name, "Key") == 0) {
             index = i;
             break;
         }
