@@ -43,4 +43,3 @@ void delete_used_item(frame_t *frame, int item_index)
         INVENTORY->selected_item = -1;
     }
 }
-
