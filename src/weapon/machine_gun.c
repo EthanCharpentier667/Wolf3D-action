@@ -13,7 +13,7 @@ static bool attempt_machinegun_damage(weapon_t *weapon, frame_t *frame)
 
     weapon->ammo--;
     if (target) {
-        damage_enemy(frame, target, weapon->damage);
+        damage_enemy(target, weapon->damage);
         return true;
     }
     return false;

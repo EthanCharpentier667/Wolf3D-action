@@ -694,6 +694,8 @@ void draw_inventory_background(frame_t *frame);
 bool use_item_key(frame_t *frame);
 int get_item_index(char *name);
 void drop_item_at_pos(frame_t *frame, int item_index, sfVector2f pos);
+int add_ammo(frame_t *frame, int ammo);
+int add_life(frame_t *frame, int life);
 
 void draw_hud(frame_t *frame);
 

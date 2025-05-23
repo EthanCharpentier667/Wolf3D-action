@@ -27,6 +27,9 @@ const struct item_infos_s ITEM_INFOS[] = {
         {-1, -1, -1, -1}, "Key", true, false, "The Key Of The Door"},
     {RES "heal.png", {0.4, 0.4}, {450, 300, -0.50},
         {-1, -1, -1, -1}, "Heal", true, true, "Heal of 20 HP"},
+    {RES "ammo_box.png", { 0.5, 0.5}, {450, 350, -0.50},
+        {-1, -1, -1, -1}, "Ammo_box", true, true,
+        "Take your weapon in hand\nand use it for 40 ammo"},
     {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, "", false, false, ""},
 };
 
