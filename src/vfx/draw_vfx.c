@@ -106,19 +106,19 @@ static vfx_screen_bounds_t get_vfx_screen_bounds(sfVector3f pos,
     float sideways = view.sideways;
     int base_screen_x = 0;
     float projected_width = 0;
-    int left_screen_x = 0;
-    int right_screen_x = 0;
+    int l_screen_x = 0;
+    int r_screen_x = 0;
 
     if (forward < 0.01f)
         forward = 0.01f;
     base_screen_x = (int)(WINDOWX / 2 + sideways /
         forward * (WINDOWX / 2) / tanf(FOV / 2));
-    projected_width = addon.width / 2 *
+    projected_width = addon.width / 8 *
         TILE_SIZE * WINDOWY / forward;
-    left_screen_x = (int)(base_screen_x +
+    l_screen_x = (int)(base_screen_x +
         addon.left / 2 * WINDOWX / forward);
-    right_screen_x = (int)(left_screen_x + projected_width);
-    bounds = (vfx_screen_bounds_t){left_screen_x, right_screen_x, forward};
+    r_screen_x = (int)(l_screen_x + projected_width);
+    bounds = (vfx_screen_bounds_t){l_screen_x, r_screen_x, forward};
     return bounds;
 }
 

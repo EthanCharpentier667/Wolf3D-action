@@ -14,7 +14,7 @@ float get_wall_impact(sfVector3f *buff, frame_t *frame, float range)
     float forward = verti_dist;
     sfVector2f dir = {cosf(PLAYER->angle.x), sinf(PLAYER->angle.x)};
 
-    forward = (verti_dist > hori_dist ? hori_dist : forward) - 10;
+    forward = (verti_dist > hori_dist ? hori_dist : forward) - 25;
     if (forward <= 0.0f || forward >= range)
         return -1;
     buff->x = PLAYER->pos.x + dir.x * forward;
@@ -35,6 +35,6 @@ void impact_wall(frame_t *frame, float range)
     pos.x = rand_range(pos.x - rand, pos.x + rand);
     pos.y = rand_range(pos.y - rand, pos.y + rand);
     pos.z = rand_range(pos.z - rand / 100, pos.z + rand / 100);
-    //vfx_dust_impact(frame, pos);
+    vfx_dust_impact(frame, pos);
     vfx_explosion(frame, pos);
 }
