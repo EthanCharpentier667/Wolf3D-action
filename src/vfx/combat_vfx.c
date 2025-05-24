@@ -47,3 +47,38 @@ bool vfx_bullet_drop(frame_t *frame, sfVector3f abs_pos)
         &emit_set, abs_pos);
     return (bool)err;
 }
+
+static bool emit_splatter_color(linked_list_t *vfxs, framebuffer_t *fb,
+    emit_settings_t *emit_set, sfVector3f abs_pos)
+{
+    sfColor trans = {70, 0, 0, 0};
+    obj_info_t temps_info = create_obj_info(frct(0, 0, 0,
+        0), 0.0, emit_set->color, 0.0);
+    obj_info_t tempf_info = create_obj_info(frct(0, 0, emit_set->sizes,
+        emit_set->sizes), 0.0, trans, emit_set->lifetime);
+    emit_t emit = create_emit(emit_set->nb,
+        emit_set->nb + emit_set->nb / 2.5, temps_info, tempf_info);
+
+    temps_info = create_obj_info(frct(0, 0, 0,
+        0), emit_set->rotation,
+        sfColor_fromRGBA(30, 30, 30, 0), 0.0);
+    tempf_info = temps_info;
+    tempf_info.time_stamp = emit_set->lifetime / 3 + 0.1;
+    tempf_info.cframe = frct(emit_set->strength, emit_set->strength,
+        0, 0);
+    set_emit(&emit, temps_info, tempf_info, emit_set->gravity);
+    return play_emit(vfxs, &emit, fb, abs_pos);
+}
+
+bool vfx_explosion(frame_t *frame, sfVector3f abs_pos)
+{
+    emit_settings_t emit_set = {0};
+    unsigned int err = 0;
+
+    emit_set = create_emit_settings(100, 1.0, 160.0,
+        sfColor_fromRGBA(255, 140, 30, 255));
+    set_emit_settings(&emit_set, 5, 6, 0);
+    err += emit_splatter_color(UI->vfx_infos.vfxs,
+        UI->vfx_infos.fireball, &emit_set, abs_pos);
+    return (bool)err;
+}

@@ -67,7 +67,6 @@ void update_vfxs(linked_list_t *vfxs, float delta_time)
     linked_list_t *current = vfxs->next;
     linked_list_t *next = NULL;
     vfx_t *temp_vfx = NULL;
-    sfSprite *sprite = NULL;
 
     while (current && current->id > 0) {
         next = current->next;
