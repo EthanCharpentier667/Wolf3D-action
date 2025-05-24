@@ -10,6 +10,8 @@
 
     #include <SFML/Graphics.h>
     #include <SFML/Audio.h>
+    #include <SFML/System.h>
+    #include <SFML/Config.h>
     #include <stdio.h>
     #include <SFML/Window.h>
     #include <stdlib.h>
@@ -569,7 +571,6 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
     #define R_VW_Y (map_p_y + dir_y * radius + dir_x * radius * 0.5f)
 
     #define SPRINT_MOD 1.8f
-
 
 //CREATION
 int create_clock(frame_t *frame, int nb);
