@@ -68,6 +68,7 @@ typedef struct {
     framebuffer_t *splash;
     framebuffer_t *impact;
     framebuffer_t *bullet;
+    framebuffer_t *star;
     linked_list_t *vfxs;
 } vfxs_infos_t;
 
@@ -127,6 +128,8 @@ bool emit_absorb(linked_list_t *vfxs, framebuffer_t *fb,
 bool emit_grow(linked_list_t *vfxs, framebuffer_t *fb,
     emit_settings_t *emit_set, sfVector3f abs_pos);
 bool emit_burst(linked_list_t *vfxs, framebuffer_t *fb,
+    emit_settings_t *emit_set, sfVector3f abs_pos);
+bool emit_shrink(linked_list_t *vfxs, framebuffer_t *fb,
     emit_settings_t *emit_set, sfVector3f abs_pos);
 
 bool vfx_dust_impact(frame_t *frame, sfVector3f abs_pos);

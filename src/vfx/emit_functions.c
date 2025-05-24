@@ -100,3 +100,26 @@ bool emit_burst(linked_list_t *vfxs, framebuffer_t *fb,
     set_emit(&emit, temps_info, tempf_info, emit_set->gravity);
     return play_emit(vfxs, &emit, fb, abs_pos);
 }
+
+bool emit_shrink(linked_list_t *vfxs, framebuffer_t *fb,
+    emit_settings_t *emit_set, sfVector3f abs_pos)
+{
+    float angle = rand_range(0, emit_set->rotation);
+    sfColor trans = sfColor_fromRGBA(emit_set->color.r,
+        emit_set->color.g, emit_set->color.b, 0);
+    obj_info_t tempf_info = create_obj_info(frct(0, 0, 0,
+        0), angle, emit_set->color, emit_set->lifetime);
+    obj_info_t temps_info = create_obj_info(frct(0, 0, emit_set->sizes,
+        emit_set->sizes), angle, trans, 0.0);
+    emit_t emit = create_emit(emit_set->nb,
+        emit_set->nb + emit_set->nb / 2.5, temps_info, tempf_info);
+
+    tempf_info = create_obj_info(frct(0, 0, 0, 0
+        ), 0, sfColor_fromRGBA(30, 30, 30, 0), emit_set->lifetime / 3 + 0.1);
+    temps_info = tempf_info;
+    temps_info.time_stamp = 0.0;
+    temps_info.cframe = frct(emit_set->strength, emit_set->strength,
+        emit_set->sizes / 5, emit_set->sizes / 5);
+    set_emit(&emit, temps_info, tempf_info, emit_set->gravity);
+    return play_emit(vfxs, &emit, fb, abs_pos);
+}

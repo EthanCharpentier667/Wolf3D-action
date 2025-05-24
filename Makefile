@@ -112,7 +112,7 @@ SRC	=	includes/inititliser.c          \
         $(VFX_DIR)emit.c       \
         $(VFX_DIR)emit_settings.c       \
         $(VFX_DIR)emit_functions.c       \
-        $(VFX_DIR)tim_vfx.c             \
+        $(VFX_DIR)special_vfx.c             \
         $(VFX_DIR)combat_vfx.c             \
         $(WEAPON_DIR)knife_behavior.c       \
         $(WEAPON_DIR)machine_gun.c       \

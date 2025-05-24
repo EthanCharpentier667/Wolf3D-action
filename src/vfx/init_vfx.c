@@ -23,6 +23,8 @@ bool init_vfxs(frame_t *frame)
         &vfx_infos->impact);
     err += framebuffer_create("src/assets/vfx_assets/bullet.png",
         &vfx_infos->bullet);
+    err += framebuffer_create("src/assets/vfx_assets/4star.png",
+        &vfx_infos->star);
     vfx_infos->vfxs = create_lists(NULL, 1);
     err += !vfx_infos->vfxs;
     return !(bool)err;

@@ -140,7 +140,6 @@ void draw_pausemenu(frame_t *frame)
 int game(frame_t *frame)
 {
     static int nb = 0;
-
     float delta_time = get_delta_time(&(frame->clock[2]));
 
     sfRenderWindow_clear(WINDOW, sfBlack);
