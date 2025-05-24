@@ -112,7 +112,15 @@ void draw_objects_by_distance(frame_t *frame)
     free(objects);
 }
 
-static void draw_pausemenu(frame_t *frame)
+void update_all(frame_t *frame, float delta_time)
+{
+    update_enemies(frame);
+    update_weapon(frame, delta_time);
+    update_doors(frame);
+    update_vfxs(UI->vfx_infos.vfxs, delta_time);
+}
+
+void draw_pausemenu(frame_t *frame)
 {
     if (!UI->pause)
         return;
@@ -138,14 +146,13 @@ int game(frame_t *frame)
     applied(frame->img);
     update_player(PLAYER, &(frame->clock[1]), frame);
     calculate_player_lighting(frame);
-    update_weapon(frame, delta_time);
     cast_floor_ceiling_rays(frame);
     cast_all_rays(frame);
     draw_objects_by_distance(frame);
-    draw_inventory(frame);
-    update_enemies(frame);
+    draw_vfxs(frame, frame->window);
     draw_hud(frame);
-    update_doors(frame);
+    draw_inventory(frame);
     draw_pausemenu(frame);
+    update_all(frame, delta_time);
     return 0;
 }

@@ -20,6 +20,7 @@
     #include <sys/stat.h>
     #include <string.h>
     #include <unistd.h>
+    #include <time.h>
     #include "button.h"
     #include "images.h"
     #include "texts.h"
@@ -32,6 +33,7 @@
     #include "weapon.h"
     #include "keyname.h"
     #include "fixed_object.h"
+    #include "vfx.h"
 
     #define MAX_SAVES_DISPLAYED 6
     #define MAX_ITEMS 20
@@ -212,6 +214,7 @@ typedef struct ui_s {
     pause_menu_t *pause_menu;
     slider_t *sliders;
     settings_t *settings;
+    vfxs_infos_t vfx_infos;
     int nb_sliders;
     int nb_texts;
     int nb_musics;
@@ -486,6 +489,7 @@ typedef struct frame_s {
     char *name;
     int **light_map;
     float z_buffer[WINDOWX];
+    float hori_buffer[WINDOWY];
     bool played;
 } frame_t;
 
@@ -650,6 +654,7 @@ void render_wall_column(sfRenderWindow *window, int column,
     float wall_height, sfColor color);
 void cast_all_rays(frame_t *frame);
 void render_wall_column_textured(frame_t *frame, wall_render_params_t prms);
+float get_wall_impact(sfVector3f *buff, frame_t *frame, float range);
 
 //FLASHLIGHT
 bool init_flashlight(frame_t *frame);
@@ -677,6 +682,7 @@ void draw_3d_text(frame_t *frame, sfVector3f pos,
 
 void render_fixed_object(frame_t *frame, fixed_object_t *object);
 void draw_all_fixed_objects(frame_t *frame);
+void draw_pausemenu(frame_t *frame);
 
 //ENEMIES
 void draw_enemy(frame_t *frame, int index);
@@ -713,6 +719,7 @@ void damage_player(frame_t *frame, enemy_t *enemy, int damage);
 //MATH
 float lerp(float a, float b, float mult);
 float clamp(float value, float min, float max);
+float rand_range(float min, float max);
 
 //GAME
 bool load_frame(frame_t *frame, char *save);

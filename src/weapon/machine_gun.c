@@ -14,7 +14,7 @@ static bool attempt_machinegun_damage(weapon_t *weapon, frame_t *frame)
 
     weapon->ammo--;
     if (target) {
-        damage_enemy(target, weapon->damage);
+        damage_enemy(frame, target, weapon->damage);
         return true;
     }
     return false;
@@ -90,6 +90,7 @@ static void handle_machinegun_firing(weapon_t *weapon,
         weapon->animation_timer = 0;
         weapon->current_frame = (weapon->current_frame + 1) % 2;
         if (weapon->current_frame == 0) {
+            vfx_bullet_drop(frame, get_front(PLAYER, 21, v3f(0, 0, -0.1)));
             attempt_machinegun_damage(weapon, frame);
             handle_out_of_ammo(weapon);
         }

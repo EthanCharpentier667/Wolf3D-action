@@ -29,3 +29,8 @@ float clamp(float value, float min, float max)
     }
     return value;
 }
+
+float rand_range(float min, float max)
+{
+    return min + ((float)rand() / (float)RAND_MAX) * (max - min);
+}

@@ -12,7 +12,7 @@ static bool attempt_knife_damage(weapon_t *weapon, frame_t *frame)
     enemy_t *target = find_enemy_in_range(frame);
 
     if (target) {
-        damage_enemy(target, weapon->damage);
+        damage_enemy(frame, target, weapon->damage);
         return true;
     }
     return false;

@@ -99,6 +99,7 @@ static void update_opening_door(frame_t *frame, fixed_object_t *door,
         map_x = (int)(door->position.x / TILE_SIZE);
         map_y = (int)(door->position.y / TILE_SIZE);
         MAP2D[map_y][map_x] = 0;
+        vfx_unlock(frame, door->position);
     }
     door->rec.left = door->rec.width * door->offset;
 }

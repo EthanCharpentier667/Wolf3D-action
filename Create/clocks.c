@@ -10,7 +10,6 @@
 #include <SFML/Window.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "fb.h"
 #include "frame.h"
 
 int create_clock(frame_t *frame, int nb)

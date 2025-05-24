@@ -91,8 +91,8 @@ bool init_ui(frame_t *frame)
     if (!frame->ui)
         return false;
     if (!init_texts(frame->ui) || !init_buttons(frame)
-        || !init_sliders(frame) || !init_settings(frame) ||
-        !init_pause_menu(frame))
+        || !init_sliders(frame) || !init_settings(frame)
+        || !init_pause_menu(frame) || !init_vfxs(frame))
         return false;
     frame->window_size.x = WINDOWX;
     frame->window_size.y = WINDOWY;
