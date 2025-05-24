@@ -84,6 +84,20 @@ static bool init_hud(frame_t *frame)
     return true;
 }
 
+static void fill_enemy_data(enemy_t *enemy, int i)
+{
+    enemy->can_attack = false;
+    enemy->rec = ENEMY_INFOS[i].rec;
+    enemy->speed = ENEMY_INFOS[i].speed;
+    enemy->life = ENEMY_INFOS[i].life;
+    enemy->max_life = ENEMY_INFOS[i].life;
+    enemy->attack_range = ENEMY_INFOS[i].attack_range;
+    enemy->damages = ENEMY_INFOS[i].damages;
+    enemy->attack_cooldown = ENEMY_INFOS[i].attack_cooldown;
+    enemy->drop = ENEMY_INFOS[i].drop_item;
+    enemy->type = ENEMY_INFOS[i].type;
+}
+
 static bool init_enemies(frame_t *frame)
 {
     int result = 0;
@@ -92,15 +106,7 @@ static bool init_enemies(frame_t *frame)
     for (int i = 0; ENEMY_INFOS[i].path; i++) {
         result += create_enemy(frame, ENEMY_INFOS[i].path,
             ENEMY_INFOS[i].scale, ENEMY_INFOS[i].pos);
-        ENEMY[NBENEMIES - 1].can_attack = false;
-        ENEMY[NBENEMIES - 1].rec = ENEMY_INFOS[i].rec;
-        ENEMY[NBENEMIES - 1].speed = ENEMY_INFOS[i].speed;
-        ENEMY[NBENEMIES - 1].life = ENEMY_INFOS[i].life;
-        ENEMY[NBENEMIES - 1].max_life = ENEMY_INFOS[i].life;
-        ENEMY[NBENEMIES - 1].attack_range = ENEMY_INFOS[i].attack_range;
-        ENEMY[NBENEMIES - 1].damages = ENEMY_INFOS[i].damages;
-        ENEMY[NBENEMIES - 1].attack_cooldown = ENEMY_INFOS[i].attack_cooldown;
-        ENEMY[NBENEMIES - 1].drop = ENEMY_INFOS[i].drop_item;
+        fill_enemy_data(&ENEMY[NBENEMIES - 1], i);
     }
     if (result != 0)
         return false;

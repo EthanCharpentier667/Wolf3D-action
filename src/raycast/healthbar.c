@@ -74,7 +74,7 @@ static void calculate_health_bar_position(frame_t *frame,
     sfVector3f healthbar_pos = {
         ENEMY[(int) enemy_infos.x].pos.x,
         ENEMY[(int) enemy_infos.x].pos.y,
-        ENEMY[(int) enemy_infos.x].pos.z + 1.0f
+        ENEMY[(int) enemy_infos.x].pos.z + enemy_infos.y
     };
 
     calculate_item_position(frame, healthbar_pos,
@@ -92,6 +92,9 @@ void draw_health_bar_3d(frame_t *frame, int index,
 
     if (!render_tex || !health_texture)
         return;
+    enemyheight = 1.0f;
+    if (ENEMY[index].type == HITLER2 || ENEMY[index].type == HITLER)
+        enemyheight = 1.2f;
     calculate_health_bar_position(frame, v2f(index, enemyheight),
         health_texture, &health_data);
     render_item_columns(frame, (sfTexture *)health_texture,

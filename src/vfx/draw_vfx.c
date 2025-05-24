@@ -64,13 +64,22 @@ bool update_vfx(vfx_t *vfx, float delta_time)
 
 void update_vfxs(linked_list_t *vfxs, float delta_time)
 {
+    linked_list_t *current = vfxs->next;
+    linked_list_t *next = NULL;
     vfx_t *temp_vfx = NULL;
+    sfSprite *sprite = NULL;
 
-    for (linked_list_t *elem = vfxs->next; elem->id > 0; elem = elem->next) {
-        temp_vfx = (vfx_t *)elem->data;
-        if (update_vfx(temp_vfx, delta_time)) {
-            sfSprite_destroy(del_element(vfxs, elem));
+    while (current && current->id > 0) {
+        next = current->next;
+        temp_vfx = (vfx_t *)current->data;
+        if (!temp_vfx) {
+            del_element(vfxs, current);
+            current = next;
+            continue;
         }
+        if (update_vfx(temp_vfx, delta_time))
+            sfSprite_destroy(del_element(vfxs, current));
+        current = next;
     }
 }
 

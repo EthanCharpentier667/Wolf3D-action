@@ -49,53 +49,6 @@ static void calculate_enemy_dimensions(item_render_data_t *data,
         (enemypos.z * TILE_SIZE * WINDOWY) / perp_distance;
 }
 
-static int calculate_direction_index(float angle_degrees)
-{
-    if (angle_degrees >= -45 && angle_degrees < 45)
-        return 0;
-    if (angle_degrees >= 45 && angle_degrees < 135)
-        return 3;
-    if ((angle_degrees >= 135 && angle_degrees <= 180) ||
-        (angle_degrees >= -180 && angle_degrees < -135))
-        return 2;
-    if (angle_degrees >= -135 && angle_degrees < -45)
-        return 1;
-    return 0;
-}
-
-static void animate_enemy(frame_t *frame, int index)
-{
-    float game_time = sfTime_asSeconds(
-        sfClock_getElapsedTime(ENEMY[index].clock));
-    int animation_frame = (int)(game_time * 5.0f) % 4;
-
-    if (ENEMY[index].is_moving && !ENEMY[index].is_dead) {
-        ENEMY[index].rec.top = animation_frame * ENEMY[index].rec.height;
-        return;
-    } else if (!ENEMY[index].is_dead)
-        ENEMY[index].rec.top = 0;
-}
-
-static void calcul_angle_to_player(frame_t *frame, int index)
-{
-    sfVector2f distance = {ENEMY[index].pos.x - PLAYER->pos.x,
-        ENEMY[index].pos.y - PLAYER->pos.y};
-    float angle_to_player = atan2f(distance.y, distance.x);
-    float enemy_angle_rad = ENEMY[index].angle * M_PI / 180.0f;
-    float angle = angle_to_player - (enemy_angle_rad + M_PI);
-    float angle_degrees = 0;
-    int direction_index = 0;
-
-    while (angle < - M_PI)
-        angle += 2 * M_PI;
-    while (angle > M_PI)
-        angle -= 2 * M_PI;
-    angle_degrees = angle * 180.0f / M_PI;
-    direction_index = calculate_direction_index(angle_degrees);
-    animate_enemy(frame, index);
-    ENEMY[index].rec.left = direction_index * 2 * ENEMY[index].rec.width;
-}
-
 static void render_enemy_columns(frame_t *frame, int index,
     item_render_data_t *data)
 {
@@ -105,7 +58,6 @@ static void render_enemy_columns(frame_t *frame, int index,
     sfIntRect subrect = {0, 0, 0, 0};
     enemy_t enemy = ENEMY[index];
 
-    calcul_angle_to_player(frame, index);
     for (int x = data->sprite_start_x; x < data->sprite_end_x; x++) {
         if (x < 0 || x >= WINDOWX || data->distance >= frame->z_buffer[x])
             continue;

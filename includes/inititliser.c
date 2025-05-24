@@ -36,11 +36,13 @@ const struct item_infos_s ITEM_INFOS[] = {
 // PATH ; SCALE ; POSITION ; REC ; SPEED ; LIFE ;
 // ATTACK_RANGE; DAMAGE ; COOLDOWN ; DROP (name of item or NULL if no drops)
 const struct enemy_infos_s ENEMY_INFOS[] = {
-    {RES "enemy.png", {2.5, 2.5}, {250, 250, -0.90},
-        {0, 0, 65, 65}, 0.5, 100, 150, 10, 1, "key"},
+    /*{RES "enemy.png", {2.5, 2.5}, {250, 250, -0.90},
+        {0, 0, 65, 65}, 0.5, 100, 150, 10, 1, NULL, BASIC},
     {RES "enemy2.png", {2.5, 2.5}, {250, 300, -0.90},
-        {0, 0, 65, 65}, 0.5, 100, 150, 10, 1, "key"},
-    {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0, 0, NULL}
+        {0, 0, 65, 65}, 0.5, 100, 150, 10, 1, "Key", BASIC},*/
+    {RES "Hitler1.png", {2.5, 2.5}, {250, 350, -0.90},
+        {0, 0, 74, 72}, 0.5, 400, 100, 20, 0.5f, NULL, HITLER},
+    {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0, 0, NULL, 0}
 };
 
 // TYPE ; SCALE & POSITION ; REC ; PATH

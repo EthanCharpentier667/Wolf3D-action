@@ -17,5 +17,6 @@ int create_clock(frame_t *frame, int nb)
     CLOCK[nb].clock = sfClock_create();
     if (!CLOCK[nb].clock)
         return 84;
+    CLOCK[nb].time = sfClock_getElapsedTime(CLOCK[nb].clock);
     return 0;
 }
