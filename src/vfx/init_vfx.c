@@ -28,8 +28,7 @@ bool init_vfxs(frame_t *frame)
     err += framebuffer_create("src/assets/vfx_assets/unlocked.png",
         &vfx_infos->unlocked);
     vfx_infos->vfxs = create_lists(NULL, 1);
-    err += !vfx_infos->vfxs;
-    return !(bool)err;
+    return !((bool)err + !vfx_infos->vfxs);
 }
 
 void free_vfx(void *data)

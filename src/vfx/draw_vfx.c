@@ -132,6 +132,7 @@ static bool obstructed_vfx(sfVector3f pos, sfFloatRect addon, frame_t *frame)
     }
     return false;
 }
+
 void draw_vfxs(frame_t *frame, sfRenderWindow *window)
 {
     player_t *player = PLAYER;

@@ -139,7 +139,6 @@ void draw_pausemenu(frame_t *frame)
 
 int game(frame_t *frame)
 {
-    static int nb = 0;
     float delta_time = get_delta_time(&(frame->clock[2]));
 
     sfRenderWindow_clear(WINDOW, sfBlack);
@@ -151,17 +150,9 @@ int game(frame_t *frame)
     cast_all_rays(frame);
     draw_objects_by_distance(frame);
     draw_vfxs(frame, frame->window);
-    if (!(nb % 110)) {
-        vfx_dust_impact(frame, v3f(200, 150, -0.1));
-        vfx_blood(frame, v3f(250, 150, -0.1));
-        vfx_grab(frame, v3f(300, 150, -0.1));
-        vfx_unlock(frame, v3f(350, 150, -0.1));
-        //vfx_bullet_drop(frame, get_front(PLAYER, 21, v3f(0, 0, -0.1)));
-    }
     draw_hud(frame);
     draw_inventory(frame);
     draw_pausemenu(frame);
     update_all(frame, delta_time);
-    nb++;
     return 0;
 }
