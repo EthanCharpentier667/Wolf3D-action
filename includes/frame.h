@@ -653,7 +653,7 @@ void render_wall_column(sfRenderWindow *window, int column,
     float wall_height, sfColor color);
 void cast_all_rays(frame_t *frame);
 void render_wall_column_textured(frame_t *frame, wall_render_params_t prms);
-bool get_wall_impact(sfVector3f *buff, frame_t *frame, float range);
+float get_wall_impact(sfVector3f *buff, frame_t *frame, float range);
 
 //FLASHLIGHT
 bool init_flashlight(frame_t *frame);

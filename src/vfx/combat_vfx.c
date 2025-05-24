@@ -36,11 +36,11 @@ bool vfx_bullet_drop(frame_t *frame, sfVector3f abs_pos)
     unsigned int err = 0;
 
     emit_set = create_emit_settings(35, 0.2, 360.0,
-        sfColor_fromRGBA(250, 250, 250, 7));
-    set_emit_settings(&emit_set, 3.5, 5, -10);
+        sfColor_fromRGBA(250, 250, 250, 4));
+    set_emit_settings(&emit_set, 3.5, 4, -10);
     err += emit_splatter(UI->vfx_infos.vfxs, UI->vfx_infos.smoke,
         &emit_set, abs_pos);
-    emit_set = create_emit_settings(40, 0.05, 1000,
+    emit_set = create_emit_settings(40, 0.03, 1000,
         sfColor_fromRGBA(255, 255, 255, 255));
     set_emit_settings(&emit_set, 0.9, 1, 300);
     err += emit_burst(UI->vfx_infos.vfxs, UI->vfx_infos.bullet,

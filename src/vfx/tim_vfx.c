@@ -14,12 +14,12 @@ static unsigned int vfx_emit_smoke_and_droplets(frame_t *frame,
     unsigned int err = 0;
 
     emit_set = create_emit_settings(40.0, 0.1, 360.0,
-        sfColor_fromRGBA(150, 150, 150, 70));
+        sfColor_fromRGBA(110, 110, 110, 70));
     set_emit_settings(&emit_set, 1.2, 8, 10);
     err += emit_splatter(UI->vfx_infos.vfxs, UI->vfx_infos.smoke,
         &emit_set, abs_pos);
     emit_set = create_emit_settings(35.0, 0.2, 360.0,
-        sfColor_fromRGBA(150, 150, 150, 130));
+        sfColor_fromRGBA(110, 110, 110, 130));
     set_emit_settings(&emit_set, 1.4, 7, 6);
     err += emit_splatter(UI->vfx_infos.vfxs, UI->vfx_infos.smoke,
         &emit_set, abs_pos);
@@ -36,7 +36,7 @@ bool vfx_dust_impact(frame_t *frame, sfVector3f abs_pos)
     emit_settings_t emit_set = {0};
     unsigned int err = vfx_emit_smoke_and_droplets(frame, abs_pos);
 
-    emit_set = create_emit_settings(0, 0.35, 0.0,
+    emit_set = create_emit_settings(0, 0.35, 360,
         sfColor_fromRGBA(255, 255, 240, 255));
     set_emit_settings(&emit_set, 0.18, 1, 0);
     err += emit_grow(UI->vfx_infos.vfxs, UI->vfx_infos.impact,

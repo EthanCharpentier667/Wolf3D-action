@@ -16,9 +16,16 @@ float normalize_weapon_angle(float angle)
     return angle;
 }
 
-void damage_enemy(enemy_t *enemy, int damage)
+void damage_enemy(frame_t *frame, enemy_t *enemy, int damage)
 {
+    sfVector3f pos = enemy->pos;
+    float rand = 7;
+
     enemy->life -= damage;
+    pos.x = rand_range(pos.x - rand, pos.x + rand);
+    pos.y = rand_range(pos.y - rand, pos.y + rand);
+    pos.z = rand_range(pos.z - rand, pos.z + rand) / 100;
+    vfx_blood(frame, pos);
 }
 
 static void update_weapon_visual(weapon_t *weapon)
