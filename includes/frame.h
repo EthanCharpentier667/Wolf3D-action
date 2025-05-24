@@ -382,6 +382,7 @@ typedef struct enemy_s {
     bool is_dead;
     int life;
     int max_life;
+    int type;
     sfClock *attack_cd_clock;
     float attack_cooldown;
     bool can_attack;
@@ -491,6 +492,8 @@ typedef struct frame_s {
     float z_buffer[WINDOWX];
     float hori_buffer[WINDOWY];
     bool played;
+    bool victory;
+    bool game_over;
 } frame_t;
 
     #define FRAME frame
@@ -690,6 +693,8 @@ void draw_health_bar_3d(frame_t *frame, int index,
     float enemyheight, sfVector2f bar_scale);
 void follow_player(frame_t *frame, enemy_t *enemy);
 void update_enemies(frame_t *frame);
+void handle_basic_enemy(frame_t *frame, enemy_t *enemy);
+bool handle_hitler_enemy(frame_t *frame, enemy_t *enemy);
 
 //INVENTORY
 bool init_inventory(frame_t *frame);

@@ -26,7 +26,8 @@ static void calculate_direction_to_player(enemy_t *enemy,
     float dy = player_pos.y - enemy_pos.y;
     float length = sqrtf(dx * dx + dy * dy);
 
-    if (length < enemy->attack_range || length > 200.0f) {
+    if (length < enemy->attack_range || (length > 200.0f
+        && enemy->type != HITLER2)) {
         enemy->is_moving = false;
         return;
     }

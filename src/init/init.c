@@ -71,5 +71,7 @@ bool init_frame(frame_t *frame)
     frame->name = NULL;
     frame->sceenshot = NULL;
     frame->played = false;
+    frame->victory = false;
+    frame->game_over = false;
     return true;
 }

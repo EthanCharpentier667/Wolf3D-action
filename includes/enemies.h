@@ -21,6 +21,13 @@ struct enemy_infos_s {
     float damages;
     float attack_cooldown;
     char *drop_item;
+    int type;
+};
+
+enum enemy_type_e {
+    BASIC = 1,
+    HITLER,
+    HITLER2,
 };
 
 extern const struct enemy_infos_s ENEMY_INFOS[];
