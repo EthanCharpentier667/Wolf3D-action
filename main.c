@@ -9,11 +9,11 @@
 
 int main(int argc, char **argv)
 {
-    srand(time(NULL));
     frame_t *frame = malloc(sizeof(frame_t));
 
     if (!frame)
         return 84;
+    srand(time(NULL));
     if (!init_frame(frame)) {
         fprintf(stderr, "Error: Could not initialize frame\n");
         free(frame);

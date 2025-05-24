@@ -22,28 +22,24 @@ obj_info_t create_obj_info(sfFloatRect cframe, float angle,
 sfFloatRect calculate_vfx_render(player_t *player,
     sfVector3f vfx_pos, sfFloatRect addon, float velocity)
 {
-    float dx = vfx_pos.x - player->pos.x;
-    float dy = vfx_pos.y - player->pos.y;
-    float dir_x = cosf(player->angle.x);
-    float dir_y = sinf(player->angle.x);
-    float right_x = -sinf(player->angle.x);
-    float right_y = cosf(player->angle.x);
-    float forward = dx * dir_x + dy * dir_y;
-    float sideways = dx * right_x + dy * right_y;
+    sfVector2f screen = {0, 0};
+    sfVector2f delta = {vfx_pos.x - player->pos.x, vfx_pos.y - player->pos.y};
+    sfVector2f dir = {cosf(player->angle.x), sinf(player->angle.x)};
+    sfVector2f right = {sinf(player->angle.x) * -1, cosf(player->angle.x)};
+    float forward = delta.x * dir.x + delta.y * dir.y;
+    float sideways = delta.x * right.x + delta.y * right.y;
+    sfFloatRect result = {0};
+
     if (forward < 0.01f)
         forward = 0.01f;
-    int screen_x = (int)(WINDOWX / 2 + sideways / forward * (WINDOWX / 2) / tanf(FOV / 2));
-    float projected_height = addon.height * TILE_SIZE * WINDOWY / forward;
-    float projected_width  = addon.width  * TILE_SIZE * WINDOWY / forward;
-    int screen_y = WINDOWY / 2
-        - (vfx_pos.z * TILE_SIZE * WINDOWY) / forward
+    screen.x = (int)(WINDOWX / 2 + sideways /
+        forward * (WINDOWX / 2) / tanf(FOV / 2));
+    screen.y = WINDOWY / 2 - (vfx_pos.z * TILE_SIZE * WINDOWY) / forward
         + (int)(WINDOWY * tanf(player->angle.y) / 2);
-
-    sfFloatRect result;
-    result.left = screen_x + addon.left * WINDOWX / forward;
-    result.top = screen_y + (addon.top + velocity) * WINDOWY / forward;
-    result.width = projected_width;
-    result.height = projected_height;
+    result.left = screen.x + addon.left * WINDOWX / forward;
+    result.top = screen.y + (addon.top + velocity) * WINDOWY / forward;
+    result.width = addon.width * TILE_SIZE * WINDOWY / forward;
+    result.height = addon.height * TILE_SIZE * WINDOWY / forward;
     return result;
 }
 
@@ -56,5 +52,6 @@ sfVector3f get_front(player_t *player, float range, sfVector3f addon)
             cosf(player->angle.y) * range + addon.y,
         (sinf(player->angle.y) * range) / 100 + addon.z
     };
+
     return result;
 }

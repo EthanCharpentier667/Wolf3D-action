@@ -19,8 +19,9 @@ bool emit_splatter(linked_list_t *vfxs, framebuffer_t *fb,
     emit_t emit = create_emit(emit_set->nb,
         emit_set->nb + emit_set->nb / 2.5, temps_info, tempf_info);
 
-    temps_info = create_obj_info(frct(0, 0, emit_set->sizes / 7, emit_set->sizes
-        / 7), emit_set->rotation, sfColor_fromRGBA(30, 30, 30, 0), 0.0);
+    temps_info = create_obj_info(frct(0, 0, emit_set->sizes / 7,
+        emit_set->sizes / 7), emit_set->rotation,
+        sfColor_fromRGBA(30, 30, 30, 0), 0.0);
     tempf_info = temps_info;
     tempf_info.time_stamp = emit_set->lifetime / 3 + 0.1;
     tempf_info.cframe = frct(emit_set->strength, emit_set->strength,
@@ -41,9 +42,9 @@ bool emit_absorb(linked_list_t *vfxs, framebuffer_t *fb,
     emit_t emit = create_emit(emit_set->nb,
         emit_set->nb + emit_set->nb / 2.5, temps_info, tempf_info);
 
-    tempf_info = create_obj_info(frct(0, 0, emit_set->sizes / 7, emit_set->sizes
-        / 7), emit_set->rotation, sfColor_fromRGBA(30, 30, 30, 0),
-        emit_set->lifetime / 3 + 0.1);
+    tempf_info = create_obj_info(frct(0, 0, emit_set->sizes / 7,
+        emit_set->sizes / 7), emit_set->rotation,
+        sfColor_fromRGBA(30, 30, 30, 0), emit_set->lifetime / 3 + 0.1);
     temps_info = temps_info;
     temps_info.time_stamp = 0.0;
     temps_info.cframe = frct(emit_set->strength, emit_set->strength,
@@ -88,8 +89,9 @@ bool emit_burst(linked_list_t *vfxs, framebuffer_t *fb,
     emit_t emit = create_emit(emit_set->nb,
         emit_set->nb + emit_set->nb / 2.5, temps_info, tempf_info);
 
-    temps_info = create_obj_info(frct(0, 0, emit_set->sizes / 7, emit_set->sizes
-        / 7), emit_set->rotation, sfColor_fromRGBA(30, 30, 30, 0), 0.0);
+    temps_info = create_obj_info(frct(0, 0, emit_set->sizes / 7,
+        emit_set->sizes / 7), emit_set->rotation,
+        sfColor_fromRGBA(30, 30, 30, 0), 0.0);
     tempf_info = temps_info;
     tempf_info.time_stamp = emit_set->lifetime / 3 + 0.1;
     tempf_info.cframe = frct(rand_range(-strength * 3,

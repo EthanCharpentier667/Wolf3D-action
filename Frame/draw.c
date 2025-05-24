@@ -76,18 +76,8 @@ int draw_images(frame_t *frame)
 
 int draw_all(frame_t *frame)
 {
-    static int nb = 0;
-
     draw_texts(frame);
     draw_buttons(frame);
     draw_sliders(frame);
-    draw_vfxs(frame, frame->window);
-
-    nb++;
-    if (!(nb % 110)) {
-        vfx_dust_impact(frame, v3f(200, 150, -0.1));
-        vfx_blood(frame, v3f(250, 150, -0.1));
-        vfx_bullet_drop(frame, get_front(PLAYER, 21, v3f(0, 0, -0.1)));
-    }
     return 0;
 }

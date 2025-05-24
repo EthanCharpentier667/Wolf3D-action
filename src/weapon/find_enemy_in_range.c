@@ -76,5 +76,7 @@ enemy_t *find_enemy_in_range(frame_t *frame)
     best_target.combined_score = INT_MAX;
     for (int i = 0; i < NBENEMIES; i++)
         process_enemy(i, &best_target, frame);
+    if (!best_target.enemy)
+        impact_wall(frame, HUD->weapon[HUD->selected_weapon]->attack_range);
     return best_target.enemy;
 }

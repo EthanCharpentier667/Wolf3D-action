@@ -487,6 +487,7 @@ typedef struct frame_s {
     char *name;
     int **light_map;
     float z_buffer[WINDOWX];
+    float hori_buffer[WINDOWY];
     bool played;
 } frame_t;
 
@@ -652,6 +653,7 @@ void render_wall_column(sfRenderWindow *window, int column,
     float wall_height, sfColor color);
 void cast_all_rays(frame_t *frame);
 void render_wall_column_textured(frame_t *frame, wall_render_params_t prms);
+bool get_wall_impact(sfVector3f *buff, frame_t *frame, float range);
 
 //FLASHLIGHT
 bool init_flashlight(frame_t *frame);
@@ -679,6 +681,7 @@ void draw_3d_text(frame_t *frame, sfVector3f pos,
 
 void render_fixed_object(frame_t *frame, fixed_object_t *object);
 void draw_all_fixed_objects(frame_t *frame);
+void draw_pausemenu(frame_t *frame);
 
 //ENEMIES
 void draw_enemy(frame_t *frame, int index);

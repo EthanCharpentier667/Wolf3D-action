@@ -74,56 +74,84 @@ void update_vfxs(linked_list_t *vfxs, float delta_time)
     }
 }
 
-static bool obstructed_vfx(sfVector3f pos, sfFloatRect addon, frame_t *frame)
+static vfx_view_vector_t get_vfx_view_vector(sfVector3f pos, player_t *player)
 {
-    sfVector3f player_pos = v3f(PLAYER->pos.x, PLAYER->pos.y, 0);
-    float player_angle = PLAYER->angle.x;
-    float dx = pos.x - player_pos.x;
-    float dy = pos.y - player_pos.y;
-    float dir_x = cosf(player_angle);
-    float dir_y = sinf(player_angle);
-    float right_dir_x = -sinf(player_angle);
-    float right_dir_y = cosf(player_angle);
-    float forward = dx * dir_x + dy * dir_y;
+    float dx = pos.x - player->pos.x;
+    float dy = pos.y - player->pos.y;
+    float dir_x = cosf(player->angle.x);
+    float dir_y = sinf(player->angle.x);
+    float right_dir_x = -sinf(player->angle.x);
+    float right_dir_y = cosf(player->angle.x);
+    vfx_view_vector_t result = {0};
+
+    result.forward = dx * dir_x + dy * dir_y;
+    result.sideways = dx * right_dir_x + dy * right_dir_y;
+    return result;
+}
+
+static vfx_screen_bounds_t get_vfx_screen_bounds(sfVector3f pos,
+    sfFloatRect addon, player_t *player)
+{
+    vfx_view_vector_t view = get_vfx_view_vector(pos, player);
+    vfx_screen_bounds_t bounds = {0};
+    float forward = view.forward;
+    float sideways = view.sideways;
+    int base_screen_x = 0;
+    float projected_width = 0;
+    int left_screen_x = 0;
+    int right_screen_x = 0;
 
     if (forward < 0.01f)
+        forward = 0.01f;
+    base_screen_x = (int)(WINDOWX / 2 + sideways /
+        forward * (WINDOWX / 2) / tanf(FOV / 2));
+    projected_width = addon.width / 2 *
+        TILE_SIZE * WINDOWY / forward;
+    left_screen_x = (int)(base_screen_x +
+        addon.left / 2 * WINDOWX / forward);
+    right_screen_x = (int)(left_screen_x + projected_width);
+    bounds = (vfx_screen_bounds_t){left_screen_x, right_screen_x, forward};
+    return bounds;
+}
+
+static bool obstructed_vfx(sfVector3f pos, sfFloatRect addon, frame_t *frame)
+{
+    int left = 0;
+    int right = 0;
+    vfx_screen_bounds_t bounds = get_vfx_screen_bounds(pos, addon, PLAYER);
+
+    if (bounds.forward < 0.01f)
         return true;
-    float sideways = dx * right_dir_x + dy * right_dir_y;
-    int base_screen_x = (int)(WINDOWX / 2 + sideways / forward * (WINDOWX / 2) / tanf(FOV / 2));
-    float projected_width = addon.width / 2 * TILE_SIZE * WINDOWY / forward;
-    int left_screen_x = (int)(base_screen_x + addon.left / 2 * WINDOWX / forward);
-    int right_screen_x = (int)(left_screen_x + projected_width);
-    if (right_screen_x < 0 || left_screen_x >= WINDOWX)
+    if (bounds.right < 0 || bounds.left >= WINDOWX)
         return true;
-    if (left_screen_x < 0) left_screen_x = 0;
-    if (right_screen_x >= WINDOWX) right_screen_x = WINDOWX - 1;
-    for (int x = left_screen_x; x <= right_screen_x; x++) {
-        if (forward >= frame->z_buffer[x])
+    left = bounds.left < 0 ? 0 : bounds.left;
+    right = bounds.right >= WINDOWX ? WINDOWX - 1 : bounds.right;
+    for (int x = left; x <= right; x++) {
+        if (bounds.forward >= frame->z_buffer[x])
             return true;
     }
     return false;
 }
-
 void draw_vfxs(frame_t *frame, sfRenderWindow *window)
 {
     player_t *player = PLAYER;
     linked_list_t *vfxs = frame->ui->vfx_infos.vfxs;
     vfx_t *vfx = NULL;
-    sfFloatRect temp_rect = {0, 0, 0, 0};
+    sfFloatRect rect = {0, 0, 0, 0};
     sfVector2u tex_size = {0, 0};
+    sfVector2f scale = {0};
 
     for (linked_list_t *elem = vfxs->next; elem->id > 0; elem = elem->next) {
         vfx = (vfx_t *)elem->data;
         if (obstructed_vfx(vfx->origin_pos, vfx->info.cframe, frame))
             continue;
-       temp_rect = calculate_vfx_render(player, vfx->origin_pos,
+        rect = calculate_vfx_render(player, vfx->origin_pos,
             vfx->info.cframe, vfx->velocity);
         tex_size = sfTexture_getSize(sfSprite_getTexture(vfx->particle));
-        float scale_x = temp_rect.width  / (float)tex_size.x;
-        float scale_y = temp_rect.height / (float)tex_size.y;
-        sfSprite_setPosition(vfx->particle, v2f(temp_rect.left,
-            temp_rect.top));
-        sfSprite_setScale(vfx->particle, v2f(scale_x, scale_y));
+        scale.x = rect.width / (float)tex_size.x;
+        scale.y = rect.height / (float)tex_size.y;
+        sfSprite_setPosition(vfx->particle, v2f(rect.left, rect.top));
+        sfSprite_setScale(vfx->particle, scale);
         sfRenderWindow_drawSprite(window, vfx->particle, NULL);
     }
 }

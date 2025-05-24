@@ -71,6 +71,16 @@ typedef struct {
     linked_list_t *vfxs;
 } vfxs_infos_t;
 
+typedef struct {
+    float forward;
+    float sideways;
+} vfx_view_vector_t;
+
+typedef struct {
+    int left;
+    int right;
+    float forward;
+} vfx_screen_bounds_t;
 
 linked_list_t *create_lists(void *data, int len);
 linked_list_t *add_element(linked_list_t *head, void *data);
@@ -122,5 +132,7 @@ bool emit_burst(linked_list_t *vfxs, framebuffer_t *fb,
 bool vfx_dust_impact(frame_t *frame, sfVector3f abs_pos);
 bool vfx_blood(frame_t *frame, sfVector3f abs_pos);
 bool vfx_bullet_drop(frame_t *frame, sfVector3f abs_pos);
+
+void impact_wall(frame_t *frame, float range);
 
 #endif /* !VFX_H_ */

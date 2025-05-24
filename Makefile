@@ -118,6 +118,7 @@ SRC	=	includes/inititliser.c          \
         $(WEAPON_DIR)machine_gun.c       \
         $(WEAPON_DIR)reload_weapons.c       \
         $(WEAPON_DIR)switch_weapons.c       \
+        $(WEAPON_DIR)get_wall_impact.c       \
 
 OBJ	=	$(SRC:.c=.o)
 

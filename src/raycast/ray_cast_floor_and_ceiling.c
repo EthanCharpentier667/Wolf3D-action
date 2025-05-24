@@ -116,6 +116,8 @@ static void draw_strip(frame_t *frame, raycasting_data_t *data,
 
     if (ray.distance > MAX_RAY_LENGTH)
         return;
+    if (is_floor)
+        frame->hori_buffer[strip.y] = ray.distance;
     world_pos = calculate_world_position(data, ray);
     tex_coords = calculate_texture_coordinates(data, world_pos);
     draw_sprite_strip(frame, data, tex_coords, strip);

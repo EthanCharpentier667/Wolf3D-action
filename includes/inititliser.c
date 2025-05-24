@@ -161,7 +161,8 @@ const struct weapon_infos_s WEAPON_INFOS[] = {
         5, 0, 728, 650, "Knife", 40.0f, 0.4f, 50, 0, 0.0f, 0.0f,
         WEAPON_TYPE_MELEE},
     {RES "Machine_Gun_Ajustement.png", RES "Machine_Gun_Tir.png", {0.6, 0.6},
-        {0, 0, 728, 650}, 4, 2, 728, 650, "Machine Gun", 300.0f, 0.8f, 10, 200,
+        {0, 0, 728, 650}, 4, 2, 728, 650, "Machine Gun",
+        1000.0f, 0.8f, 10, 200,
         20.0f, 0.5f, WEAPON_TYPE_AUTOMATIC},
     {NULL, NULL, {0, 0}, {0, 0, 0, 0}, 0, 0, 0, 0,
         NULL, 0.0f, 0, 0, 0, 0.0f, 0.0f, 0}
