@@ -154,6 +154,8 @@ int game(frame_t *frame)
     if (!(nb % 110)) {
         vfx_dust_impact(frame, v3f(200, 150, -0.1));
         vfx_blood(frame, v3f(250, 150, -0.1));
+        vfx_grab(frame, v3f(300, 150, -0.1));
+        vfx_unlock(frame, v3f(350, 150, -0.1));
         //vfx_bullet_drop(frame, get_front(PLAYER, 21, v3f(0, 0, -0.1)));
     }
     draw_hud(frame);

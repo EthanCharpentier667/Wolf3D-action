@@ -69,6 +69,7 @@ typedef struct {
     framebuffer_t *impact;
     framebuffer_t *bullet;
     framebuffer_t *star;
+    framebuffer_t *unlocked;
     linked_list_t *vfxs;
 } vfxs_infos_t;
 
@@ -135,6 +136,8 @@ bool emit_shrink(linked_list_t *vfxs, framebuffer_t *fb,
 bool vfx_dust_impact(frame_t *frame, sfVector3f abs_pos);
 bool vfx_blood(frame_t *frame, sfVector3f abs_pos);
 bool vfx_bullet_drop(frame_t *frame, sfVector3f abs_pos);
+bool vfx_grab(frame_t *frame, sfVector3f abs_pos);
+bool vfx_unlock(frame_t *frame, sfVector3f abs_pos);
 
 void impact_wall(frame_t *frame, float range);
 

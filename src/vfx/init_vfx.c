@@ -25,6 +25,8 @@ bool init_vfxs(frame_t *frame)
         &vfx_infos->bullet);
     err += framebuffer_create("src/assets/vfx_assets/4star.png",
         &vfx_infos->star);
+    err += framebuffer_create("src/assets/vfx_assets/unlocked.png",
+        &vfx_infos->unlocked);
     vfx_infos->vfxs = create_lists(NULL, 1);
     err += !vfx_infos->vfxs;
     return !(bool)err;

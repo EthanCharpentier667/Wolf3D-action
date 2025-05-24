@@ -36,9 +36,9 @@ bool emit_absorb(linked_list_t *vfxs, framebuffer_t *fb,
     sfColor trans = sfColor_fromRGBA(emit_set->color.r,
         emit_set->color.g, emit_set->color.b, 0);
     obj_info_t tempf_info = create_obj_info(frct(0, 0, emit_set->sizes,
-        emit_set->sizes), 0.0, emit_set->color, 0.0);
+        emit_set->sizes), 0.0, emit_set->color, emit_set->lifetime);
     obj_info_t temps_info = create_obj_info(frct(0, 0, emit_set->sizes,
-        emit_set->sizes), 0.0, trans, emit_set->lifetime);
+        emit_set->sizes), 0.0, trans, 0);
     emit_t emit = create_emit(emit_set->nb,
         emit_set->nb + emit_set->nb / 2.5, temps_info, tempf_info);
 
@@ -110,7 +110,7 @@ bool emit_shrink(linked_list_t *vfxs, framebuffer_t *fb,
     obj_info_t tempf_info = create_obj_info(frct(0, 0, 0,
         0), angle, emit_set->color, emit_set->lifetime);
     obj_info_t temps_info = create_obj_info(frct(0, 0, emit_set->sizes,
-        emit_set->sizes), angle, trans, 0.0);
+        emit_set->sizes), -angle, trans, 0.0);
     emit_t emit = create_emit(emit_set->nb,
         emit_set->nb + emit_set->nb / 2.5, temps_info, tempf_info);
 
