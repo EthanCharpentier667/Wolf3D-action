@@ -6,6 +6,7 @@
 */
 
 #include "frame.h"
+#include "weapon.h"
 
 static bool attempt_machinegun_damage(weapon_t *weapon, frame_t *frame)
 {
@@ -42,7 +43,9 @@ static void handle_machinegun_windup(weapon_t *weapon, float delta_time)
 {
     weapon->windup_timer += delta_time;
     weapon->animation_timer += delta_time;
+    manage_windup_sound(true);
     if (!weapon->is_trigger_held) {
+        manage_windup_sound(false);
         weapon->state = WEAPON_WINDDOWN;
         weapon->current_frame = 2;
         weapon->animation_timer = 0;
@@ -52,8 +55,8 @@ static void handle_machinegun_windup(weapon_t *weapon, float delta_time)
         weapon->animation_timer = 0;
         update_windup_animation(weapon);
         if ((weapon->current_frame >= 2) &&
-            (weapon->windup_timer >= weapon->windup_time) &&
-            (weapon->ammo > 0)) {
+            weapon->windup_timer >= weapon->windup_time && weapon->ammo > 0) {
+            manage_windup_sound(false);
             weapon->state = WEAPON_FIRING;
             weapon->current_frame = 0;
         }
@@ -74,7 +77,9 @@ static void handle_machinegun_firing(weapon_t *weapon,
 {
     float fire_interval = 1.0f / weapon->fire_rate;
 
+    manage_firing_sound(true);
     if (!weapon->is_trigger_held || weapon->ammo <= 0) {
+        manage_firing_sound(false);
         weapon->state = WEAPON_WINDDOWN;
         weapon->current_frame = 2;
         weapon->animation_timer = 0;
@@ -93,6 +98,8 @@ static void handle_machinegun_firing(weapon_t *weapon,
 
 static void handle_windown(weapon_t *weapon)
 {
+    manage_firing_sound(false);
+    manage_windup_sound(false);
     if (weapon->current_frame == 2) {
         weapon->current_frame = 3;
     } else if (weapon->current_frame == 3) {
