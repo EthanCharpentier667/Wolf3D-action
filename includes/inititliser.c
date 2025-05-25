@@ -162,7 +162,7 @@ const struct env_infos_s ENVIRONNEMENT_INFOS[] = {
 //attack_range, atk_width, damage, ammo_capacity, fire_rate, windup_time, type
 const struct weapon_infos_s WEAPON_INFOS[] = {
     {RES "knife.png", NULL, {0.6, 0.6}, {0, 0, 728, 650},
-        5, 0, 728, 650, "Knife", 1000.0, 0.4f, 50, 0, 0.0f, 0.0f,
+        5, 0, 728, 650, "Knife", 40.0f, 0.4f, 50, 0, 0.0f, 0.0f,
         WEAPON_TYPE_MELEE},
     {RES "Machine_Gun_Ajustement.png", RES "Machine_Gun_Tir.png", {0.6, 0.6},
         {0, 0, 728, 650}, 4, 2, 728, 650, "Machine Gun",

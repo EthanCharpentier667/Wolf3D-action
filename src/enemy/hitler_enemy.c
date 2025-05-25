@@ -57,13 +57,19 @@ static bool animate_die(frame_t *frame, enemy_t *enemy, int gap)
 
 static bool handle_die(frame_t *frame, enemy_t *enemy)
 {
+    sfVector3f pos = {0};
+
     if (enemy->life <= 0 && enemy->is_dead == false) {
         sfClock_restart(enemy->clock);
         enemy->is_dead = true;
         enemy->is_moving = false;
         enemy->is_attacking = false;
-        if (enemy->type == HITLER2)
+        pos = v3f(enemy->pos.x, enemy->pos.y, enemy->pos.z + 1);
+        if (enemy->type == HITLER)
+            vfx_explosion(frame, pos);
+        if (enemy->type == HITLER2) {
             frame->victory = true;
+        }
     }
     return false;
 }

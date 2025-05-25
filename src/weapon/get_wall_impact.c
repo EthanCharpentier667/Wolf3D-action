@@ -36,5 +36,4 @@ void impact_wall(frame_t *frame, float range)
     pos.y = rand_range(pos.y - rand, pos.y + rand);
     pos.z = rand_range(pos.z - rand / 100, pos.z + rand / 100);
     vfx_dust_impact(frame, pos);
-    vfx_explosion(frame, pos);
 }

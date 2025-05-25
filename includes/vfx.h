@@ -142,5 +142,6 @@ bool vfx_unlock(frame_t *frame, sfVector3f abs_pos);
 bool vfx_explosion(frame_t *frame, sfVector3f abs_pos);
 
 void impact_wall(frame_t *frame, float range);
+bool end_explosions(frame_t *frame);
 
 #endif /* !VFX_H_ */
