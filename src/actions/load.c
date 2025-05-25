@@ -26,6 +26,8 @@ int load_save_callback(frame_t *frame, int button_index)
         frame->game->saves->name[save_index]);
     load_frame(frame, filepath);
     frame->save = strdup(filepath);
+    PLAYER->pause = false;
+    UI->pause = false;
     change_scene(frame, GAME);
     free_save(frame->game->saves, frame);
     return 0;
