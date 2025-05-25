@@ -53,24 +53,37 @@ void set_light_color(frame_t *frame, sfSprite *sprite,
     sfSprite_setColor(sprite, color);
 }
 
-void render_item_columns(frame_t *frame, sfTexture *item_texture,
+static void draw_item_column(sfSprite *sprite, int x,
     item_render_data_t *data, sfVector2f scale)
 {
     float tex_percent_x = 0;
     int tex_x = 0;
-    sfSprite *sprite = sfSprite_create();
     sfIntRect subrect = {0, 0, 0, 0};
 
+    tex_percent_x = (float)(x - data->sprite_start_x) / data->sprite_width;
+    tex_x = tex_percent_x * data->tex_size.x;
+    subrect = irct(tex_x, 0, 1, (int)data->tex_size.y);
+    sfSprite_setTextureRect(sprite, subrect);
+    sfSprite_setPosition(sprite, v2f((float)x, data->vertical_offset));
+    sfSprite_setScale(sprite, v2f(1.0f, data->scale_factor * scale.y));
+}
+
+void render_item_columns(frame_t *frame, sfTexture *item_texture,
+    item_render_data_t *data, sfVector2f scale)
+{
+    sfSprite *sprite = sfSprite_create();
+    float perp_distance = data->distance * cosf(data->rel_angle);
+
+    if (fabs(data->rel_angle) > FOV / 1.5f
+        && data->distance > TILE_SIZE) {
+        sfSprite_destroy(sprite);
+        return;
+    }
     for (int x = data->sprite_start_x; x < data->sprite_end_x; x++) {
-        if (x < 0 || x >= WINDOWX || data->distance >= frame->z_buffer[x])
+        if (x < 0 || x >= WINDOWX || perp_distance >= frame->z_buffer[x])
             continue;
-        tex_percent_x = (float)(x - data->sprite_start_x) / data->sprite_width;
-        tex_x = tex_percent_x * data->tex_size.x;
         sfSprite_setTexture(sprite, item_texture, sfTrue);
-        subrect = irct(tex_x, 0, 1, (int)data->tex_size.y);
-        sfSprite_setTextureRect(sprite, subrect);
-        sfSprite_setPosition(sprite, v2f((float)x, data->vertical_offset));
-        sfSprite_setScale(sprite, v2f(1.0f, data->scale_factor * scale.y));
+        draw_item_column(sprite, x, data, scale);
         set_light_color(frame, sprite, data);
         sfRenderWindow_drawSprite(WINDOW, sprite, NULL);
     }

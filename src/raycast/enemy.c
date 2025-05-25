@@ -49,26 +49,39 @@ static void calculate_enemy_dimensions(item_render_data_t *data,
         (enemypos.z * TILE_SIZE * WINDOWY) / perp_distance;
 }
 
-static void render_enemy_columns(frame_t *frame, int index,
-    item_render_data_t *data)
+static void draw_enemy_column(sfSprite *sprite, enemy_t *enemy,
+    item_render_data_t *data, int x)
 {
     float tex_percent_x = 0;
     int tex_x = 0;
-    sfSprite *sprite = sfSprite_create();
     sfIntRect subrect = {0, 0, 0, 0};
-    enemy_t enemy = ENEMY[index];
 
+    tex_percent_x = (float)(x - data->sprite_start_x) / data->sprite_width;
+    tex_x = enemy->rec.left + (tex_percent_x * enemy->rec.width);
+    subrect = irct(tex_x, enemy->rec.top, 1, enemy->rec.height);
+    sfSprite_setTextureRect(sprite, subrect);
+    sfSprite_setPosition(sprite, v2f((float)x, data->vertical_offset));
+    sfSprite_setScale(sprite, v2f(1, data->scale_factor * enemy->scale.y));
+}
+
+static void render_enemy_columns(frame_t *frame, int index,
+    item_render_data_t *data)
+{
+    sfSprite *sprite = sfSprite_create();
+    enemy_t enemy = ENEMY[index];
+    float perp_distance = data->distance * cosf(data->rel_angle);
+
+    if (fabs(data->rel_angle) > FOV / 1.5f
+        && data->distance > TILE_SIZE) {
+        sfSprite_destroy(sprite);
+        return;
+    }
     for (int x = data->sprite_start_x; x < data->sprite_end_x; x++) {
-        if (x < 0 || x >= WINDOWX || data->distance >= frame->z_buffer[x])
+        if (x < 0 || x >= WINDOWX || perp_distance >= frame->z_buffer[x])
             continue;
-        tex_percent_x = (float)(x - data->sprite_start_x) / data->sprite_width;
-        tex_x = enemy.rec.left + (tex_percent_x * enemy.rec.width);
         sfSprite_setTexture(sprite, enemy.texture, sfTrue);
-        subrect = irct(tex_x, enemy.rec.top, 1, enemy.rec.height);
-        sfSprite_setTextureRect(sprite, subrect);
-        sfSprite_setPosition(sprite, v2f((float)x, data->vertical_offset));
-        sfSprite_setScale(sprite, v2f(1, data->scale_factor * enemy.scale.y));
-        sfRenderWindow_drawSprite(WINDOW, sprite, NULL);
+        draw_enemy_column(sprite, &enemy, data, x);
+        sfRenderWindow_drawSprite(frame->window, sprite, NULL);
     }
     sfSprite_destroy(sprite);
 }
