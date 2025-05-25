@@ -118,6 +118,16 @@ const struct item_infos_s ITEM_INFOS[] = {
     {RES "ammo_box.png", { 0.5, 0.5}, {832 + 32, 384 + 32, -0.50},
         {-1, -1, -1, -1}, "Ammo_box", true, true,
         "Take your weapon in hand\nand use it for 40 ammo"},
+    {RES "ammo_box.png", { 0.5, 0.5}, {832 + 32, 1152 + 32, -0.50},
+        {-1, -1, -1, -1}, "Ammo_box", true, true,
+        "Take your weapon in hand\nand use it for 40 ammo"},
+    {RES "ammo_box.png", { 0.5, 0.5}, {832 + 32, 1088 + 32, -0.50},
+        {-1, -1, -1, -1}, "Ammo_box", true, true,
+        "Take your weapon in hand\nand use it for 40 ammo"},
+    {RES "heal.png", {0.8, 0.8}, {896 + 32, 1088 + 32, -0.50},
+        {-1, -1, -1, -1}, "Heal", true, true, "Heal of 20 HP"},
+    {RES "heal.png", {0.8, 0.8}, {896 + 32, 1152 + 32, -0.50},
+        {-1, -1, -1, -1}, "Heal", true, true, "Heal of 20 HP"},
     {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, "", false, false, ""},
 };
 
@@ -237,6 +247,10 @@ const struct button_infos_s BUTTON_INFOS[] = {
         NULL, NULL, SETTINGS_CONTROLS},
     {KEY_PAUSE, {575, 450, 0.5, 0.5}, RES "keybind.png",
         NULL, NULL, SETTINGS_CONTROLS},
+    {QUIT, {325, 400, 1.5, 1.5}, RES "quit.png",
+        NULL, &do_mm_quit, WIN},
+    {QUIT, {325, 400, 1.5, 1.5}, RES "quit.png",
+        NULL, &do_mm_quit, GAME_OVER},
     {0, {0, 0, 0, 0}, NULL, NULL, NULL, END}
 };
 
@@ -249,6 +263,8 @@ const struct images_infos_s IMAGES_INFOS[] = {
     {RES "loads.png", {0.4, 0.4}, {180, -50}, LOADS},
     {RES "panel.png", {0.4, 0.5}, {200, 60}, PAUSE},
     {RES "pause.png", {0.3, 0.3}, {250, -50}, PAUSE},
+    {RES "victory.png", {3, 3}, {180, 0}, WIN},
+    {RES "gameover.png", {3, 3}, {180, 0}, GAME_OVER},
     {NULL, {0, 0}, {0, 0}, END},
 };
 
@@ -268,6 +284,8 @@ const struct text_infos_s TEXTS_INFOS[] = {
     {"Inventory: ", {255, 255, 255, 255}, {30, 440, 380}, SETTINGS_CONTROLS},
     {"Pause: ", {255, 255, 255, 255}, {30, 440, 455}, SETTINGS_CONTROLS},
     {"00:00", {255, 255, 255, 255}, {40, 10, 10}, GAME},
+    {"Score :", {255, 255, 255, 255}, {40, 220, 300}, WIN | GAME_OVER},
+    {"Difficulty: ", {255, 255, 255, 255}, {40, 220, 230}, SETTINGS_CONTROLS},
     {NULL, {0, 0, 0, 255}, {0, 0, 0}, END},
 };
 
@@ -285,7 +303,7 @@ const struct musics_infos_s MUSICS_INFOS[] = {
 const struct slider_infos_s SLIDERS_INFOS[] = {
     {{200, 300}, {300, 20}, 0.5, &apply_volume_change_sounds, SETTINGS_AUDIO},
     {{200, 400}, {300, 20}, 0.5, &apply_volume_change_musics, SETTINGS_AUDIO},
-    {{400, 250}, {300, 20}, 1.0, &apply_difficulty_change, SETTINGS_CONTROLS},
+    {{400, 250}, {300, 20}, 0.0, &apply_difficulty_change, SETTINGS_CONTROLS},
     {{0, 0}, {0, 0}, 0.5, NULL, END},
 };
 
@@ -293,6 +311,8 @@ const struct scenes_infos_s SCENES_INFOS[] = {
     {MAINMENU, &mainmenu},
     {GAME, &game},
     {LOADS, &load_scene},
+    {WIN, &victory},
+    {GAME_OVER, &game_over},
     {END, NULL}
 };
 
