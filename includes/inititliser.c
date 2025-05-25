@@ -9,13 +9,13 @@
 
 // PATH ; POS ; ANGLE; SCALE ; TYPE ; REC
 const struct fixed_object_infos_s FIXED_OBJECT_INFOS[] = {
-    {RES "door.png", {192 + 32, 96, 0}, M_PI / 2,
+    {RES "door2.png", {192 + 32, 96, 0}, M_PI / 2,
         {64, 64}, DOOR_CLOSED, {0, 0, 128, 128}},
     {RES "door.png", {256 + 32, 1792 + 32, 0}, M_PI * 2,
         {64, 64}, DOOR_CLOSED, {0, 0, 128, 128}},
     {RES "door.png", {896 + 32, 512 + 32, 0}, M_PI * 2,
         {64, 64}, DOOR_CLOSED, {0, 0, 128, 128}},
-    {RES "door.png", {1024 + 32, 128 + 32, 0}, M_PI / 2,
+    {RES "door2.png", {960 + 32, 128 + 32, 0}, M_PI / 2,
         {64, 64}, DOOR_CLOSED, {0, 0, 128, 128}},
     {RES "door.png", {1472 + 32, 576 + 32, 0}, M_PI / 2,
         {64, 64}, DOOR_CLOSED, {0, 0, 128, 128}},
@@ -344,6 +344,17 @@ const struct env_infos_s ENVIRONNEMENT_INFOS[] = {
     {RES "wall2.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 2},
     {RES "wall3.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 3},
     {RES "wall4.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 4},
+    {RES "wall_blue.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 5},
+    {RES "wall_blue_door.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 6},
+    {RES "wall_blue_skull.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 7},
+    {RES "wall_blue_temple.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 8},
+    {RES "wall_sand.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 9},
+    {RES "wall_sand_blood.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 10},
+    {RES "wall_sand_cobble.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 11},
+    {RES "wall_wood.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 12},
+    {RES "wall_wood2.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 13},
+    {RES "wall_wood3.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 14},
+    {RES "wall_wood4.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 15},
     {NULL, {0, 0, 0, 0}, {0, 0}, false, false, false, 0}
 };
 

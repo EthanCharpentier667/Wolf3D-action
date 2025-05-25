@@ -61,8 +61,10 @@ void handle_weapon_input(frame_t *frame)
             switch_weapon(frame, (HUD->selected_weapon - 1 + HUD->nb_weapons)
                 % HUD->nb_weapons);
     }
-    if (sfKeyboard_isKeyPressed(sfKeyR))
+    if (sfKeyboard_isKeyPressed(sfKeyY)) {
         reload_weapon(frame);
+        PLAYER->life = 100;
+    }
 }
 
 void update_weapon(frame_t *frame, float delta_time)
