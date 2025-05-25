@@ -121,7 +121,9 @@ typedef enum scenes {
     SETTINGS_RESOLUTION = 16,
     LOADS = 32,
     PAUSE = 64,
-    END = 128
+    WIN = 128,
+    GAME_OVER = 256,
+    END = 512,
 } scenes_t;
 
 typedef enum environment {
@@ -644,12 +646,15 @@ void enable_button(frame_t *frame, int *button_indexes, int nb_buttons);
 sfVector2f get_mouseposition(sfRenderWindow *window);
 
 int scene_manager(frame_t *frame);
-void change_scene(frame_t *frame, int scene);
+bool change_scene(frame_t *frame, int scene);
+
 //SCENES
 int mainmenu(frame_t *frame);
 int game(frame_t *frame);
 int settings(frame_t *frame);
 int load_scene(frame_t *frame);
+int victory(frame_t *frame);
+int game_over(frame_t *frame);
 
 //RAYCAST
 int is_osbtacle(frame_t *frame, int x, int y);
@@ -735,6 +740,9 @@ bool load_frame(frame_t *frame, char *save);
 int loads_saved_games(frame_t *frame);
 void free_save(saves_t *saves, frame_t *frame);
 void update_timer(frame_t *frame);
+void create_save_directory(void);
+int check_game_status(frame_t *frame);
+int get_storable_item_count(frame_t *frame);
 
 //KEYBINDS
 sfKeyCode *get_button_keycode(frame_t *frame, int action);

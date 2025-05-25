@@ -191,8 +191,10 @@ bool end_explosions(frame_t *frame)
     const float rand = 30.0f;
     sfVector3f pos = get_hitler_pos(frame);
 
-    if (!frame->victory || explosions == 0)
+    if (!frame->victory)
         return false;
+    if (explosions == 0)
+        return change_scene(frame, WIN);
     elapsed += PLAYER->delta_time * 1000.0f;
     if (elapsed >= interval) {
         pos.x = rand_range(pos.x - rand, pos.x + rand);

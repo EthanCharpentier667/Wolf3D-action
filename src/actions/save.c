@@ -41,8 +41,7 @@ static void write_save_file(frame_t *frame, FILE *file)
     time(&current_time);
     strftime(game_infos.date, sizeof(game_infos.date), "%Y-%m-%d %H:%M:%S",
         localtime(&current_time));
-    strncpy(game_infos.name, frame->name ? frame->name : "Unknown",
-        sizeof(game_infos.name) - 1);
+    strncpy(game_infos.name, frame->name, sizeof(game_infos.name) - 1);
     fwrite(&game_infos, sizeof(game_infos_t), 1, file);
     write_frame(frame, file);
     fwrite(HUD, sizeof(hud_t), 1, file);
@@ -56,18 +55,7 @@ static void write_save_file(frame_t *frame, FILE *file)
     free(save_image);
 }
 
-static bool save_game(char *save, frame_t *frame)
-{
-    FILE *file = fopen(save, "w");
-
-    if (file == NULL)
-        return false;
-    write_save_file(frame, file);
-    fclose(file);
-    return true;
-}
-
-static void create_save_directory(void)
+void create_save_directory(void)
 {
     struct stat st = {0};
 
@@ -76,32 +64,49 @@ static void create_save_directory(void)
     }
 }
 
-static bool save_new_game(frame_t *frame)
+static bool save_game(frame_t *frame)
 {
     FILE *file = NULL;
-    char *save = NULL;
+    char *save = malloc(sizeof(char) * (strlen(frame->name) +
+        strlen("sswolfs/save-.ww2") + 1));
 
     if (!frame->name)
         frame->name = "EthanLeGrand";
-    save = malloc(sizeof(char) * (strlen(frame->name) +
-        strlen("sswolfs/save-.ww2") + 1));
-    snprintf(save, sizeof(char) * (strlen(frame->name) +
-        strlen("sswolfs/save-.ww2") + 1),
+    snprintf(save, (strlen(frame->name) + strlen("sswolfs/save-.ww2") + 1),
         "sswolfs/save-%s.ww2", frame->name);
     file = fopen(save, "w+");
     if (file == NULL)
         return false;
     write_save_file(frame, file);
     fclose(file);
+    free(save);
     return true;
+}
+
+static void delete_save(char *save, char *name)
+{
+    char image_path[256];
+
+    if (!save)
+        save = "sswolfs/save-EthanLeGrand.ww2";
+    if (!name)
+        name = "EthanLeGrand";
+    snprintf(image_path, sizeof(image_path),
+        "sswolfs/save-%s.png", name);
+    if (remove(save) != 0)
+        fprintf(stderr, "Error deleting save file: %s\n", save);
+    if (remove(image_path) != 0)
+        fprintf(stderr, "Error deleting save image: %s\n", image_path);
 }
 
 int do_save(frame_t *frame)
 {
     create_save_directory();
-    if (frame->save)
-        return save_game(frame->save, frame);
-    else
-        return save_new_game(frame);
-    return 0;
+    if (frame->victory) {
+        delete_save(frame->save, frame->name);
+        return 0;
+    }
+    if (frame->game_over)
+        return 0;
+    return save_game(frame);
 }
