@@ -95,6 +95,7 @@ SRC	=	includes/inititliser.c          \
         $(GAME_DIR)load_items_data.c       \
         $(GAME_DIR)load_enemies_data.c       \
         $(GAME_DIR)timer.c       \
+        $(GAME_DIR)update_windows.c       \
         $(GAME_DIR)game_status.c       \
         $(INVENTORY_DIR)init_inventory.c       \
         $(INVENTORY_DIR)inventory.c       \

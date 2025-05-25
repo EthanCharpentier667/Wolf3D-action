@@ -23,6 +23,8 @@ const struct fixed_object_infos_s FIXED_OBJECT_INFOS[] = {
         {64, 64}, DOOR_CLOSED, {0, 0, 128, 128}},
     {RES "door.png", {1024 + 32, 1088 + 32, 0}, -M_PI / 2,
         {64, 64}, DOOR_CLOSED, {0, 0, 128, 128}},
+    {RES "window.png", {128 + 32, 64 + 1, 0}, M_PI * 2,
+        {54, 64}, WINDOW_CLOSED, {0, 0, 3000, 3000}},
     {NULL, {0, 0, 0.1}, 0, {0, 0}, 0, {0, 0, 0, 0}}
 };
 

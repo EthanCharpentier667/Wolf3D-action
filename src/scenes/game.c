@@ -117,6 +117,7 @@ void update_all(frame_t *frame, float delta_time)
     update_enemies(frame);
     update_weapon(frame, delta_time);
     update_doors(frame);
+    update_windows(frame);
     if (!UI->pause)
         update_vfxs(UI->vfx_infos.vfxs, delta_time);
 }
