@@ -14,7 +14,7 @@ float get_wall_impact(sfVector3f *buff, frame_t *frame, float range)
     float forward = verti_dist;
     sfVector2f dir = {cosf(PLAYER->angle.x), sinf(PLAYER->angle.x)};
 
-    forward = (verti_dist > hori_dist ? hori_dist : forward) - 10;
+    forward = (verti_dist > hori_dist ? hori_dist : forward) - 4;
     if (forward <= 0.0f || forward >= range)
         return -1;
     buff->x = PLAYER->pos.x + dir.x * forward;
