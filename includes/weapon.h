@@ -21,7 +21,8 @@ typedef struct enemy_target_s {
 
 typedef enum weapon_type {
     WEAPON_TYPE_MELEE,
-    WEAPON_TYPE_AUTOMATIC
+    WEAPON_TYPE_AUTOMATIC,
+    WEAPON_TYPE_PISTOL
 } weapon_type_t;
 
 typedef struct weapon_infos_s {
@@ -47,6 +48,8 @@ int create_weapon(frame_t *frame, int weapon_index);
 void update_weapon(frame_t *frame, float delta_time);
 void update_knife_behavior(weapon_t *weapon, frame_t *frame, float delta_time);
 void update_machinegun_behavior(weapon_t *weapon,
+    frame_t *frame, float delta_time);
+void update_pistol_behavior(weapon_t *weapon,
     frame_t *frame, float delta_time);
 void draw_weapon(frame_t *frame);
 enemy_t *find_enemy_in_range(frame_t *frame);

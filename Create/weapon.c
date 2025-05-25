@@ -16,6 +16,9 @@ static void set_weapon_behavior(weapon_t *weapon)
         case WEAPON_TYPE_AUTOMATIC:
             weapon->update_behavior = update_machinegun_behavior;
             break;
+        case WEAPON_TYPE_PISTOL:
+            weapon->update_behavior = update_pistol_behavior;
+            break;
         default:
             weapon->update_behavior = NULL;
     }
@@ -58,7 +61,7 @@ static void copy_weapon_properties(weapon_t *weapon,
     weapon->attack_width = info->attack_width;
     weapon->damage = info->damage;
     weapon->ammo_capacity = info->ammo_capacity;
-    weapon->ammo = info->ammo_capacity;
+    weapon->ammo = 0;
     weapon->fire_rate = info->fire_rate;
     weapon->windup_time = info->windup_time;
     weapon->type = info->type;

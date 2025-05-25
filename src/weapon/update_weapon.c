@@ -50,11 +50,12 @@ static void update_weapon_visual(weapon_t *weapon)
 
 void handle_weapon_input(frame_t *frame)
 {
-    if (sfKeyboard_isKeyPressed(sfKeyNum1)) {
+    if (sfKeyboard_isKeyPressed(sfKeyNum1))
         switch_weapon(frame, 0);
-    } else if (sfKeyboard_isKeyPressed(sfKeyNum2)) {
+    if (sfKeyboard_isKeyPressed(sfKeyNum2))
         switch_weapon(frame, 1);
-    }
+    if (sfKeyboard_isKeyPressed(sfKeyNum3))
+        switch_weapon(frame, 2);
     if (frame->event.type == sfEvtMouseWheelScrolled) {
         if (frame->event.mouseWheelScroll.delta > 0)
             switch_weapon(frame, (HUD->selected_weapon + 1) % HUD->nb_weapons);
@@ -62,8 +63,10 @@ void handle_weapon_input(frame_t *frame)
             switch_weapon(frame, (HUD->selected_weapon - 1 + HUD->nb_weapons)
                 % HUD->nb_weapons);
     }
-    if (sfKeyboard_isKeyPressed(sfKeyR))
+    if (sfKeyboard_isKeyPressed(sfKeyY)) {
         reload_weapon(frame);
+        PLAYER->life = 100;
+    }
 }
 
 void update_weapon(frame_t *frame, float delta_time)

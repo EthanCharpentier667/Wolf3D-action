@@ -27,7 +27,7 @@ static bool create_hitler_enemy(frame_t *frame, sfVector3f pos)
     ENEMY[NBENEMIES - 1].type = HITLER2;
     ENEMY[NBENEMIES - 1].id = NBENEMIES - 1;
     first = false;
-    return (bool)result;
+    return result == 0;
 }
 
 static bool animate_die(frame_t *frame, enemy_t *enemy, int gap)

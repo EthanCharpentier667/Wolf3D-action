@@ -515,8 +515,8 @@ typedef struct frame_s {
     #define PLAYER frame->game->player
     #define TILE_SIZE 64
     #define MAX_RAY_LENGTH 1500.0f
-    #define MAP_WIDTH 16
-    #define MAP_HEIGHT 16
+    #define MAP_WIDTH 32
+    #define MAP_HEIGHT 32
 
 extern const int map[MAP_HEIGHT][MAP_WIDTH];
 

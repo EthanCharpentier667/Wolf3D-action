@@ -2,15 +2,17 @@
 ** EPITECH PROJECT, 2025
 ** Wolf3D-action
 ** File description:
-** Knife weapon behavior
+** pistol
 */
 
 #include "frame.h"
+#include "weapon.h"
 
-static bool attempt_knife_damage(weapon_t *weapon, frame_t *frame)
+static bool attempt_pistol_damage(weapon_t *weapon, frame_t *frame)
 {
     enemy_t *target = find_enemy_in_range(frame);
 
+    weapon->ammo--;
     if (target) {
         damage_enemy(frame, target, weapon->damage);
         return true;
@@ -18,7 +20,7 @@ static bool attempt_knife_damage(weapon_t *weapon, frame_t *frame)
     return false;
 }
 
-static void handle_knife_idle(frame_t *frame, weapon_t *weapon)
+static void handle_pistol_idle(frame_t *frame, weapon_t *weapon)
 {
     weapon->current_frame = 0;
     if ((sfMouse_isButtonPressed(sfMouseLeft) ||
@@ -31,16 +33,21 @@ static void handle_knife_idle(frame_t *frame, weapon_t *weapon)
     }
 }
 
-static void handle_knife_attacking(weapon_t *weapon,
+static void handle_pistol_attacking(weapon_t *weapon,
     frame_t *frame, float delta_time)
 {
+    if (weapon->ammo <= 0) {
+        weapon->state = WEAPON_COOLDOWN;
+        weapon->current_frame = 0;
+        weapon->animation_timer = 0;
+        weapon->attack_cooldown = 0.0f;
+    }
     weapon->animation_timer += delta_time;
-    manage_cuting_sound(true);
     if (weapon->animation_timer >= 0.05f) {
         weapon->animation_timer = 0;
         weapon->current_frame++;
-        if (weapon->current_frame == 2)
-            attempt_knife_damage(weapon, frame);
+        if (weapon->current_frame == 1)
+            attempt_pistol_damage(weapon, frame);
         if (weapon->current_frame >= weapon->total_frames) {
             weapon->state = WEAPON_COOLDOWN;
             weapon->attack_cooldown = 0.3f;
@@ -50,7 +57,7 @@ static void handle_knife_attacking(weapon_t *weapon,
     }
 }
 
-static void handle_knife_cooldown(weapon_t *weapon)
+static void handle_pistol_cooldown(weapon_t *weapon)
 {
     if (weapon->attack_cooldown <= 0) {
         weapon->state = WEAPON_IDLE;
@@ -58,20 +65,20 @@ static void handle_knife_cooldown(weapon_t *weapon)
     }
 }
 
-void update_knife_behavior(weapon_t *weapon,
+void update_pistol_behavior(weapon_t *weapon,
     frame_t *frame, float delta_time)
 {
     if (weapon->attack_cooldown > 0)
         weapon->attack_cooldown -= delta_time;
     switch (weapon->state) {
         case WEAPON_IDLE:
-            handle_knife_idle(frame, weapon);
+            handle_pistol_idle(frame, weapon);
             break;
         case WEAPON_ATTACKING:
-            handle_knife_attacking(weapon, frame, delta_time);
+            handle_pistol_attacking(weapon, frame, delta_time);
             break;
         case WEAPON_COOLDOWN:
-            handle_knife_cooldown(weapon);
+            handle_pistol_cooldown(weapon);
             break;
         default:
             weapon->state = WEAPON_IDLE;
