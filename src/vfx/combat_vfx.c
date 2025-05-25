@@ -183,7 +183,6 @@ bool end_explosions(frame_t *frame)
 {
     static unsigned int explosions = 9;
     static float elapsed = 0;
-    static float since_last = 0;
     const float interval = 300.0f;
     const float rand = 30.0f;
     sfVector3f pos = get_hitler_pos(frame);
@@ -191,13 +190,12 @@ bool end_explosions(frame_t *frame)
     if (!frame->victory || explosions == 0)
         return false;
     elapsed += PLAYER->delta_time * 1000.0f;
-    since_last += PLAYER->delta_time * 1000.0f;
-    if (since_last >= interval) {
+    if (elapsed >= interval) {
         pos.x = rand_range(pos.x - rand, pos.x + rand);
         pos.y = rand_range(pos.y - rand, pos.y + rand);
         pos.z = rand_range(pos.z - rand, pos.z + rand) / 100.0f;
         explosions--;
-        since_last = 0.0f;
+        elapsed = 0.0f;
         return vfx_explosion(frame, pos);
     }
     return false;

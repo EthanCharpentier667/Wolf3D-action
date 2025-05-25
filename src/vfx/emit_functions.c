@@ -45,7 +45,7 @@ bool emit_absorb(linked_list_t *vfxs, framebuffer_t *fb,
     tempf_info = create_obj_info(frct(0, 0, emit_set->sizes / 7,
         emit_set->sizes / 7), emit_set->rotation,
         sfColor_fromRGBA(30, 30, 30, 0), emit_set->lifetime / 3 + 0.1);
-    temps_info = temps_info;
+    temps_info = tempf_info;
     temps_info.time_stamp = 0.0;
     temps_info.cframe = frct(emit_set->strength, emit_set->strength,
         emit_set->sizes / 8, emit_set->sizes / 8);
