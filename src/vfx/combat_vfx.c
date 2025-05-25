@@ -35,7 +35,6 @@ bool vfx_blood(frame_t *frame, sfVector3f abs_pos)
     set_emit_settings(&emit_set, 0.3, 1, 0);
     err += emit_grow(UI->vfx_infos.vfxs, UI->vfx_infos.impact,
         &emit_set, abs_pos);
-
     return (bool)err;
 }
 
@@ -79,7 +78,8 @@ static bool emit_splatter_color(linked_list_t *vfxs, framebuffer_t *fb,
     return play_emit(vfxs, &emit, fb, abs_pos);
 }
 
-static unsigned int vfx_emit_explosion_smoke(frame_t *frame, sfVector3f abs_pos)
+static unsigned int vfx_emit_explosion_smoke(frame_t *frame,
+    sfVector3f abs_pos)
 {
     emit_settings_t emit_set = {0};
     unsigned int err = 0;
@@ -102,8 +102,8 @@ static unsigned int vfx_emit_explosion_smoke(frame_t *frame, sfVector3f abs_pos)
     return err;
 }
 
-
-static unsigned int vfx_emit_explosion_light(frame_t *frame, sfVector3f abs_pos)
+static unsigned int vfx_emit_explosion_light(frame_t *frame,
+    sfVector3f abs_pos)
 {
     emit_settings_t emit_set = {0};
     unsigned int err = 0;
@@ -126,7 +126,8 @@ static unsigned int vfx_emit_explosion_light(frame_t *frame, sfVector3f abs_pos)
     return (bool)err;
 }
 
-static unsigned int vfx_emit_explosion_addon(frame_t *frame, sfVector3f abs_pos)
+static unsigned int vfx_emit_explosion_addon(frame_t *frame,
+    sfVector3f abs_pos)
 {
     emit_settings_t emit_set = {0};
     unsigned int err = 0;
@@ -184,14 +185,14 @@ bool end_explosions(frame_t *frame)
     static float elapsed = 0;
     static float since_last = 0;
     const float interval = 300.0f;
-    const float rand = 10.0f;
+    const float rand = 30.0f;
+    sfVector3f pos = get_hitler_pos(frame);
 
     if (!frame->victory || explosions == 0)
         return false;
     elapsed += PLAYER->delta_time * 1000.0f;
     since_last += PLAYER->delta_time * 1000.0f;
     if (since_last >= interval) {
-        sfVector3f pos = get_hitler_pos(frame);
         pos.x = rand_range(pos.x - rand, pos.x + rand);
         pos.y = rand_range(pos.y - rand, pos.y + rand);
         pos.z = rand_range(pos.z - rand, pos.z + rand) / 100.0f;

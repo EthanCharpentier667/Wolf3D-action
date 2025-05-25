@@ -19,7 +19,11 @@ float lerp(float a, float b, float mult)
 
 float clamp(float value, float min, float max)
 {
-    return value < min ? min : (value > max ? max : value);
+    if (value < min)
+        return min;
+    if (value > max)
+        return max;
+    return value;
 }
 
 float rand_range(float min, float max)
