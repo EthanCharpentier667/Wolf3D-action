@@ -27,12 +27,13 @@ int apply_volume_change_musics(frame_t *frame, float volume)
 
 int apply_difficulty_change(frame_t *frame, float difficulty)
 {
-    frame->game->difficulty = 3 * difficulty;
+    if (frame->ui->scene == GAME || frame->played)
+        return 0;
+    frame->game->difficulty = 3 * (1 - difficulty);
     if (frame->game->difficulty < 1)
         frame->game->difficulty = 1;
     else if (frame->game->difficulty > 3)
         frame->game->difficulty = 3;
-    if (!(frame->ui->scene & GAME))
-        frame->game->timer = 600 * 100 * frame->game->difficulty / 3;
+    frame->game->timer = 600 * frame->game->difficulty / 3;
     return 0;
 }

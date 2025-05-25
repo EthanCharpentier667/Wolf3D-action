@@ -42,6 +42,7 @@ enum buttons_actions {
     SAVE,
     RESUME,
     QUIT_GAME,
+    BGAME_OVER,
     AITEM,
     SAVES_LIST,
 };

@@ -19,6 +19,7 @@ int main(int argc, char **argv)
         free(frame);
         return 84;
     }
+    sfRenderWindow_requestFocus(WINDOW);
     while (sfRenderWindow_isOpen(WINDOW)) {
         handle_event(&(frame->event), frame);
         sfRenderWindow_clear(WINDOW, sfBlack);
