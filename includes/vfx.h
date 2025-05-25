@@ -139,7 +139,7 @@ bool vfx_blood(frame_t *frame, sfVector3f abs_pos);
 bool vfx_bullet_drop(frame_t *frame, sfVector3f abs_pos);
 bool vfx_grab(frame_t *frame, sfVector3f abs_pos);
 bool vfx_unlock(frame_t *frame, sfVector3f abs_pos);
-bool vfx_explosion(frame_t *frame, sfVector3f abs_pos);
+bool vfx_explosion(frame_t *frame, sfVector3f abs_pos, bool);
 
 void impact_wall(frame_t *frame, float range);
 bool end_explosions(frame_t *frame);

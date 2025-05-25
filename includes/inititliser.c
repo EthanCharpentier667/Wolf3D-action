@@ -138,6 +138,10 @@ const struct text_infos_s TEXTS_INFOS[] = {
 const struct sound_infos_s SOUNDS_INFOS[] = {
     {RES "hover.wav"},
     {RES "click.wav"},
+    {RES "rock_collapse.mp3"},
+    {RES "clack.mp3"},
+    {RES "hit.mp3"},
+    {RES "explosion.mp3"},
     {NULL}
 };
 

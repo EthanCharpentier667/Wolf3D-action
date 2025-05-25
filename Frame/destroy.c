@@ -61,6 +61,7 @@ void destroy_all(frame_t *frame)
     destroy_texts(frame->ui);
     destroy_buttons(frame->ui);
     destroy_clocks(frame);
+    free_list(UI->vfx_infos.vfxs, &free);
     sfRenderWindow_destroy(frame->window);
     free(frame);
 }

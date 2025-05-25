@@ -142,27 +142,31 @@ static unsigned int vfx_emit_explosion_addon(frame_t *frame,
     set_emit_settings(&emit_set, 0.42, 1, 0);
     err += emit_grow(UI->vfx_infos.vfxs,
         UI->vfx_infos.unlocked, &emit_set, abs_pos);
-    emit_set = create_emit_settings(0, 1.5, 0,
-        sfColor_fromRGBA(255, 250, 140, 110));
+    emit_set = create_emit_settings(0, 1.5, 50,
+        sfColor_fromRGBA(255, 250, 140, 60));
     set_emit_settings(&emit_set, 0.22, 1, 0);
     err += emit_splatter(UI->vfx_infos.vfxs,
         UI->vfx_infos.droplet, &emit_set, abs_pos);
     return (bool)err;
 }
 
-bool vfx_explosion(frame_t *frame, sfVector3f abs_pos)
+bool vfx_explosion(frame_t *frame, sfVector3f abs_pos, bool mega)
 {
     emit_settings_t emit_set = {0};
     unsigned int err = 0;
 
-    vfx_emit_explosion_smoke(frame, abs_pos);
+    if (mega)
+        vfx_emit_explosion_smoke(frame, abs_pos);
     emit_set = create_emit_settings(280, 3.5, 400.0,
         sfColor_fromRGBA(255, 110, 30, 255));
     set_emit_settings(&emit_set, 2.5, 5, 40);
-    err += emit_splatter_color(UI->vfx_infos.vfxs,
-        UI->vfx_infos.fireball, &emit_set, abs_pos);
+    if (mega)
+        err += emit_splatter_color(UI->vfx_infos.vfxs,
+            UI->vfx_infos.fireball, &emit_set, abs_pos);
     vfx_emit_explosion_addon(frame, abs_pos);
     vfx_emit_explosion_light(frame, abs_pos);
+    play_sound(frame, 5, 17000 / hypot3f(abs_pos.x - PLAYER->pos.x,
+        abs_pos.y - PLAYER->pos.x, 0));
     return (bool)err;
 }
 
@@ -183,7 +187,7 @@ bool end_explosions(frame_t *frame)
 {
     static unsigned int explosions = 9;
     static float elapsed = 0;
-    const float interval = 300.0f;
+    const float interval = 240.0f;
     const float rand = 30.0f;
     sfVector3f pos = get_hitler_pos(frame);
 
@@ -198,7 +202,9 @@ bool end_explosions(frame_t *frame)
         pos.z = rand_range(pos.z - rand, pos.z + rand) / 100.0f;
         explosions--;
         elapsed = 0.0f;
-        return vfx_explosion(frame, pos);
+        if (explosions == 0)
+            return vfx_explosion(frame, pos, 1);
+        return vfx_explosion(frame, pos, 0);
     }
     return false;
 }

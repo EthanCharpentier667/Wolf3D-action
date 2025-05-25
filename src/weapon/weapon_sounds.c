@@ -77,26 +77,3 @@ void manage_cuting_sound(bool should_play)
         sfSound_setVolume(sound_cut, 0);
     }
 }
-
-void play_sound(bool should_play, const char *filepath, float volume)
-{
-    static sfSound *sound = NULL;
-    static sfSoundBuffer *sb = NULL;
-
-    if (!sound) {
-        sound = sfSound_create();
-        sb = sfSoundBuffer_createFromFile(filepath);
-        if (!sb || !sound)
-            return;
-        sfSound_setBuffer(sound, sb);
-    }
-    if (!sound)
-        return;
-    if (should_play) {
-        sfSound_setVolume(sound, volume);
-        dprintf(1, "%f\n", volume);
-        sfSound_play(sound);
-    } else if (!should_play && (sfSound_getStatus(sound) == sfPlaying)) {
-        sfSound_stop(sound);
-    }
-}

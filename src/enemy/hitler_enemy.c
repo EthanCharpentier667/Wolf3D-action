@@ -27,7 +27,7 @@ static bool create_hitler_enemy(frame_t *frame, sfVector3f pos)
     ENEMY[NBENEMIES - 1].type = HITLER2;
     ENEMY[NBENEMIES - 1].id = NBENEMIES - 1;
     first = false;
-    return true;
+    return (bool)result;
 }
 
 static bool animate_die(frame_t *frame, enemy_t *enemy, int gap)
@@ -65,7 +65,7 @@ static bool handle_die(frame_t *frame, enemy_t *enemy)
         enemy->is_attacking = false;
         pos = v3f(enemy->pos.x, enemy->pos.y, enemy->pos.z + 1);
         if (enemy->type == HITLER)
-            vfx_explosion(frame, pos);
+            vfx_explosion(frame, pos, 1);
         if (enemy->type == HITLER2) {
             frame->victory = true;
         }
