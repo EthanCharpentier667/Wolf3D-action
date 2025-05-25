@@ -743,6 +743,7 @@ void update_timer(frame_t *frame);
 void create_save_directory(void);
 int check_game_status(frame_t *frame);
 int get_storable_item_count(frame_t *frame);
+void update_windows(frame_t *frame);
 
 //KEYBINDS
 sfKeyCode *get_button_keycode(frame_t *frame, int action);
