@@ -119,6 +119,7 @@ static int create_save_button(frame_t *frame, save_info_t *save,
     snprintf(save_info, sizeof(save_info), "%s - %s", save->name, save->date);
     create_text(UI, save_info, sfWhite, v3f(16, pos.x, pos.y + 120));
     frame->game->saves->texts[save_index] = UI->texts[UI->nb_texts - 1];
+    wrap_text(frame->game->saves->texts[save_index].text, 100);
     frame->game->saves->name[save_index] = strdup(save->name);
     applied_button(frame->ui);
     return 0;

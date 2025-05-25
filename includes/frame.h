@@ -739,6 +739,7 @@ bool load_frame(frame_t *frame, char *save);
 int loads_saved_games(frame_t *frame);
 void free_save(saves_t *saves, frame_t *frame);
 void update_timer(frame_t *frame);
+void create_save_directory(void);
 int check_game_status(frame_t *frame);
 int get_storable_item_count(frame_t *frame);
 

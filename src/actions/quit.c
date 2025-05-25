@@ -10,6 +10,7 @@
 int do_game_quit(frame_t *frame)
 {
     UI->pause = !UI->pause;
+    do_save(frame);
     change_scene(frame, MAINMENU);
     sfRenderWindow_setMouseCursorVisible(WINDOW, sfTrue);
     return 0;
