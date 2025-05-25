@@ -11,7 +11,7 @@ static void lerp_cam_angle(player_t *player)
 {
     float mult = clamp(MOUSE_SLIDE * player->delta_time, 0, 1)
         * clamp(player->life, 10, player->max_life)
-        / player->max_life * 1.5;
+        / player->max_life * 2.8;
 
     player->angle.x = lerp(player->angle.x, player->fut_angle.x,
         mult);
