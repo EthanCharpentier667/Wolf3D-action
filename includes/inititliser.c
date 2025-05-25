@@ -534,7 +534,7 @@ const struct sound_infos_s SOUNDS_INFOS[] = {
     {RES "rock_collapse.mp3"},
     {RES "clack.mp3"},
     {RES "hit.mp3"},
-    {RES "explosion.mp3"},
+    {RES "pistol.mp3"},
     {NULL}
 };
 

@@ -49,7 +49,9 @@ bool load_inventory_data(frame_t *frame, FILE *file)
         return false;
     if (PLAYER->inventory && inventory_temp.nb_items <= MAX_ITEMS)
         copy_inventory_data(frame, &inventory_temp);
-    else
+    else {
         fprintf(stderr, "Invalid inventory data (NULL or too many items)\n");
+        return false;
+    }
     return true;
 }

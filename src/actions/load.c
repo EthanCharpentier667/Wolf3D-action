@@ -32,7 +32,8 @@ int load_save_callback(frame_t *frame, int button_index)
         return 84;
     snprintf(filepath, sizeof(filepath), "sswolfs/save-%s.ww2",
         frame->game->saves->name[save_index]);
-    load_frame(frame, filepath);
+    if (!load_frame(frame, filepath))
+        exit(84);
     frame->save = strdup(filepath);
     go_game(frame);
     free_save(frame->game->saves, frame);

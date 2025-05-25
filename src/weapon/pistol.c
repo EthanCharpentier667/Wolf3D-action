@@ -14,6 +14,7 @@ static bool attempt_pistol_damage(weapon_t *weapon, frame_t *frame)
 
     weapon->ammo--;
     vfx_bullet_drop(frame, get_front(PLAYER, 21, v3f(0, 0, -0.1)));
+    play_sound(frame, 5, 100);
     if (target) {
         damage_enemy(frame, target, weapon->damage);
         return true;
