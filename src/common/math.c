@@ -19,14 +19,10 @@ float lerp(float a, float b, float mult)
 
 float clamp(float value, float min, float max)
 {
-    if (value < min) {
-        value = min;
+    if (value < min)
         return min;
-    }
-    if (value > max) {
-        value = max;
+    if (value > max)
         return max;
-    }
     return value;
 }
 

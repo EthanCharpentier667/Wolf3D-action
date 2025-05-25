@@ -36,6 +36,11 @@ bool vfx_dust_impact(frame_t *frame, sfVector3f abs_pos)
     emit_settings_t emit_set = {0};
     unsigned int err = vfx_emit_smoke_and_droplets(frame, abs_pos);
 
+    emit_set = create_emit_settings(0, 1.7, 300,
+        sfColor_fromRGBA(150, 150, 150, 60));
+    set_emit_settings(&emit_set, 0.7, 1, 200);
+    err += emit_grow(UI->vfx_infos.vfxs, UI->vfx_infos.splash,
+        &emit_set, abs_pos);
     emit_set = create_emit_settings(0, 0.35, 360,
         sfColor_fromRGBA(255, 255, 240, 255));
     set_emit_settings(&emit_set, 0.18, 1, 0);

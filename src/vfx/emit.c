@@ -64,7 +64,7 @@ static void rand_obj_info(obj_info_t *buff, obj_info_t *raw, obj_info_t *rand)
     buff->cframe.width = rand_range(raw->cframe.width - rand->cframe.width / 2,
         raw->cframe.width + rand->cframe.width / 2);
     buff->cframe.height = rand_range(raw->cframe.height -
-        raw->cframe.height / 2, raw->cframe.height + rand->cframe.height / 2);
+        rand->cframe.height / 2, raw->cframe.height + rand->cframe.height / 2);
 }
 
 bool play_emit(linked_list_t *vfxs,
