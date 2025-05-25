@@ -756,4 +756,7 @@ bool load_objects_data(frame_t *frame, FILE *file);
 bool load_items_data(frame_t *frame, FILE *file);
 bool load_enemies_data(frame_t *frame, FILE *file);
 
+//MUSICS
+int change_music(frame_t *frame, int music);
+
 #endif /* !FRAME_H_ */

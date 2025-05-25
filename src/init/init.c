@@ -73,5 +73,6 @@ bool init_frame(frame_t *frame)
     frame->played = false;
     frame->victory = false;
     frame->game_over = false;
+    change_music(frame, 0);
     return true;
 }
