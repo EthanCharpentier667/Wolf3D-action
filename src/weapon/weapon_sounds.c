@@ -15,8 +15,6 @@ void manage_windup_sound(bool should_play, int volume)
     if (!sound_wdup) {
         sound_wdup = sfSound_create();
         sb = sfSoundBuffer_createFromFile(RES "windup_mg.wav");
-        if (!sb || !sound_wdup)
-            return;
         sfSound_setBuffer(sound_wdup, sb);
         sfSound_setVolume(sound_wdup, volume);
         sfSound_setLoop(sound_wdup, sfTrue);
@@ -40,8 +38,6 @@ void manage_firing_sound(bool should_play, int volume)
     if (!sound_fire) {
         sound_fire = sfSound_create();
         sb = sfSoundBuffer_createFromFile(RES "shot_mg.wav");
-        if (!sb || !sound_fire)
-            return;
         sfSound_setBuffer(sound_fire, sb);
         sfSound_setLoop(sound_fire, sfTrue);
         sfSound_setVolume(sound_fire, volume);
