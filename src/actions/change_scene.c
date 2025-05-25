@@ -7,15 +7,16 @@
 
 #include "frame.h"
 
-void change_scene(frame_t *frame, int scene)
+bool change_scene(frame_t *frame, int scene)
 {
     if (scene == frame->ui->scene)
-        return;
+        return true;
     if (scene & (SETTINGS_CONTROLS | SETTINGS_RESOLUTION) ||
         UI->scene & (SETTINGS_CONTROLS | SETTINGS_RESOLUTION)) {
         UI->scene = scene;
-        return;
+        return true;
     }
     UI->last_scene = UI->scene;
     UI->scene = scene;
+    return false;
 }

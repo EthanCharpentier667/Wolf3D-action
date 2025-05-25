@@ -9,7 +9,7 @@
 
 const char *get_key_name(sfKeyCode key_code)
 {
-    for (size_t i = 0; i < sizeof(KEY_NAMES) / sizeof(KEY_NAMES[0]); i++) {
+    for (size_t i = 0; KEY_NAMES[i].name; i++) {
         if (KEY_NAMES[i].code == key_code) {
             return KEY_NAMES[i].name;
         }
