@@ -48,7 +48,7 @@ void update_windows(frame_t *frame)
     float elapsed_time = sfTime_asSeconds(current_time) -
         sfTime_asSeconds(frame->clock[6].time);
 
-    if (elapsed_time > 10.0f) {
+    if (elapsed_time > 100.0f) {
         change_all_windows_texture(frame);
         frame->clock[6].time = sfClock_getElapsedTime(frame->clock[6].clock);
     }
