@@ -22,4 +22,6 @@ extern const struct sound_infos_s SOUNDS_INFOS[];
 
 extern const struct musics_infos_s MUSICS_INFOS[];
 
+void play_sound(frame_t *frame, unsigned int sound, float volume);
+
 #endif /* !SOUNDS_H_ */
