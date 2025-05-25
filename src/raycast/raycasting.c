@@ -42,7 +42,7 @@ static void draw_wall_cols(frame_t *frame,
         .vertical_offset = (int)(WINDOWY * tanf(PLAYER->angle.y) / 2),
         .ray_index = (i - 1),
         .light_color = sfColor_fromRGBA(
-        255, 255, 255, (sfUint8)(255 * light))
+        255 * light, 255 * light, 255 * light, 255)
     };
 
     render_wall_column_textured(frame, prms);
