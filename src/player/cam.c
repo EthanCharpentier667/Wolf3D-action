@@ -15,6 +15,8 @@ static void set_future_angle(player_t *player,
     sfVector2f mouse_addon = {0, 0};
     sfVector2i mouse_pos = frame->real_mouse;
 
+    if (UI->pause)
+        return;
     cam_angle.x = sfKeyboard_isKeyPressed(sfKeyRight) -
         sfKeyboard_isKeyPressed(sfKeyLeft);
     cam_angle.y = sfKeyboard_isKeyPressed(sfKeyUp) -
