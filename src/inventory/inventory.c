@@ -60,7 +60,6 @@ void pick_item(frame_t *frame, item_t *item)
         return;
     if (distance_to_player(frame, item->pos) > 50.0f)
         return;
-    vfx_grab(frame, v3f(item->pos.x, item->pos.y, item->pos.z + 0.1));
     for (int i = 0; i < PLAYER->inventory->nb_items; i++)
         if (strcmp(PLAYER->inventory->items[i].name, item->name) == 0) {
             PLAYER->inventory->item_coun[i]++;
@@ -71,4 +70,5 @@ void pick_item(frame_t *frame, item_t *item)
     PLAYER->inventory->item_coun[PLAYER->inventory->nb_items] = 1;
     PLAYER->inventory->nb_items++;
     destory_item(frame, item);
+    vfx_grab(frame, v3f(item->pos.x, item->pos.y, item->pos.z + 0.1));
 }

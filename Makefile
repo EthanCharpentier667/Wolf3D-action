@@ -82,6 +82,7 @@ SRC	=	includes/inititliser.c          \
         $(ACTION_DIR)load.c                 \
         $(ACTION_DIR)resolution.c                   \
         $(ACTION_DIR)keybinds.c                      \
+        $(ACTION_DIR)sliders.c                   \
         $(COMMON_DIR)math.c                     \
         $(GAME_DIR)load.c       \
         $(GAME_DIR)load_frame.c       \
@@ -90,6 +91,7 @@ SRC	=	includes/inititliser.c          \
         $(GAME_DIR)load_objects_data.c       \
         $(GAME_DIR)load_items_data.c       \
         $(GAME_DIR)load_enemies_data.c       \
+        $(GAME_DIR)timer.c       \
         $(INVENTORY_DIR)init_inventory.c       \
         $(INVENTORY_DIR)inventory.c       \
         $(INVENTORY_DIR)draw_inventory.c       \
@@ -127,7 +129,7 @@ OBJ	=	$(SRC:.c=.o)
 
 INCLUDES	=	-I./includes
 
-CFLAGS	=	-Wall -Wextra -I./includes -Wno-deprecated-declarations
+CFLAGS	=	-Wall -Wextra -I./includes -Wno-deprecated-declarations -g
 
 LDFLAGS	=	-lcsfml-graphics -lcsfml-window -lcsfml-system -lcsfml-audio \
         -lm  -Wno-deprecated-declarations

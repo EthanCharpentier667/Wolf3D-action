@@ -16,8 +16,6 @@ static bool create_hitler_enemy(frame_t *frame, sfVector3f pos)
         return false;
     result = create_enemy(frame,
         RES"Hitler.png", v2f(2.5, 2.5), v3f(pos.x, pos.y, -1.0f));
-    if (result != 0)
-        return true;
     ENEMY[NBENEMIES - 1].rec = irct(0, 0, 60, 62);
     ENEMY[NBENEMIES - 1].max_life = 500;
     ENEMY[NBENEMIES - 1].life = 500;
@@ -27,6 +25,7 @@ static bool create_hitler_enemy(frame_t *frame, sfVector3f pos)
     ENEMY[NBENEMIES - 1].speed = 0.75f;
     ENEMY[NBENEMIES - 1].drop = NULL;
     ENEMY[NBENEMIES - 1].type = HITLER2;
+    ENEMY[NBENEMIES - 1].id = NBENEMIES - 1;
     first = false;
     return true;
 }

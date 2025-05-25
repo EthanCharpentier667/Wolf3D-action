@@ -376,6 +376,7 @@ typedef struct enemy_s {
     float speed;
     float damages;
     float attack_range;
+    float follow_range;
     bool is_moving;
     bool follow_player;
     bool is_attacking;
@@ -383,6 +384,7 @@ typedef struct enemy_s {
     int life;
     int max_life;
     int type;
+    int id;
     sfClock *attack_cd_clock;
     float attack_cooldown;
     bool can_attack;
@@ -462,6 +464,8 @@ typedef struct game_s {
     int nb_enemies_alive;
     int level;
     int nb_env;
+    int timer;
+    float difficulty;
 } game_t;
 
     #define WINDOWX 800
@@ -730,6 +734,7 @@ float rand_range(float min, float max);
 bool load_frame(frame_t *frame, char *save);
 int loads_saved_games(frame_t *frame);
 void free_save(saves_t *saves, frame_t *frame);
+void update_timer(frame_t *frame);
 
 //KEYBINDS
 sfKeyCode *get_button_keycode(frame_t *frame, int action);

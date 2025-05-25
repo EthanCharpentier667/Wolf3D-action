@@ -155,5 +155,6 @@ int game(frame_t *frame)
     draw_pausemenu(frame);
     update_all(frame, delta_time);
     end_explosions(frame);
+    update_timer(frame);
     return 0;
 }

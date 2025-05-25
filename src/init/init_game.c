@@ -96,6 +96,7 @@ static void fill_enemy_data(enemy_t *enemy, int i)
     enemy->attack_cooldown = ENEMY_INFOS[i].attack_cooldown;
     enemy->drop = ENEMY_INFOS[i].drop_item;
     enemy->type = ENEMY_INFOS[i].type;
+    enemy->follow_range = ENEMY_INFOS[i].follow_range;
 }
 
 static bool init_enemies(frame_t *frame)
@@ -107,6 +108,7 @@ static bool init_enemies(frame_t *frame)
         result += create_enemy(frame, ENEMY_INFOS[i].path,
             ENEMY_INFOS[i].scale, ENEMY_INFOS[i].pos);
         fill_enemy_data(&ENEMY[NBENEMIES - 1], i);
+        ENEMY[NBENEMIES - 1].id = NBENEMIES - 1;
     }
     if (result != 0)
         return false;
@@ -195,5 +197,7 @@ bool init_game(frame_t *frame)
     if (!frame->game->saves)
         return false;
     frame->game->saves->nb_saves = 0;
+    frame->game->difficulty = 3;
+    frame->game->timer = 600;
     return true;
 }
