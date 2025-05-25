@@ -202,8 +202,6 @@ bool end_explosions(frame_t *frame)
         pos.z = rand_range(pos.z - rand, pos.z + rand) / 100.0f;
         explosions--;
         elapsed = 0.0f;
-        if (explosions == 0)
-            return vfx_explosion(frame, pos, 1);
         return vfx_explosion(frame, pos, 0);
     }
     return false;
