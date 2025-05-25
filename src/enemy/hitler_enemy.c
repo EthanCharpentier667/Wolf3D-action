@@ -48,8 +48,6 @@ static bool animate_die(frame_t *frame, enemy_t *enemy, int gap)
         enemy->rec.top = enemy->rec.height * 6 + gap;
     else {
         enemy->rec.top = enemy->rec.height * 5 + gap;
-        if (current_frame == 2)
-            return create_hitler_enemy(frame, enemy->pos);
     }
     return false;
 }
@@ -67,6 +65,7 @@ static bool handle_die(frame_t *frame, enemy_t *enemy)
         if (enemy->type == HITLER)
             vfx_explosion(frame, pos, 1);
         if (enemy->type == HITLER2) {
+            create_hitler_enemy(frame, enemy->pos);
             frame->victory = true;
         }
     }
