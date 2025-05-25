@@ -27,26 +27,29 @@ static void change_all_windows_texture(frame_t *frame)
 {
     fixed_object_t *object = NULL;
     int random_value = rand() % 4;
+    char *texture_path = get_texture_path(random_value);
+    sfTexture *new_texture = sfTexture_createFromFile(texture_path, NULL);
 
+    if (!new_texture)
+        return;
     for (int i = 0; i < NB_FIXED_OBJECTS; i++) {
         object = &frame->game->fixed_objects[i];
         if (object->solid == WINDOW_CLOSED) {
             sfTexture_destroy(object->texture);
-            object->texture = sfTexture_createFromFile(
-                get_texture_path(random_value), NULL);
+            object->texture = sfTexture_copy(new_texture);
         }
-        if (!object->texture)
-            sfTexture_createFromFile(RES "window.png", NULL);
     }
+    sfTexture_destroy(new_texture);
 }
 
 void update_windows(frame_t *frame)
 {
-    float delta_time = sfTime_asSeconds(frame->clock[6].time);
+    sfTime current_time = sfClock_getElapsedTime(frame->clock[6].clock);
+    float elapsed_time = sfTime_asSeconds(current_time) -
+        sfTime_asSeconds(frame->clock[6].time);
 
-    frame->clock[6].time = sfClock_getElapsedTime(frame->clock[6].clock);
-    if (delta_time > 100.0f) {
+    if (elapsed_time > 10.0f) {
         change_all_windows_texture(frame);
-        sfClock_restart(frame->clock[6].clock);
+        frame->clock[6].time = sfClock_getElapsedTime(frame->clock[6].clock);
     }
 }
