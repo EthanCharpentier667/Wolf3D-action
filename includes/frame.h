@@ -524,7 +524,6 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
     #define FOV (M_PI / 3)
     #define NUM_RAYS WINDOWX
     #define MOUSE_SENSITIVITY 0.0008
-    #define MOUSE_SLIDE 16.5
     #define MAX_CAM_Y M_PI / 2
 
     #define SLIDERS ui->sliders
