@@ -127,6 +127,16 @@ const struct item_infos_s ITEM_INFOS[] = {
         "Take your weapon in hand\nand use it for 40 ammo"},
     {RES "key.png", {0.5, 0.5}, {1792 + 8, 128 + 48, -0.50},
         {-1, -1, -1, -1}, "Key", true, false, "The Key Of The Door"},
+    {RES "ammo_box.png", { 0.5, 0.5}, {832 + 32, 1088 + 32, -0.50},
+        {-1, -1, -1, -1}, "Ammo_box", true, true,
+        "Take your weapon in hand\nand use it for 40 ammo"},
+    {RES "ammo_box.png", { 0.5, 0.5}, {896 + 32, 1088 + 32, -0.50},
+        {-1, -1, -1, -1}, "Ammo_box", true, true,
+        "Take your weapon in hand\nand use it for 40 ammo"},
+    {RES "heal.png", {0.8, 0.8}, {832 + 32, 1152 + 32, -0.50},
+        {-1, -1, -1, -1}, "Heal", true, true, "Heal of 20 HP"},
+    {RES "heal.png", {0.8, 0.8}, {896 + 32, 1152 + 32, -0.50},
+        {-1, -1, -1, -1}, "Heal", true, true, "Heal of 20 HP"},
     {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, "", false, false, ""},
 };
 
