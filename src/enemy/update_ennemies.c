@@ -33,7 +33,7 @@ static bool enemy_can_see_player(frame_t *frame, enemy_t *enemy)
 
 static bool handle_enemies(frame_t *frame, enemy_t *enemy)
 {
-    if (enemy->type == BASIC)
+    if (enemy->type == BASIC || enemy->type == BASICBLUE)
             handle_basic_enemy(frame, enemy);
     if (enemy->type == HITLER || enemy->type == HITLER2)
         if (handle_hitler_enemy(frame, enemy))
