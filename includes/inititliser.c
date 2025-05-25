@@ -325,7 +325,8 @@ const struct sound_infos_s SOUNDS_INFOS[] = {
 };
 
 const struct musics_infos_s MUSICS_INFOS[] = {
-    //{RES "theme.ogg"},
+    {RES "mm.ogg"},
+    {RES "game.ogg"},
     {NULL}
 };
 

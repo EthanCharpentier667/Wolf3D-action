@@ -62,10 +62,12 @@ static void check_save(frame_t *frame)
             sfRenderWindow_setMouseCursorVisible(WINDOW, sfFalse);
             sfMouse_setPositionRenderWindow(v2i(WINDOWX / 2,
                 WINDOWY / 2), WINDOW);
+            change_music(frame, 1);
             frame->played = true;
         }
     } else {
         frame->game->level = 1;
+        change_music(frame, 1);
         change_scene(frame, GAME);
     }
 }

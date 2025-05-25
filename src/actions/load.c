@@ -9,6 +9,14 @@
 #include <dirent.h>
 #include <sys/types.h>
 
+static void go_game(frame_t *frame)
+{
+    PLAYER->pause = false;
+    UI->pause = false;
+    change_scene(frame, GAME);
+    change_music(frame, 1);
+}
+
 int load_save_callback(frame_t *frame, int button_index)
 {
     int save_index = -1;
@@ -26,9 +34,7 @@ int load_save_callback(frame_t *frame, int button_index)
         frame->game->saves->name[save_index]);
     load_frame(frame, filepath);
     frame->save = strdup(filepath);
-    PLAYER->pause = false;
-    UI->pause = false;
-    change_scene(frame, GAME);
+    go_game(frame);
     free_save(frame->game->saves, frame);
     return 0;
 }
