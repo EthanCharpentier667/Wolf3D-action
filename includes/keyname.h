@@ -50,8 +50,8 @@ static const key_name_t KEY_NAMES[] = {
     {sfKeyF5, "F5"}, {sfKeyF6, "F6"}, {sfKeyF7, "F7"}, {sfKeyF8, "F8"},
     {sfKeyF9, "F9"}, {sfKeyF10, "F10"}, {sfKeyF11, "F11"}, {sfKeyF12, "F12"},
     {sfKeyF13, "F13"}, {sfKeyF14, "F14"}, {sfKeyF15, "F15"},
-    {sfKeyPause, "Pause"},
-    {sfKeyUnknown, "Unknown"}
+    {sfKeyPause, "Pause"}, {sfKeyUnknown, "Unknown"},
+    {0, NULL}
 };
 
 #endif /* !KEYNAME_H_ */

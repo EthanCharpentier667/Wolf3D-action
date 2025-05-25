@@ -38,6 +38,8 @@ SRC	=	includes/inititliser.c          \
         $(SCENES_DIR)settings.c                    \
         $(SCENES_DIR)scenes_manager.c           \
         $(SCENES_DIR)loads_scene.c                    \
+        $(SCENES_DIR)victory.c                \
+        $(SCENES_DIR)gameover.c                    \
         $(CREATE_DIR)button.c                   \
         $(CREATE_DIR)clocks.c                   \
         $(CREATE_DIR)sound.c                    \
@@ -92,6 +94,7 @@ SRC	=	includes/inititliser.c          \
         $(GAME_DIR)load_items_data.c       \
         $(GAME_DIR)load_enemies_data.c       \
         $(GAME_DIR)timer.c       \
+        $(GAME_DIR)game_status.c       \
         $(INVENTORY_DIR)init_inventory.c       \
         $(INVENTORY_DIR)inventory.c       \
         $(INVENTORY_DIR)draw_inventory.c       \

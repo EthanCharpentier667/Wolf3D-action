@@ -96,9 +96,31 @@ static bool save_new_game(frame_t *frame)
     return true;
 }
 
+static void delete_save(char *save, char *name)
+{
+    char image_path[256];
+
+    if (!save)
+        save = "sswolfs/save-EthanLeGrand.ww2";
+    if (!name)
+        name = "EthanLeGrand";
+    snprintf(image_path, sizeof(image_path),
+        "sswolfs/save-%s.png", name);
+    if (remove(save) != 0)
+        fprintf(stderr, "Error deleting save file: %s\n", save);
+    if (remove(image_path) != 0)
+        fprintf(stderr, "Error deleting save image: %s\n", image_path);
+}
+
 int do_save(frame_t *frame)
 {
     create_save_directory();
+    if (frame->victory) {
+        delete_save(frame->save, frame->name);
+        return 0;
+    }
+    if (frame->game_over)
+        return 0;
     if (frame->save)
         return save_game(frame->save, frame);
     else

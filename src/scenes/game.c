@@ -141,6 +141,7 @@ int game(frame_t *frame)
 {
     float delta_time = get_delta_time(&(frame->clock[2]));
 
+    check_game_status(frame);
     sfRenderWindow_clear(WINDOW, sfBlack);
     clear_light_map(frame);
     applied(frame->img);
