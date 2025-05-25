@@ -20,7 +20,7 @@ int check_game_status(frame_t *frame)
         stop_sounds();
         frame->game_over = true;
         UI->pause = true;
-        change_scene(frame, GAME_OVER);
+        sfMusic_stop(UI->musics[1].music);
         return 1;
     }
     return 0;
