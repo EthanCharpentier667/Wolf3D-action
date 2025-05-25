@@ -15,7 +15,7 @@ static char *get_texture_path(int random_value)
         case 1:
             return RES "window2.png";
         case 2:
-            return RES"window3.png";
+            return RES "window3.png";
         case 3:
             return RES "window4.png";
         default:
