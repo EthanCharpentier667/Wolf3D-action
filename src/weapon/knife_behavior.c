@@ -35,7 +35,7 @@ static void handle_knife_attacking(weapon_t *weapon,
     frame_t *frame, float delta_time)
 {
     weapon->animation_timer += delta_time;
-    manage_cuting_sound(true);
+    manage_cuting_sound(true, frame->ui->settings->sound_volume * 100);
     if (weapon->animation_timer >= 0.05f) {
         weapon->animation_timer = 0;
         weapon->current_frame++;

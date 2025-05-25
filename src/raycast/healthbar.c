@@ -95,6 +95,8 @@ void draw_health_bar_3d(frame_t *frame, int index,
     enemyheight = 1.0f;
     if (ENEMY[index].type == HITLER2 || ENEMY[index].type == HITLER)
         enemyheight = 1.2f;
+    if (ENEMY[index].type == BASICBLUE)
+        enemyheight = 1.2f;
     calculate_health_bar_position(frame, v2f(index, enemyheight),
         health_texture, &health_data);
     render_item_columns(frame, (sfTexture *)health_texture,

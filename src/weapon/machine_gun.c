@@ -39,13 +39,14 @@ static void update_windup_animation(weapon_t *weapon)
         weapon->current_frame = 2;
 }
 
-static void handle_machinegun_windup(weapon_t *weapon, float delta_time)
+static void handle_machinegun_windup(frame_t *frame,
+    weapon_t *weapon, float delta_time)
 {
     weapon->windup_timer += delta_time;
     weapon->animation_timer += delta_time;
-    manage_windup_sound(true);
+    manage_windup_sound(true, frame->ui->settings->sound_volume * 100);
     if (!weapon->is_trigger_held) {
-        manage_windup_sound(false);
+        manage_windup_sound(false, frame->ui->settings->sound_volume);
         weapon->state = WEAPON_WINDDOWN;
         weapon->current_frame = 2;
         weapon->animation_timer = 0;
@@ -56,7 +57,7 @@ static void handle_machinegun_windup(weapon_t *weapon, float delta_time)
         update_windup_animation(weapon);
         if ((weapon->current_frame >= 2) &&
             weapon->windup_timer >= weapon->windup_time && weapon->ammo > 0) {
-            manage_windup_sound(false);
+            manage_windup_sound(false, 0);
             weapon->state = WEAPON_FIRING;
             weapon->current_frame = 0;
         }
@@ -77,9 +78,9 @@ static void handle_machinegun_firing(weapon_t *weapon,
 {
     float fire_interval = 1.0f / weapon->fire_rate;
 
-    manage_firing_sound(true);
+    manage_firing_sound(true, frame->ui->settings->sound_volume * 100);
     if (!weapon->is_trigger_held || weapon->ammo <= 0) {
-        manage_firing_sound(false);
+        manage_firing_sound(false, 0);
         weapon->state = WEAPON_WINDDOWN;
         weapon->current_frame = 2;
         weapon->animation_timer = 0;
@@ -99,8 +100,8 @@ static void handle_machinegun_firing(weapon_t *weapon,
 
 static void handle_windown(weapon_t *weapon)
 {
-    manage_firing_sound(false);
-    manage_windup_sound(false);
+    manage_firing_sound(false, 0);
+    manage_windup_sound(false, 0);
     if (weapon->current_frame == 2) {
         weapon->current_frame = 3;
     } else if (weapon->current_frame == 3) {
@@ -137,7 +138,7 @@ void update_machinegun_behavior(weapon_t *weapon,
             handle_machinegun_idle(weapon);
             break;
         case WEAPON_WINDUP:
-            handle_machinegun_windup(weapon, delta_time);
+            handle_machinegun_windup(frame, weapon, delta_time);
             break;
         case WEAPON_FIRING:
             handle_machinegun_firing(weapon, frame, delta_time);
