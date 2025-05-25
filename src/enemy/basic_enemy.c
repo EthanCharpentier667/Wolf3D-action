@@ -29,7 +29,7 @@ static void handle_die(frame_t *frame, enemy_t *enemy)
     if (enemy->life <= 0 && enemy->is_dead == false) {
         sfClock_restart(enemy->clock);
         item_index = get_item_index(enemy->drop);
-        if (item_index > 0)
+        if (item_index >= 0)
             drop_item_at_pos(frame, item_index,
                 v2f(enemy->pos.x, enemy->pos.y));
         enemy->is_dead = true;

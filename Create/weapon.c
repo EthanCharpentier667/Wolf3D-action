@@ -58,7 +58,7 @@ static void copy_weapon_properties(weapon_t *weapon,
     weapon->attack_width = info->attack_width;
     weapon->damage = info->damage;
     weapon->ammo_capacity = info->ammo_capacity;
-    weapon->ammo = info->ammo_capacity;
+    weapon->ammo = 0;
     weapon->fire_rate = info->fire_rate;
     weapon->windup_time = info->windup_time;
     weapon->type = info->type;
