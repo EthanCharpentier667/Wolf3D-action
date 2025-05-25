@@ -14,7 +14,7 @@ int do_resume(frame_t *frame)
     return 0;
 }
 
-static bool get_name(frame_t *frame, FILE *fp, char *buffer)
+static bool get_name(frame_t *frame, char *buffer)
 {
     char *sswolfs_part = NULL;
 
@@ -43,7 +43,7 @@ static bool get_save_name(frame_t *frame)
         return false;
     }
     if (fgets(buffer, sizeof(buffer) - 1, fp) != NULL) {
-        result = get_name(frame, fp, buffer);
+        result = get_name(frame, buffer);
         pclose(fp);
         if (!result)
             return get_save_name(frame);
