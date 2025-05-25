@@ -25,7 +25,7 @@ const struct item_infos_s ITEM_INFOS[] = {
         {-1, -1, -1, -1}, "Key", true, false, "The Key Of The Door"},
     {RES "key.png", {0.5, 0.5}, {250, 280, -0.50},
         {-1, -1, -1, -1}, "Key", true, false, "The Key Of The Door"},
-    {RES "heal.png", {0.4, 0.4}, {450, 300, -0.50},
+    {RES "heal.png", {0.8, 0.8}, {450, 300, -0.50},
         {-1, -1, -1, -1}, "Heal", true, true, "Heal of 20 HP"},
     {RES "ammo_box.png", { 0.5, 0.5}, {450, 350, -0.50},
         {-1, -1, -1, -1}, "Ammo_box", true, true,
@@ -34,15 +34,16 @@ const struct item_infos_s ITEM_INFOS[] = {
 };
 
 // PATH ; SCALE ; POSITION ; REC ; SPEED ; LIFE ;
-// ATTACK_RANGE; DAMAGE ; COOLDOWN ; DROP (name of item or NULL if no drops)
+// ATTACK_RANGE; FOLLOW_RANGE ; DAMAGE ; COOLDOWN ; DROP
+// (name of item or NULL if no drops)
 const struct enemy_infos_s ENEMY_INFOS[] = {
-    /*{RES "enemy.png", {2.5, 2.5}, {250, 250, -0.90},
-        {0, 0, 65, 65}, 0.5, 100, 150, 10, 1, NULL, BASIC},
+    {RES "enemy.png", {2.5, 2.5}, {250, 250, -0.90},
+        {0, 0, 65, 65}, 0.5, 100, 150, 200, 10, 1, "Ammo_box", BASIC},
     {RES "enemy2.png", {2.5, 2.5}, {250, 300, -0.90},
-        {0, 0, 65, 65}, 0.5, 100, 150, 10, 1, "Key", BASIC},*/
-    {RES "Hitler1.png", {2.5, 2.5}, {250, 350, -0.90},
-        {0, 0, 74, 72}, 0.5, 400, 100, 20, 0.5f, NULL, HITLER},
-    {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0, 0, NULL, 0}
+        {0, 0, 65, 65}, 0.5, 100, 150, 200, 10, 1, "Heal", BASIC},
+    /*{RES "Hitler1.png", {2.5, 2.5}, {250, 350, -0.90},
+        {0, 0, 74, 72}, 0.5, 400, 100, 300, 20, 0.5f, NULL, HITLER},*/
+    {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0, 0, 0, NULL, 0}
 };
 
 // TYPE ; SCALE & POSITION ; REC ; PATH
@@ -122,6 +123,7 @@ const struct text_infos_s TEXTS_INFOS[] = {
     {"Interact: ", {255, 255, 255, 255}, {30, 440, 305}, SETTINGS_CONTROLS},
     {"Inventory: ", {255, 255, 255, 255}, {30, 440, 380}, SETTINGS_CONTROLS},
     {"Pause: ", {255, 255, 255, 255}, {30, 440, 455}, SETTINGS_CONTROLS},
+    {"00:00", {255, 255, 255, 255}, {40, 10, 10}, GAME},
     {NULL, {0, 0, 0, 255}, {0, 0, 0}, END},
 };
 
@@ -139,6 +141,7 @@ const struct musics_infos_s MUSICS_INFOS[] = {
 const struct slider_infos_s SLIDERS_INFOS[] = {
     {{200, 300}, {300, 20}, 0.5, &apply_volume_change_sounds, SETTINGS_AUDIO},
     {{200, 400}, {300, 20}, 0.5, &apply_volume_change_musics, SETTINGS_AUDIO},
+    {{400, 250}, {300, 20}, 1.0, &apply_difficulty_change, SETTINGS_CONTROLS},
     {{0, 0}, {0, 0}, 0.5, NULL, END},
 };
 
