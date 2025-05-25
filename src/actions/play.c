@@ -25,7 +25,6 @@ static bool get_name(frame_t *frame, FILE *fp, char *buffer)
     } else {
         system("zenity --error --text=\"La sauvegarde"
             " doit être dans le dossier sswolfs/\"");
-        pclose(fp);
         return false;
     }
     frame->name = strdup(sswolfs_part + strlen("sswolfs/"));
@@ -37,16 +36,17 @@ static bool get_save_name(frame_t *frame)
     FILE *fp = popen("zenity --file-selection --save --filename=\"hilter\" "
         "--title=\"Nom de la partie\"", "r");
     char buffer[256] = {0};
+    bool result = false;
 
     if (fp == NULL) {
         fprintf(stderr, "Failed to run zenity command\n");
-        return -1;
+        return false;
     }
     if (fgets(buffer, sizeof(buffer) - 1, fp) != NULL) {
-        if (!get_name(frame, fp, buffer)) {
-            pclose(fp);
+        result = get_name(frame, fp, buffer);
+        pclose(fp);
+        if (!result)
             return get_save_name(frame);
-        }
         return true;
     }
     pclose(fp);
