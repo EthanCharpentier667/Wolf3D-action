@@ -24,8 +24,10 @@ void manage_windup_sound(bool should_play)
         return;
     if (should_play && (sfSound_getStatus(sound_wdup) != sfPlaying)) {
         sfSound_play(sound_wdup);
+        sfSound_setVolume(sound_wdup, 100);
     } else if (!should_play && (sfSound_getStatus(sound_wdup) == sfPlaying)) {
-        sfSound_stop(sound_wdup);
+        sfSound_setLoop(sound_wdup, sfFalse);
+        sfSound_setVolume(sound_wdup, 0);
     }
 }
 
@@ -46,8 +48,10 @@ void manage_firing_sound(bool should_play)
         return;
     if (should_play && (sfSound_getStatus(sound_fire) != sfPlaying)) {
         sfSound_play(sound_fire);
+        sfSound_setVolume(sound_fire, 100);
     } else if (!should_play && (sfSound_getStatus(sound_fire) == sfPlaying)) {
-        sfSound_stop(sound_fire);
+        sfSound_setLoop(sound_fire, sfFalse);
+        sfSound_setVolume(sound_fire, 0);
     }
 }
 
@@ -67,30 +71,9 @@ void manage_cuting_sound(bool should_play)
         return;
     if (should_play && (sfSound_getStatus(sound_cut) != sfPlaying)) {
         sfSound_play(sound_cut);
+        sfSound_setVolume(sound_cut, 100);
     } else if (!should_play && (sfSound_getStatus(sound_cut) == sfPlaying)) {
-        sfSound_stop(sound_cut);
-    }
-}
-
-void play_sound(bool should_play, const char *filepath, float volume)
-{
-    static sfSound *sound = NULL;
-    static sfSoundBuffer *sb = NULL;
-
-    if (!sound) {
-        sound = sfSound_create();
-        sb = sfSoundBuffer_createFromFile(filepath);
-        if (!sb || !sound)
-            return;
-        sfSound_setBuffer(sound, sb);
-    }
-    if (!sound)
-        return;
-    if (should_play) {
-        sfSound_setVolume(sound, volume);
-        dprintf(1, "%f\n", volume);
-        sfSound_play(sound);
-    } else if (!should_play && (sfSound_getStatus(sound) == sfPlaying)) {
-        sfSound_stop(sound);
+        sfSound_setLoop(sound_cut, sfFalse);
+        sfSound_setVolume(sound_cut, 0);
     }
 }

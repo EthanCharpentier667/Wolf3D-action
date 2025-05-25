@@ -23,6 +23,7 @@ GAME_DIR=	$(SRC_DIR)game/
 INVENTORY_DIR=	$(SRC_DIR)inventory/
 WEAPON_DIR=	$(SRC_DIR)weapon/
 VFX_DIR=	$(SRC_DIR)vfx/
+SOUND_DIR=	$(SRC_DIR)sounds/
 
 SRC	=	includes/inititliser.c          \
         $(INIT_DIR)init_game.c                  \
@@ -128,6 +129,7 @@ SRC	=	includes/inititliser.c          \
         $(WEAPON_DIR)switch_weapons.c       \
         $(WEAPON_DIR)get_wall_impact.c       \
         $(WEAPON_DIR)weapon_sounds.c    \
+        $(SOUND_DIR)play_sounds.c
 
 OBJ	=	$(SRC:.c=.o)
 

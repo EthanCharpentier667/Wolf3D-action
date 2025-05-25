@@ -65,7 +65,7 @@ static bool handle_die(frame_t *frame, enemy_t *enemy)
         enemy->is_attacking = false;
         pos = v3f(enemy->pos.x, enemy->pos.y, enemy->pos.z + 1);
         if (enemy->type == HITLER)
-            vfx_explosion(frame, pos);
+            vfx_explosion(frame, pos, 1);
         if (enemy->type == HITLER2) {
             frame->victory = true;
         }

@@ -20,6 +20,7 @@ float get_wall_impact(sfVector3f *buff, frame_t *frame, float range)
     buff->x = PLAYER->pos.x + dir.x * forward;
     buff->y = PLAYER->pos.y + dir.y * forward;
     buff->z = tanf(PLAYER->angle.y) * forward / 100;
+    play_sound(frame, 2, 3500 / forward);
     return forward;
 }
 
