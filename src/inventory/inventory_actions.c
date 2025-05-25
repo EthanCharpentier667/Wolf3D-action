@@ -47,15 +47,12 @@ void use_item(frame_t *frame, int item_index)
     if (strcmp(INVENTORY->items[item_index].name, "Heal") == 0) {
         if (add_life(frame, 20))
             return;
-        delete_used_item(frame, item_index);
-        return;
     }
     if (strcmp(INVENTORY->items[item_index].name, "Ammo_box") == 0) {
         if (add_ammo(frame, 40))
             return;
-        delete_used_item(frame, item_index);
-        return;
     }
+    delete_used_item(frame, item_index);
 }
 
 void drop_item_at_pos(frame_t *frame, int item_index, sfVector2f pos)

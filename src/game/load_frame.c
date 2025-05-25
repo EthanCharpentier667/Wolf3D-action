@@ -44,6 +44,8 @@ static bool load_game_data(frame_t *frame, FILE *file)
     frame->game->nb_enemies = game_temp.nb_enemies;
     frame->game->nb_enemies_alive = game_temp.nb_enemies_alive;
     frame->game->level = game_temp.level;
+    frame->game->timer = game_temp.timer;
+    frame->game->difficulty = game_temp.difficulty;
     return true;
 }
 

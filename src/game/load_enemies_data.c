@@ -28,74 +28,38 @@ static bool read_enemies_from_file(FILE *file,
     return (read_count == (size_t)num_enemies);
 }
 
-static bool allocate_game_enemies(frame_t *frame)
+static bool initialize_enemy_resources(enemy_t *enemy, enemy_t *enemies_temp)
 {
-    int num_enemies = frame->game->nb_enemies;
-
-    if (num_enemies <= 0)
-        return true;
-    if (frame->game->enemies)
-        free(frame->game->enemies);
-    frame->game->enemies = malloc(sizeof(enemy_t) * (size_t)num_enemies);
-    return (frame->game->enemies != NULL);
-}
-
-static void copy_enemies_to_game(frame_t *frame, enemy_t *enemies_temp)
-{
-    int num_enemies = frame->game->nb_enemies;
-
-    if (num_enemies <= 0 || !enemies_temp || !frame->game->enemies)
-        return;
-    memcpy(frame->game->enemies, enemies_temp,
-        sizeof(enemy_t) * (size_t)num_enemies);
-    frame->game->nb_enemies = frame->game->nb_enemies;
-    frame->game->nb_enemies_alive = frame->game->nb_enemies_alive;
-}
-
-static bool initialize_enemy_resources(enemy_t *enemy, int enemy_index)
-{
-    enemy->texture =
-        sfTexture_createFromFile(ENEMY_INFOS[enemy_index].path, NULL);
-    if (!enemy->texture)
-        return false;
-    enemy->clock = sfClock_create();
-    enemy->attack_cd_clock = sfClock_create();
-    enemy->drop = strdup(ENEMY_INFOS[enemy_index].drop_item);
-    if (!enemy->clock || !enemy->attack_cd_clock ||
-        !enemy->drop) {
-        if (enemy->texture)
-            sfTexture_destroy(enemy->texture);
-        if (enemy->clock)
-            sfClock_destroy(enemy->clock);
-        if (enemy->attack_cd_clock)
-            sfClock_destroy(enemy->attack_cd_clock);
-        return false;
-    }
+    enemy->angle = enemies_temp->angle;
+    enemy->pos = enemies_temp->pos;
+    enemy->scale = enemies_temp->scale;
+    enemy->direction = enemies_temp->direction;
+    enemy->speed = enemies_temp->speed;
+    enemy->damages = enemies_temp->damages;
+    enemy->attack_range = enemies_temp->attack_range;
+    enemy->follow_range = enemies_temp->follow_range;
+    enemy->attack_cooldown = enemies_temp->attack_cooldown;
+    enemy->is_moving = enemies_temp->is_moving;
+    enemy->follow_player = enemies_temp->follow_player;
+    enemy->is_attacking = enemies_temp->is_attacking;
+    enemy->is_dead = enemies_temp->is_dead;
+    enemy->life = enemies_temp->life;
+    enemy->max_life = enemies_temp->max_life;
+    enemy->type = enemies_temp->type;
+    enemy->id = enemies_temp->id;
+    enemy->can_attack = enemies_temp->can_attack;
     return true;
 }
 
-static void destroy_already_created_enemies(frame_t *frame, int i)
-{
-    for (int j = 0; j < i; j++) {
-        sfTexture_destroy(ENEMY[j].texture);
-        sfClock_destroy(ENEMY[j].clock);
-        sfClock_destroy(ENEMY[j].attack_cd_clock);
-        free(ENEMY[j].drop);
-    }
-}
-
-static bool initialize_enemy_resources_all(frame_t *frame)
+static bool initialize_enemy_resources_all(frame_t *frame,
+    enemy_t *enemies_temp)
 {
     int num_enemies = frame->game->nb_enemies;
 
     if (num_enemies <= 0 || !frame->game->enemies)
         return true;
-    for (int i = 0; i < num_enemies; i++) {
-        if (!initialize_enemy_resources(&ENEMY[i], i)) {
-            destroy_already_created_enemies(frame, i);
-            return false;
-        }
-    }
+    for (int i = 0; i < num_enemies; i++)
+        initialize_enemy_resources(&ENEMY[i], &enemies_temp[i]);
     return true;
 }
 
@@ -113,13 +77,11 @@ bool load_enemies_data(frame_t *frame, FILE *file)
     enemies_temp = allocate_temporary_enemies(num_enemies);
     if (!enemies_temp && num_enemies > 0)
         return false;
-    if (!read_enemies_from_file(file, enemies_temp, num_enemies) ||
-        !allocate_game_enemies(frame)) {
+    if (!read_enemies_from_file(file, enemies_temp, num_enemies)) {
         cleanup_temporary_enemies(enemies_temp);
         return false;
     }
-    copy_enemies_to_game(frame, enemies_temp);
-    if (!initialize_enemy_resources_all(frame)) {
+    if (!initialize_enemy_resources_all(frame, enemies_temp)) {
         cleanup_temporary_enemies(enemies_temp);
         return false;
     }

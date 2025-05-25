@@ -18,6 +18,7 @@ struct enemy_infos_s {
     float speed;
     int life;
     float attack_range;
+    float follow_range;
     float damages;
     float attack_cooldown;
     char *drop_item;
