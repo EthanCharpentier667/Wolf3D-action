@@ -58,9 +58,9 @@ float normalize_weapon_angle(float angle);
 void switch_weapon(frame_t *frame, int weapon_index);
 void reload_weapon(frame_t *frame);
 
-void manage_firing_sound(bool should_play);
-void manage_windup_sound(bool should_play);
-void manage_cuting_sound(bool should_play);
+void manage_firing_sound(bool should_play, int volume);
+void manage_windup_sound(bool should_play, int volume);
+void manage_cuting_sound(bool should_play, int volume);
 
 extern const struct weapon_infos_s WEAPON_INFOS[];
 

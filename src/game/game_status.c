@@ -9,9 +9,9 @@
 
 static void stop_sounds(void)
 {
-    manage_windup_sound(false);
-    manage_firing_sound(false);
-    manage_cuting_sound(false);
+    manage_windup_sound(false, 0);
+    manage_firing_sound(false, 0);
+    manage_cuting_sound(false, 0);
 }
 
 int check_game_status(frame_t *frame)

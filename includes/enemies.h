@@ -29,6 +29,7 @@ enum enemy_type_e {
     BASIC = 1,
     HITLER,
     HITLER2,
+    BASICBLUE
 };
 
 extern const struct enemy_infos_s ENEMY_INFOS[];
