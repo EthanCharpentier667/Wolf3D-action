@@ -26,7 +26,7 @@ void damage_enemy(frame_t *frame, enemy_t *enemy, int damage)
     pos.y = rand_range(pos.y - rand, pos.y + rand);
     pos.z = rand_range(pos.z - rand, pos.z + rand) / 100;
     vfx_blood(frame, pos);
-    play_sound(frame, 4, 2500 / hypot3f(pos.x - PLAYER->pos.x,
+    play_sound(frame, 4, 5000 / hypot3f(pos.x - PLAYER->pos.x,
         pos.x - PLAYER->pos.y, pos.z));
 }
 
