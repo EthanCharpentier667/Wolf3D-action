@@ -58,6 +58,7 @@ void reload_weapon(frame_t *frame);
 void manage_firing_sound(bool should_play);
 void manage_windup_sound(bool should_play);
 void manage_cuting_sound(bool should_play);
+void play_sound(bool should_play, const char *filepath, float volume);
 
 extern const struct weapon_infos_s WEAPON_INFOS[];
 
