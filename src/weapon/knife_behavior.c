@@ -61,9 +61,8 @@ static void handle_knife_cooldown(weapon_t *weapon)
 void update_knife_behavior(weapon_t *weapon,
     frame_t *frame, float delta_time)
 {
-    if (weapon->attack_cooldown > 0) {
+    if (weapon->attack_cooldown > 0)
         weapon->attack_cooldown -= delta_time;
-    }
     switch (weapon->state) {
         case WEAPON_IDLE:
             handle_knife_idle(frame, weapon);

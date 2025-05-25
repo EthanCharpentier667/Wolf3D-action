@@ -123,6 +123,7 @@ SRC	=	includes/inititliser.c          \
         $(VFX_DIR)combat_vfx.c             \
         $(WEAPON_DIR)knife_behavior.c       \
         $(WEAPON_DIR)machine_gun.c       \
+        $(WEAPON_DIR)pistol.c       \
         $(WEAPON_DIR)reload_weapons.c       \
         $(WEAPON_DIR)switch_weapons.c       \
         $(WEAPON_DIR)get_wall_impact.c       \

@@ -16,6 +16,9 @@ static void set_weapon_behavior(weapon_t *weapon)
         case WEAPON_TYPE_AUTOMATIC:
             weapon->update_behavior = update_machinegun_behavior;
             break;
+        case WEAPON_TYPE_PISTOL:
+            weapon->update_behavior = update_pistol_behavior;
+            break;
         default:
             weapon->update_behavior = NULL;
     }
