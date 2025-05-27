@@ -81,6 +81,8 @@ const struct fixed_object_infos_s FIXED_OBJECT_INFOS[] = {
 // PATH ; SCALE ; POSITION ; REC ; NAME: ;
 // IS_PICKABLE ; IS_USEABLE ; DESCRIPTION
 const struct item_infos_s ITEM_INFOS[] = {
+    {RES "minigun.png", {0.8, 0.8}, {-64, -64, -0.50}, {-1, -1, -1, -1},
+        "Machinegun", true, true, "unlock a new weapon !"},
     {RES "pillar.png", {1, 1}, {224, 288, 0},
         {-1, -1, -1, -1}, "Pillar", false, false, "pillar"},
     {RES "pillar.png", {1, 1}, {448, 912, 0},
@@ -363,7 +365,7 @@ const struct item_infos_s ITEM_INFOS[] = {
         {-1, -1, -1, -1}, "Heal", true, true, "Heal of 20 HP"},
     {RES "heal.png", {0.8, 0.8}, {1408 + 48, 1088 + 32, -0.50},
         {-1, -1, -1, -1}, "Heal", true, true, "Heal of 20 HP"},
-    {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, "", false, false, ""},
+    {NULL, {0, 0}, {0, 0, 0}, {0, 0, 0, 0}, "", false, false, ""}
 };
 
 // PATH ; SCALE ; POSITION ; REC ; SPEED ; LIFE ;
@@ -373,9 +375,9 @@ const struct enemy_infos_s ENEMY_INFOS[] = {
     /*{RES "matthieu.png", {1.5, 1.5}, {320, 384, -0.85},
         {0, 0, 134, 154}, 2, 100, 40, 500, 20, 1, NULL, WOLF},*/
     {RES "enemy_blu.png", {2.5, 2.5}, {320, 384, -0.90},
-        {0, 0, 65, 65}, 1, 100, 250, 500, 10, 1, "Ammo_box", BASICBLUE},
-    {RES "enemy_blu.png", {2.5, 2.5}, {128 + 32, 320 + 32, -0.90},
         {0, 0, 65, 65}, 1, 100, 250, 500, 10, 1, NULL, BASICBLUE},
+    {RES "enemy_blu.png", {2.5, 2.5}, {128 + 32, 320 + 32, -0.90},
+        {0, 0, 65, 65}, 1, 100, 250, 500, 10, 1, "Machinegun", BASICBLUE},
     {RES "enemy_blu.png", {2.5, 2.5}, {256 + 32, 512 + 32, -0.90},
         {0, 0, 65, 65}, 1, 100, 250, 500, 10, 1, NULL, BASICBLUE},
     {RES "enemy_blu.png", {2.5, 2.5}, {512 + 32, 512 + 32, -0.90},

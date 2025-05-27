@@ -62,6 +62,8 @@ void manage_firing_sound(bool should_play, int volume);
 void manage_windup_sound(bool should_play, int volume);
 void manage_cuting_sound(bool should_play, int volume);
 
+void unlock_minigun(frame_t *frame);
+
 extern const struct weapon_infos_s WEAPON_INFOS[];
 
 #endif /* !WEAPON_H_ */

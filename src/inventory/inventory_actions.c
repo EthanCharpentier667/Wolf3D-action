@@ -44,14 +44,14 @@ void use_item(frame_t *frame, int item_index)
 {
     if (item_index < 0 || item_index >= INVENTORY->nb_items)
         return;
-    if (strcmp(INVENTORY->items[item_index].name, "Heal") == 0) {
+    if (strcmp(INVENTORY->items[item_index].name, "Heal") == 0)
         if (add_life(frame, 20))
             return;
-    }
-    if (strcmp(INVENTORY->items[item_index].name, "Ammo_box") == 0) {
+    if (strcmp(INVENTORY->items[item_index].name, "Ammo_box") == 0)
         if (add_ammo(frame, 40))
             return;
-    }
+    if (strcmp(INVENTORY->items[item_index].name, "Machinegun") == 0)
+        unlock_minigun(frame);
     delete_used_item(frame, item_index);
 }
 

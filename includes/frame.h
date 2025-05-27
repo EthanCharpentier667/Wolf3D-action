@@ -237,6 +237,12 @@ typedef struct minimap_s {
     sfConvexShape *direction;
 } minimap_t;
 
+typedef enum id_weapon {
+    KNIFE,
+    MACHINEGUN,
+    PISTOL
+} id_weapon_t;
+
 typedef enum weapon_state_e {
     WEAPON_IDLE,
     WEAPON_ATTACKING,
@@ -253,6 +259,7 @@ typedef struct weapon_s {
     sfIntRect rec;
     sfVector2f scale;
     sfVector2f position;
+    bool unlocked;
     int total_frames;
     int alt_total_frames;
     int frame_width;

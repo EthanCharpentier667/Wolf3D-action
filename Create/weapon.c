@@ -85,6 +85,10 @@ static void init_weapon_state(weapon_t *weapon)
     weapon->attack_cooldown = 0;
     weapon->windup_timer = 0;
     weapon->is_trigger_held = false;
+    if (strcmp(weapon->name, "Knife") == 0)
+        weapon->unlocked = true;
+    else
+        weapon->unlocked = false;
 }
 
 static void configure_weapon_sprite(frame_t *frame, weapon_t *weapon)
