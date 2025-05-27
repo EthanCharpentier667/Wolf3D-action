@@ -14,39 +14,41 @@ static bool read_map_header(FILE *file, map_t *map_header)
     return true;
 }
 
-static bool read_map_cell(FILE *file, int *cell_value)
+static bool read_map_cell(frame_t *frame, FILE *file,
+    sfVector2i coords, int x)
 {
-    if (fread(cell_value, sizeof(int), 1, file) != 1)
+    if (fread(&LEVELS[x].map[coords.x][coords.y],
+        sizeof(int), 1, file) != 1)
         return false;
     return true;
 }
 
-static bool read_map_row(FILE *file, int row[MAP_WIDTH])
+static bool read_map_row(frame_t *frame, FILE *file,
+    int row, int x)
 {
-    for (int j = 0; j < MAP_WIDTH; j++)
-        if (!read_map_cell(file, &row[j]))
+    for (int j = 0; j < MAP_WIDTH; j++) {
+        if (!read_map_cell(frame, file, v2i(row, j), x))
             return false;
+    }
     return true;
 }
 
-static void copy_map_to_game(frame_t *frame,
-    int temp_map[MAP_HEIGHT][MAP_WIDTH])
+static bool read_level_map(frame_t *frame, FILE *file, int x)
 {
     for (int i = 0; i < MAP_HEIGHT; i++)
-        for (int j = 0; j < MAP_WIDTH; j++)
-            MAP2D[i][j] = temp_map[i][j];
+        if (!read_map_row(frame, file, i, x))
+            return false;
+    return true;
 }
 
 bool load_map_data(frame_t *frame, FILE *file)
 {
     map_t map_header;
-    int temp_map[MAP_HEIGHT][MAP_WIDTH];
 
     if (!read_map_header(file, &map_header))
         return false;
-    for (int i = 0; i < MAP_HEIGHT; i++)
-        if (!read_map_row(file, temp_map[i]))
+    for (int i = 0; i < NBLEVELS; i++)
+        if (!read_level_map(frame, file, i))
             return false;
-    copy_map_to_game(frame, temp_map);
     return true;
 }

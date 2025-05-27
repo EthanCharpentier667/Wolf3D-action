@@ -191,21 +191,6 @@ static bool allocate_map(frame_t *frame)
     return true;
 }
 
-static bool init_map_2d(frame_t *frame)
-{
-    MAP2D = malloc(sizeof(int *) * MAP_HEIGHT);
-    if (!MAP2D)
-        return false;
-    for (int i = 0; i < MAP_HEIGHT; i++) {
-        MAP2D[i] = malloc(sizeof(int) * MAP_WIDTH);
-        if (!MAP2D[i])
-            return false;
-        for (int j = 0; j < MAP_WIDTH; j++)
-            MAP2D[i][j] = map[i][j];
-    }
-    return true;
-}
-
 static bool load_map_textures(frame_t *frame)
 {
     MAP->floortexture = sfTexture_createFromFile(RES"concrete.png", NULL);
@@ -219,7 +204,7 @@ static bool init_map(frame_t *frame)
 {
     if (!parse_levels(frame))
         return false;
-    if (!allocate_map(frame) || !init_map_2d(frame))
+    if (!allocate_map(frame))
         return false;
     MAP->width = MAP_WIDTH;
     MAP->height = MAP_HEIGHT;

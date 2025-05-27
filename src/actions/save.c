@@ -8,14 +8,22 @@
 #include "frame.h"
 #include <time.h>
 
+static void write_level_maps(frame_t *frame, FILE *file, int x)
+{
+    for (int i = 0; i < MAP_HEIGHT; i++) {
+        for (int j = 0; j < MAP_WIDTH; j++) {
+            fwrite(&LEVELS[x].map[i][j], sizeof(int), 1, file);
+        }
+    }
+}
+
 static void write_frame(frame_t *frame, FILE *file)
 {
     fwrite(frame, sizeof(frame_t), 1, file);
     fwrite(frame->game, sizeof(game_t), 1, file);
     fwrite(frame->game->map, sizeof(map_t), 1, file);
-    for (int i = 0; i < MAP_HEIGHT; i++)
-        for (int j = 0; j < MAP_WIDTH; j++)
-            fwrite(&MAP2D[i][j], sizeof(int), 1, file);
+    for (int i = 0; i < NBLEVELS; i++)
+        write_level_maps(frame, file, i);
     fwrite(PLAYER, sizeof(player_t), 1, file);
     fwrite(PLAYER->inventory, sizeof(inventory_t), 1, file);
     fwrite(frame->game->environment, sizeof(environment_ray_t),

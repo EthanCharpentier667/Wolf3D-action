@@ -536,7 +536,8 @@ typedef struct frame_s {
 extern const int map[MAP_HEIGHT][MAP_WIDTH];
 
     #define MAP frame->game->map
-    #define MAP2D frame->game->map->map
+    #define LEVEL frame->game->level
+    #define MAP2D frame->game->levels[LEVEL].map
     #define LEVELS frame->game->levels
     #define NBLEVELS frame->game->nb_levels
 
