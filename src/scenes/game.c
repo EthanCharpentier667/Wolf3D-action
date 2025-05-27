@@ -58,7 +58,7 @@ static int add_enemies_to_objects(frame_t *frame,
         objects[count].distance = sqrt(dx * dx + dy * dy);
         objects[count].type = ENEMY_OBJ;
         objects[count].data.enemy.index = i;
-         objects[count].lvl = ENEMY[i].lvl;
+        objects[count].lvl = ENEMY[i].lvl;
         count++;
     }
     return count;
