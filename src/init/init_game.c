@@ -217,6 +217,8 @@ static bool load_map_textures(frame_t *frame)
 
 static bool init_map(frame_t *frame)
 {
+    if (!parse_levels(frame))
+        return false;
     if (!allocate_map(frame) || !init_map_2d(frame))
         return false;
     MAP->width = MAP_WIDTH;

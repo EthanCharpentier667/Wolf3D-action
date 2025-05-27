@@ -458,6 +458,12 @@ typedef struct environment_ray_s {
     bool isobstacle;
 } environment_ray_t;
 
+typedef struct levels_s {
+    int **map;
+    int width;
+    int height;
+} levels_t;
+
 typedef struct game_s {
     player_t *player;
     map_t *map;
@@ -467,6 +473,7 @@ typedef struct game_s {
     hud_t *hud;
     environment_ray_t *environment;
     fixed_object_t *fixed_objects;
+    levels_t *levels;
     int nb_fixed_objects;
     int nb_items;
     int nb_enemies;
@@ -474,6 +481,7 @@ typedef struct game_s {
     int level;
     int nb_env;
     int timer;
+    int nb_levels;
     float difficulty;
 } game_t;
 
@@ -529,6 +537,8 @@ extern const int map[MAP_HEIGHT][MAP_WIDTH];
 
     #define MAP frame->game->map
     #define MAP2D frame->game->map->map
+    #define LEVELS frame->game->levels
+    #define NBLEVELS frame->game->nb_levels
 
     #define FOV (M_PI / 3)
     #define NUM_RAYS WINDOWX
@@ -752,6 +762,7 @@ void create_save_directory(void);
 int check_game_status(frame_t *frame);
 int get_storable_item_count(frame_t *frame);
 void update_windows(frame_t *frame);
+bool parse_levels(frame_t *frame);
 
 //KEYBINDS
 sfKeyCode *get_button_keycode(frame_t *frame, int action);
