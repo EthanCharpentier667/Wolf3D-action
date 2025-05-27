@@ -48,6 +48,7 @@ static bool initialize_enemy_resources(enemy_t *enemy, enemy_t *enemies_temp)
     enemy->type = enemies_temp->type;
     enemy->id = enemies_temp->id;
     enemy->can_attack = enemies_temp->can_attack;
+    enemy->lvl = enemies_temp->lvl;
     return true;
 }
 

@@ -23,6 +23,7 @@ struct enemy_infos_s {
     float attack_cooldown;
     char *drop_item;
     int type;
+    int lvl;
 };
 
 enum enemy_type_e {

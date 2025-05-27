@@ -340,6 +340,7 @@ typedef struct map_s {
 
 typedef struct draw_object_s {
     float distance;
+    int lvl;
     enum {
         ITEM_OBJ,
         ENEMY_OBJ,
@@ -371,6 +372,7 @@ typedef struct item_s {
     bool useable;
     int id;
     char description[MAXITEM_NAMELENGTH];
+    int lvl;
 } item_t;
 
 typedef struct enemy_s {
@@ -397,6 +399,7 @@ typedef struct enemy_s {
     sfClock *attack_cd_clock;
     float attack_cooldown;
     bool can_attack;
+    int lvl;
 } enemy_t;
 
 typedef struct inventory_s {
@@ -426,6 +429,7 @@ typedef struct fixed_object_s {
     int solid;
     sfIntRect rec;
     float offset;
+    int lvl;
 } fixed_object_t;
 
 typedef struct player_s {
@@ -492,6 +496,13 @@ typedef struct game_infos_s {
     char name[128];
     char date[128];
 } game_infos_t;
+
+enum level_e {
+    LEVEL0,
+    LEVEL1,
+    LEVEL2,
+    LEVEL3,
+};
 
 typedef struct frame_s {
     sfRenderWindow *window;

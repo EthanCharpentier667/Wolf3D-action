@@ -41,6 +41,7 @@ typedef struct fixed_object_infos_s {
     sfVector2f dimensions;
     int solid;
     sfIntRect rec;
+    int lvl;
 } fixed_object_infos_t;
 
 extern const fixed_object_infos_t FIXED_OBJECT_INFOS[];

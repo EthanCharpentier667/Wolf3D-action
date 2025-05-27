@@ -40,6 +40,7 @@ static int add_items_to_objects(frame_t *frame,
         objects[count].distance = sqrt(dx * dx + dy * dy);
         objects[count].type = ITEM_OBJ;
         objects[count].data.item.index = i;
+        objects[count].lvl = ITEM[i].lvl;
         count++;
     }
     return count;
@@ -57,6 +58,7 @@ static int add_enemies_to_objects(frame_t *frame,
         objects[count].distance = sqrt(dx * dx + dy * dy);
         objects[count].type = ENEMY_OBJ;
         objects[count].data.enemy.index = i;
+         objects[count].lvl = ENEMY[i].lvl;
         count++;
     }
     return count;
@@ -74,6 +76,7 @@ static int add_fixed_objects_to_objects(frame_t *frame,
         objects[count].distance = sqrt(dx * dx + dy * dy);
         objects[count].type = FIXED_OBJ;
         objects[count].data.fixed_object.index = i;
+        objects[count].lvl = FIXED_OBJECTS[i].lvl;
         count++;
     }
     return count;
@@ -101,6 +104,8 @@ void draw_objects_by_distance(frame_t *frame)
         return;
     qsort(objects, count, sizeof(draw_object_t), compare_objects);
     for (int i = 0; i < count; i++) {
+        if (objects[i].lvl != LEVEL)
+            continue;
         if (objects[i].type == ITEM_OBJ)
             draw_item(frame, &ITEM[objects[i].data.item.index]);
         if (objects[i].type == ENEMY_OBJ)

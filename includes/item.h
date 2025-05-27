@@ -19,6 +19,7 @@ struct item_infos_s {
     bool pickable;
     bool useable;
     char *description;
+    int lvl;
 };
 
 extern const struct item_infos_s ITEM_INFOS[];

@@ -145,6 +145,7 @@ static void fill_enemy_data(enemy_t *enemy, int i)
     enemy->drop = ENEMY_INFOS[i].drop_item;
     enemy->type = ENEMY_INFOS[i].type;
     enemy->follow_range = ENEMY_INFOS[i].follow_range;
+    enemy->lvl = ENEMY_INFOS[i].lvl;
 }
 
 static bool init_enemies(frame_t *frame)
@@ -177,6 +178,7 @@ static bool init_items(frame_t *frame)
         ITEM[NBITEMS - 1].pickable = ITEM_INFOS[i].pickable;
         ITEM[NBITEMS - 1].useable = ITEM_INFOS[i].useable;
         strcpy(ITEM[NBITEMS - 1].description, ITEM_INFOS[i].description);
+        ITEM[NBITEMS - 1].lvl = ITEM_INFOS[i].lvl;
     }
     if (result != 0)
         return false;
@@ -220,7 +222,7 @@ bool init_game(frame_t *frame)
     frame->game = malloc(sizeof(game_t));
     if (!frame->game)
         return false;
-    frame->game->level = 0;
+    LEVEL = LEVEL0;
     frame->ui->scene = MAINMENU;
     frame->center = (sfVector2i){desktop.width / 2, desktop.height / 2};
     if (!init_player(frame) || !init_map(frame)

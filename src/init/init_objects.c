@@ -17,6 +17,7 @@ static bool create_objects(frame_t *frame)
             FIXED_OBJECT_INFOS[i].dimensions;
         FIXED_OBJECTS[NB_FIXED_OBJECTS].solid = FIXED_OBJECT_INFOS[i].solid;
         FIXED_OBJECTS[NB_FIXED_OBJECTS].rec = FIXED_OBJECT_INFOS[i].rec;
+        FIXED_OBJECTS[NB_FIXED_OBJECTS].lvl = FIXED_OBJECT_INFOS[i].lvl;
         if (FIXED_OBJECTS[NB_FIXED_OBJECTS].solid == DOOR_CLOSED)
             MAP2D[(int)FIXED_OBJECT_INFOS[i].position.y / TILE_SIZE]
                 [(int)FIXED_OBJECT_INFOS[i].position.x / TILE_SIZE] = -1;

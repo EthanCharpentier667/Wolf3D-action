@@ -66,7 +66,7 @@ static void check_save(frame_t *frame)
             frame->played = true;
         }
     } else {
-        frame->game->level = 1;
+        LEVEL = LEVEL0;
         change_music(frame, 1);
         change_scene(frame, GAME);
     }
