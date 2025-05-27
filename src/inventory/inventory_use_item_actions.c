@@ -29,6 +29,14 @@ int add_ammo(frame_t *frame, int ammo)
     return 0;
 }
 
+void unlock_minigun(frame_t *frame)
+{
+    weapon_t *machinegun = HUD->weapon[MACHINEGUN];
+
+    if (!machinegun->unlocked)
+        machinegun->unlocked = true;
+}
+
 void delete_used_item(frame_t *frame, int item_index)
 {
     if (item_index < 0 || item_index >= INVENTORY->nb_items)

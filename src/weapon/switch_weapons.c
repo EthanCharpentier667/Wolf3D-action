@@ -23,4 +23,6 @@ void switch_weapon(frame_t *frame, int weapon_index)
     HUD->weapon[old_index]->current_frame = 0;
     HUD->weapon[old_index]->animation_timer = 0;
     HUD->selected_weapon = weapon_index;
+    if (!(HUD->weapon[HUD->selected_weapon]->unlocked))
+        HUD->selected_weapon = old_index;
 }
