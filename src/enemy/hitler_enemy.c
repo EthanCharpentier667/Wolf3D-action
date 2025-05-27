@@ -30,7 +30,7 @@ static bool create_hitler_enemy(frame_t *frame, sfVector3f pos)
     return result == 0;
 }
 
-static bool animate_die(frame_t *frame, enemy_t *enemy, int gap)
+static bool animate_die(enemy_t *enemy, int gap)
 {
     float elapsed_time = sfTime_asSeconds(
         sfClock_getElapsedTime(enemy->clock));
@@ -138,7 +138,7 @@ bool handle_hitler_enemy(frame_t *frame, enemy_t *enemy)
     if (enemy->type == HITLER2)
         gap = 0;
     if (enemy->is_dead) {
-        return animate_die(frame, enemy, gap);
+        return animate_die(enemy, gap);
     }
     animate_enemy(enemy, gap);
     handle_attack(frame, enemy, gap);

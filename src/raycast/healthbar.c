@@ -93,10 +93,11 @@ void draw_health_bar_3d(frame_t *frame, int index,
     if (!render_tex || !health_texture)
         return;
     enemyheight = 1.0f;
-    if (ENEMY[index].type == HITLER2 || ENEMY[index].type == HITLER)
+    if (ENEMY[index].type == HITLER2 || ENEMY[index].type == HITLER
+        || ENEMY[index].type == BASICBLUE)
         enemyheight = 1.2f;
-    if (ENEMY[index].type == BASICBLUE)
-        enemyheight = 1.2f;
+    if (ENEMY[index].type == WOLF)
+        enemyheight = 0.8f;
     calculate_health_bar_position(frame, v2f(index, enemyheight),
         health_texture, &health_data);
     render_item_columns(frame, (sfTexture *)health_texture,

@@ -110,6 +110,7 @@ SRC	=	includes/inititliser.c          \
         $(ENEMY_DIR)damage_player.c       \
         $(ENEMY_DIR)basic_enemy.c       \
         $(ENEMY_DIR)hitler_enemy.c       \
+        $(ENEMY_DIR)wolf_enemies.c       \
         $(WEAPON_DIR)update_weapon.c       \
         $(WEAPON_DIR)find_enemy_in_range.c       \
         $(VFX_DIR)draw_vfx.c       \

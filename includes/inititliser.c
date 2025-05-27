@@ -370,6 +370,8 @@ const struct item_infos_s ITEM_INFOS[] = {
 // ATTACK_RANGE; FOLLOW_RANGE ; DAMAGE ; COOLDOWN ; DROP
 // (name of item or NULL if no drops)
 const struct enemy_infos_s ENEMY_INFOS[] = {
+    /*{RES "matthieu.png", {1.5, 1.5}, {320, 384, -0.85},
+        {0, 0, 134, 154}, 2, 100, 40, 500, 20, 1, NULL, WOLF},*/
     {RES "enemy_blu.png", {2.5, 2.5}, {320, 384, -0.90},
         {0, 0, 65, 65}, 1, 100, 250, 500, 10, 1, "Ammo_box", BASICBLUE},
     {RES "enemy_blu.png", {2.5, 2.5}, {128 + 32, 320 + 32, -0.90},
