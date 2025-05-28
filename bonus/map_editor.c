@@ -48,7 +48,7 @@ const struct enemy_infos_s ENEMY_INFOS[] = {
     {"../" RES "enemy_blu.png", {2.5, 2.5}, {320, 384, -0.90},
         {0, 0, 65, 65}, 1, 100, 250, 500, 10, 1, NULL, BASICBLUE, LEVEL0},
     {"../" RES "enemy2.png", {2.5, 2.5}, {640 + 32, 832 + 32, -0.90},
-        {0, 0, 65, 65}, 1, 150, 250, 500, 10, 1, NULL, BASIC},
+        {0, 0, 65, 65}, 1, 150, 250, 500, 10, 1, NULL, BASIC, LEVEL0},
     {"../" RES "enemy_white.png", {2.5, 2.5}, {896 + 32, 64 + 32, -0.90},
         {0, 0, 65, 65}, 1, 100, 250, 500, 12, 1, NULL, BASIC, LEVEL0},
     {"../" RES "enemy.png", {2.5, 2.5}, {1792 + 32, 1408 + 32, -0.90},
@@ -56,8 +56,8 @@ const struct enemy_infos_s ENEMY_INFOS[] = {
     {"../" RES "Hitler1.png", {2.5, 2.5}, {256 + 32, 1088 + 32, -0.90},
         {0, 0, 74, 72}, 1.5, 400, 150, 700, 20, 0.5f, NULL, HITLER, LEVEL0},
     {"../" RES "matthieu.png", {1.5, 1.5}, {320, 384, -0.85},
-        {0, 0, 134, 154}, 2, 100, 40, 500, 20, 1, NULL, WOLF},
-    {NULL}
+        {0, 0, 134, 154}, 2, 100, 40, 500, 20, 1, NULL, WOLF, LEVEL0},
+    {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0, 0, 0, NULL, 0, -1}
 };
 
 const struct env_infos_s ENVIRONNEMENT_INFOS[] = {
@@ -76,6 +76,10 @@ const struct env_infos_s ENVIRONNEMENT_INFOS[] = {
     {"../" RES "wall_wood2.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 13},
     {"../" RES "wall_wood3.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 14},
     {"../" RES "wall_wood4.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 15},
+    {"../" RES "wall_metal.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 16},
+    {"../" RES "wall_metal2.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 17},
+    {"../" RES "wall_mossy.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 18},
+    {"../" RES "wall_mossy2.png", {0, 0, 0, 0}, {1, 1}, false, false, true, 19},
     {NULL, {0, 0, 0, 0}, {0, 0}, false, false, false, 0}
 };
 
@@ -106,7 +110,6 @@ const struct item_infos_s ITEM_INFOS[] = {
     {NULL,  {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, "", false, false, "", LEVEL0}
 };
 
-// Function prototypes
 void initialize_editor(editor_t* editor);
 void initialize_palette(editor_t* editor);
 void process_events(editor_t* editor);
@@ -122,6 +125,9 @@ void handle_drag(editor_t* editor, sfMouseMoveEvent event);
 void select_palette_item(editor_t* editor, sfMouseButtonEvent event);
 void clear_map(editor_t* editor);
 void add_border_walls(editor_t* editor);
+void load_map(editor_t* editor, const char* filename);
+
+static int is_entering_filename = 0;
 
 int main(void)
 {
@@ -133,11 +139,126 @@ int main(void)
     while (sfRenderWindow_isOpen(editor.window)) {
         process_events(&editor);
         update(&editor);
-        render(&editor);
+        if (!is_entering_filename) {
+            render(&editor);
+        }
     }
     
     clean_up(&editor);
     return 0;
+}
+
+void load_map(editor_t* editor, const char* filename)
+{
+    FILE* file = fopen(filename, "r");
+    if (!file) {
+        printf("Failed to open file for reading: %s\n", filename);
+        return;
+    }
+    clear_map(editor);
+    char map_name[64] = {0};
+    const char* last_slash = strrchr(filename, '/');
+    if (last_slash) {
+        strncpy(map_name, last_slash + 1, sizeof(map_name) - 1);
+    } else {
+        strncpy(map_name, filename, sizeof(map_name) - 1);
+    }
+    char* dot = strrchr(map_name, '.');
+    if (dot) {
+        *dot = '\0';
+    }
+    strncpy(editor->map_name, map_name, sizeof(editor->map_name) - 1);
+    int width, height;
+    if (fscanf(file, "%dx%d\n", &width, &height) != 2) {
+        printf("Error: Invalid map format\n");
+        fclose(file);
+        return;
+    }
+    for (int y = 0; y < GRID_SIZE && y < height; y++) {
+        for (int x = 0; x < GRID_SIZE && x < width; x++) {
+            int value;
+            if (fscanf(file, "%d", &value) == 1) {
+                if (value > 0) {
+                    editor->map[y][x] = 1 * 1000 + value;
+                }
+                char c = fgetc(file);
+                while (c != ',' && c != '\n' && c != EOF) {
+                    c = fgetc(file);
+                }
+            }
+        }
+    }
+    char line[256];
+    while (fgets(line, sizeof(line), file)) {
+        if (strlen(line) <= 1 || line[0] == '#') {
+            continue;
+        }
+        if (strstr(line, "Door positions") != NULL) {
+            while (fgets(line, sizeof(line), file)) {
+                if (strlen(line) <= 1 || line[0] == '#') {
+                    break;
+                }
+                int x, y;
+                float angle;
+                if (sscanf(line, "%d,%d,%f", &x, &y, &angle) == 3) {
+                    int grid_x = x / TILE_SIZE;
+                    int grid_y = y / TILE_SIZE;
+                    for (int i = 0; FIXED_OBJECT_INFOS[i].path != NULL; i++) {
+                        if (FIXED_OBJECT_INFOS[i].solid == DOOR_CLOSED) {
+                            if (fabs(FIXED_OBJECT_INFOS[i].angle - angle) < 0.1) {
+                                editor->map[grid_y][grid_x] = 3 * 1000 + i;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else if (strstr(line, "Enemy positions") != NULL) {
+            printf("Found enemy positions section\n");
+            while (fgets(line, sizeof(line), file)) {
+                if (strlen(line) <= 1 || line[0] == '#') {
+                    break;
+                }
+                
+                int x, y, type;
+                if (sscanf(line, "%d,%d,%d", &x, &y, &type) == 3) {
+                    int grid_x = x / TILE_SIZE;
+                    int grid_y = y / TILE_SIZE;
+                    editor->map[grid_y][grid_x] = 2 * 1000 + type;
+                }
+            }
+        }
+        else if (strstr(line, "Object positions") != NULL) {
+            while (fgets(line, sizeof(line), file)) {
+                if (strlen(line) <= 1 || line[0] == '#') {
+                    break;
+                }
+                
+                int x, y, type;
+                if (sscanf(line, "%d,%d,%d", &x, &y, &type) == 3) {
+                    int grid_x = x / TILE_SIZE;
+                    int grid_y = y / TILE_SIZE;
+                    editor->map[grid_y][grid_x] = 4 * 1000 + type;
+                }
+            }
+        }
+        else if (strstr(line, "Item positions") != NULL) {
+            while (fgets(line, sizeof(line), file)) {
+                if (strlen(line) <= 1 || line[0] == '#') {
+                    break;
+                }
+                int x, y, type;
+                if (sscanf(line, "%d,%d,%d", &x, &y, &type) == 3) {
+                    int grid_x = x / TILE_SIZE;
+                    int grid_y = y / TILE_SIZE;
+                    editor->map[grid_y][grid_x] = 5 * 1000 + type;
+                }
+            }
+        }
+    }
+    fclose(file);
+    printf("Map loaded from %s\n", filename);
 }
 
 
@@ -214,7 +335,6 @@ void initialize_palette(editor_t* editor)
     editor->pages = (total_items + items_per_page - 1) / items_per_page;
     int index = 0;
     
-    // Add walls
     for (int i = 0; ENVIRONNEMENT_INFOS[i].texture != NULL; i++) {
         if (ENVIRONNEMENT_INFOS[i].isobstacle) {
             editor->palette[index].type = 1;
@@ -229,7 +349,6 @@ void initialize_palette(editor_t* editor)
         }
     }
     
-    // Add enemies
     for (int i = 0; ENEMY_INFOS[i].path != NULL; i++) {
         editor->palette[index].type = 2;
         editor->palette[index].subtype = i+1;
@@ -247,7 +366,6 @@ void initialize_palette(editor_t* editor)
         index++;
     }
     
-    // Add doors
    for (int i = 0; FIXED_OBJECT_INFOS[i].path != NULL; i++) {
         if (FIXED_OBJECT_INFOS[i].solid == DOOR_CLOSED) {
             editor->palette[index].type = 3;
@@ -259,7 +377,6 @@ void initialize_palette(editor_t* editor)
             editor->palette[index].sprite = sfSprite_create();
             if (editor->palette[index].texture) {
                 sfSprite_setTexture(editor->palette[index].sprite, editor->palette[index].texture, sfTrue);
-                // Appliquer le rectangle de texture si valide
                 if (FIXED_OBJECT_INFOS[i].rec.width > 0 && FIXED_OBJECT_INFOS[i].rec.height > 0) {
                     sfSprite_setTextureRect(editor->palette[index].sprite, FIXED_OBJECT_INFOS[i].rec);
                 }
@@ -268,11 +385,10 @@ void initialize_palette(editor_t* editor)
         }
     }
     
-    // Add fixed objects
     for (int i = 0; FIXED_OBJECT_INFOS[i].path != NULL; i++) {
         if (FIXED_OBJECT_INFOS[i].solid != DOOR_CLOSED) {
             editor->palette[index].type = 4;
-            editor->palette[index].subtype = i; // Index in fixed object array
+            editor->palette[index].subtype = i;
             editor->palette[index].color = sfBlue;
             sprintf(editor->palette[index].name, "Object %d", i);
             index++;
@@ -299,12 +415,40 @@ void initialize_palette(editor_t* editor)
 void process_events(editor_t* editor)
 {
     sfEvent event;
+    static char load_filename[128] = {0};
+    
     while (sfRenderWindow_pollEvent(editor->window, &event)) {
         if (event.type == sfEvtClosed) {
             sfRenderWindow_close(editor->window);
+        } else if (is_entering_filename) {
+            if (event.type == sfEvtKeyPressed) {
+                if (event.key.code == sfKeyEscape) {
+                    is_entering_filename = 0;
+                    load_filename[0] = '\0';
+                } else if (event.key.code == sfKeyReturn) {
+                    is_entering_filename = 0;
+                    load_map(editor, load_filename);
+                } else if (event.key.code == sfKeyBackspace) {
+                    int len = strlen(load_filename);
+                    if (len > 0) {
+                        load_filename[len-1] = '\0';
+                    }
+                }
+            } else if (event.type == sfEvtTextEntered) {
+                if (event.text.unicode < 128 && event.text.unicode != '\r' && event.text.unicode != '\n') {
+                    int len = strlen(load_filename);
+                    if (len < sizeof(load_filename) - 1 && event.text.unicode != '\b') {
+                        load_filename[len] = event.text.unicode;
+                        load_filename[len+1] = '\0';
+                    }
+                }
+            }
         } else if (event.type == sfEvtKeyPressed) {
             if (event.key.code == sfKeyS && event.key.control) {
                 save_map(editor);
+            } else if (event.key.code == sfKeyL && event.key.control) {
+                is_entering_filename = 1;
+                load_filename[0] = '\0';
             } else if (event.key.code == sfKeyC && event.key.control) {
                 clear_map(editor);
             } else if (event.key.code == sfKeyB && event.key.control) {
@@ -331,11 +475,61 @@ void process_events(editor_t* editor)
             handle_drag(editor, event.mouseMove);
         }
     }
+    if (is_entering_filename) {
+        sfRectangleShape* overlay = sfRectangleShape_create();
+        sfRectangleShape_setSize(overlay, (sfVector2f){WINDOW_WIDTH, WINDOW_HEIGHT});
+        sfRectangleShape_setPosition(overlay, (sfVector2f){0, 0});
+        sfRectangleShape_setFillColor(overlay, sfColor_fromRGBA(0, 0, 0, 180));
+        sfRenderWindow_drawRectangleShape(editor->window, overlay, NULL);
+        sfRectangleShape_destroy(overlay);
+        
+        // Afficher la boîte de dialogue
+        sfRectangleShape* dialog = sfRectangleShape_create();
+        sfRectangleShape_setSize(dialog, (sfVector2f){400, 100});
+        sfRectangleShape_setPosition(dialog, (sfVector2f){(WINDOW_WIDTH - 400) / 2, (WINDOW_HEIGHT - 100) / 2});
+        sfRectangleShape_setFillColor(dialog, sfColor_fromRGB(50, 50, 50));
+        sfRectangleShape_setOutlineThickness(dialog, 2);
+        sfRectangleShape_setOutlineColor(dialog, sfWhite);
+        sfRenderWindow_drawRectangleShape(editor->window, dialog, NULL);
+        sfRectangleShape_destroy(dialog);
+        
+        // Afficher le texte d'invite
+        sfText* prompt = sfText_create();
+        sfText_setFont(prompt, editor->font);
+        sfText_setString(prompt, "Enter file name to load:");
+        sfText_setCharacterSize(prompt, 16);
+        sfText_setPosition(prompt, (sfVector2f){(WINDOW_WIDTH - 380) / 2, (WINDOW_HEIGHT - 80) / 2});
+        sfText_setColor(prompt, sfWhite);
+        sfRenderWindow_drawText(editor->window, prompt, NULL);
+        sfText_destroy(prompt);
+        
+        // Afficher le nom de fichier saisi
+        sfText* filename_text = sfText_create();
+        sfText_setFont(filename_text, editor->font);
+        sfText_setString(filename_text, load_filename);
+        sfText_setCharacterSize(filename_text, 16);
+        sfText_setPosition(filename_text, (sfVector2f){(WINDOW_WIDTH - 380) / 2, (WINDOW_HEIGHT - 40) / 2});
+        sfText_setColor(filename_text, sfYellow);
+        sfRenderWindow_drawText(editor->window, filename_text, NULL);
+        sfText_destroy(filename_text);
+        
+        // Instructions
+        sfText* instructions = sfText_create();
+        sfText_setFont(instructions, editor->font);
+        sfText_setString(instructions, "Press Enter to load, Escape to cancel");
+        sfText_setCharacterSize(instructions, 12);
+        sfText_setPosition(instructions, (sfVector2f){(WINDOW_WIDTH - 380) / 2, (WINDOW_HEIGHT + 60) / 2});
+        sfText_setColor(instructions, sfColor_fromRGB(200, 200, 200));
+        sfRenderWindow_drawText(editor->window, instructions, NULL);
+        sfText_destroy(instructions);
+        
+        sfRenderWindow_display(editor->window);
+    }
 }
 
 void update(editor_t* editor)
 {
-    // Nothing to update currently
+
 }
 
 void render(editor_t* editor)
@@ -354,14 +548,12 @@ void draw_grid(editor_t* editor)
     sfRectangleShape* line = sfRectangleShape_create();
     sfRectangleShape_setFillColor(line, sfColor_fromRGB(50, 50, 50));
     
-    // Vertical lines
     for (int x = 0; x <= GRID_SIZE; x++) {
         sfRectangleShape_setSize(line, (sfVector2f){1, WINDOW_HEIGHT});
         sfRectangleShape_setPosition(line, (sfVector2f){x * CELL_SIZE, 0});
         sfRenderWindow_drawRectangleShape(editor->window, line, NULL);
     }
     
-    // Horizontal lines
     for (int y = 0; y <= GRID_SIZE; y++) {
         sfRectangleShape_setSize(line, (sfVector2f){GRID_SIZE * CELL_SIZE, 1});
         sfRectangleShape_setPosition(line, (sfVector2f){0, y * CELL_SIZE});
@@ -451,7 +643,6 @@ void draw_map_cells(editor_t* editor)
 
 void draw_palette(editor_t* editor)
 {
-    // Draw palette background
     sfRectangleShape* background = sfRectangleShape_create();
     sfRectangleShape_setSize(background, (sfVector2f){PALETTE_WIDTH, WINDOW_HEIGHT});
     sfRectangleShape_setPosition(background, (sfVector2f){GRID_SIZE * CELL_SIZE, 0});
@@ -459,19 +650,17 @@ void draw_palette(editor_t* editor)
     sfRenderWindow_drawRectangleShape(editor->window, background, NULL);
     sfRectangleShape_destroy(background);
     
-    // Items per page
     const int items_per_page = (WINDOW_HEIGHT - 100) / 40;
     const int start_index = editor->current_page * items_per_page;
     const int end_index = (start_index + items_per_page < editor->palette_count) ? 
                           start_index + items_per_page : editor->palette_count;
     
-    // Draw palette items
     for (int i = start_index; i < end_index; i++) {
         int y_pos = (i - start_index) * 40;
         
         sfRectangleShape* item_bg = sfRectangleShape_create();
         sfRectangleShape_setSize(item_bg, (sfVector2f){30, 30});
-        sfRectangleShape_setPosition(item_bg, (sfVector2f){GRID_SIZE * CELL_SIZE + 20, y_pos + 5}); // Ajusté de +10 à +20
+        sfRectangleShape_setPosition(item_bg, (sfVector2f){GRID_SIZE * CELL_SIZE + 20, y_pos + 5});
         
         if (editor->selected_type == editor->palette[i].type && 
             editor->selected_subtype == editor->palette[i].subtype) {
@@ -537,12 +726,13 @@ void draw_palette(editor_t* editor)
     sfText* instructions = sfText_create();
     sfText_setFont(instructions, editor->font);
     sfText_setString(instructions, "Controls:\n"
-                                "- Ctrl+S: Save map\n"
-                                "- Ctrl+C: Clear map\n"
-                                "- Ctrl+B: Add borders\n"
-                                "- Up/Dwn: Change page\n"
-                                "- Left click: Place item\n"
-                                "- Right click: Delete item");
+                               "- Ctrl+S: Save map\n"
+                               "- Ctrl+L: Load map\n"
+                               "- Ctrl+C: Clear map\n"
+                               "- Ctrl+B: Add borders\n"
+                               "- Up/Dwn: Change page\n"
+                               "- Left click: Place item\n"
+                               "- Right click: Delete item");
     sfText_setCharacterSize(instructions, 12);
     sfText_setPosition(instructions, (sfVector2f){GRID_SIZE * CELL_SIZE + 150, 0});
     sfText_setColor(instructions, sfColor_fromRGB(200, 200, 200));
@@ -636,7 +826,7 @@ void save_map(editor_t* editor)
         fprintf(file, "\n");
     }
     
-    fprintf(file, "# Door positions (x,y,angle)\n");
+    fprintf(file, "\nDoor positions (x,y,angle)\n");
     for (int y = 0; y < GRID_SIZE; y++) {
         for (int x = 0; x < GRID_SIZE; x++) {
             int value = editor->map[y][x];
@@ -648,7 +838,7 @@ void save_map(editor_t* editor)
         }
     }
     
-    fprintf(file, "# Enemy positions (x,y,type)\n");
+    fprintf(file, "\nEnemy positions (x,y,type)");
     for (int y = 0; y < GRID_SIZE; y++) {
         for (int x = 0; x < GRID_SIZE; x++) {
             int value = editor->map[y][x];
@@ -659,7 +849,7 @@ void save_map(editor_t* editor)
         }
     }
     
-    fprintf(file, "# Object positions (x,y,type)\n");
+    fprintf(file, "\nObject positions (x,y,type)");
     for (int y = 0; y < GRID_SIZE; y++) {
         for (int x = 0; x < GRID_SIZE; x++) {
             int value = editor->map[y][x];
@@ -670,7 +860,7 @@ void save_map(editor_t* editor)
         }
     }
     
-    fprintf(file, "# Item positions (x,y,type)\n");
+    fprintf(file, "\nItem positions (x,y,type)\n");
     for (int y = 0; y < GRID_SIZE; y++) {
         for (int x = 0; x < GRID_SIZE; x++) {
             int value = editor->map[y][x];
