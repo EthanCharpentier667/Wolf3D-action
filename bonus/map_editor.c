@@ -13,6 +13,7 @@
 */
 
 #include "frame.h"
+#include <float.h> 
 
 #define GRID_SIZE 32
 #define CELL_SIZE 20
@@ -42,6 +43,8 @@ typedef struct editor_s {
     char map_name[64];
     int drag_active;
     sfVector2i last_cell;
+    int selected_cell_x;
+    int selected_cell_y;
 } editor_t;
 
 const struct enemy_infos_s ENEMY_INFOS[] = {
@@ -135,7 +138,6 @@ int main(void)
     
     initialize_editor(&editor);
     initialize_palette(&editor);
-    
     while (sfRenderWindow_isOpen(editor.window)) {
         process_events(&editor);
         update(&editor);
@@ -143,7 +145,6 @@ int main(void)
             render(&editor);
         }
     }
-    
     clean_up(&editor);
     return 0;
 }
@@ -297,6 +298,8 @@ void initialize_editor(editor_t* editor)
     editor->selected_subtype = 1;
     editor->current_page = 0;
     editor->drag_active = 0;
+    editor->selected_cell_x = -1;
+    editor->selected_cell_y = -1;
     strcpy(editor->map_name, "level");
 }
 
@@ -436,12 +439,43 @@ void process_events(editor_t* editor)
                 }
             } else if (event.type == sfEvtTextEntered) {
                 if (event.text.unicode < 128 && event.text.unicode != '\r' && event.text.unicode != '\n') {
-                    int len = strlen(load_filename);
+                    unsigned long len = strlen(load_filename);
                     if (len < sizeof(load_filename) - 1 && event.text.unicode != '\b') {
                         load_filename[len] = event.text.unicode;
                         load_filename[len+1] = '\0';
                     }
                 }
+            } } else if (event.type == sfEvtKeyPressed) {
+            if (event.key.code == sfKeyS && event.key.control) {
+                save_map(editor);
+            } else if (event.key.code == sfKeyL && event.key.control) {
+                is_entering_filename = 1;
+                load_filename[0] = '\0';
+            } else if (event.key.code == sfKeyC && event.key.control) {
+                clear_map(editor);
+            } else if (event.key.code == sfKeyB && event.key.control) {
+                add_border_walls(editor);
+            } else if (event.key.code == sfKeyUp) {
+                editor->current_page = (editor->current_page + 1) % editor->pages;
+            } else if (event.key.code == sfKeyDown) {
+                editor->current_page = (editor->current_page - 1 + editor->pages) % editor->pages;
+            }
+        } else if (event.type == sfEvtMouseButtonPressed) {
+            if (event.mouseButton.x < GRID_SIZE * CELL_SIZE) {
+                int x = event.mouseButton.x / CELL_SIZE;
+                int y = event.mouseButton.y / CELL_SIZE;
+                
+                editor->selected_cell_x = x;
+                editor->selected_cell_y = y;
+                
+                handle_click(editor, event.mouseButton);
+                editor->drag_active = 1;
+                editor->last_cell.x = x;
+                editor->last_cell.y = y;
+            } else {
+                editor->selected_cell_x = -1;
+                editor->selected_cell_y = -1;
+                select_palette_item(editor, event.mouseButton);
             }
         } else if (event.type == sfEvtKeyPressed) {
             if (event.key.code == sfKeyS && event.key.control) {
@@ -637,7 +671,17 @@ void draw_map_cells(editor_t* editor)
             }
         }
     }
-    
+    if (editor->selected_cell_x >= 0 && editor->selected_cell_y >= 0) {
+        sfRectangleShape* selection = sfRectangleShape_create();
+        sfRectangleShape_setSize(selection, (sfVector2f){CELL_SIZE, CELL_SIZE});
+        sfRectangleShape_setPosition(selection, 
+                                   (sfVector2f){editor->selected_cell_x * CELL_SIZE, editor->selected_cell_y * CELL_SIZE});
+        sfRectangleShape_setFillColor(selection, sfTransparent);
+        sfRectangleShape_setOutlineColor(selection, sfYellow);
+        sfRectangleShape_setOutlineThickness(selection, 2);
+        sfRenderWindow_drawRectangleShape(editor->window, selection, NULL);
+        sfRectangleShape_destroy(selection);
+    }
     sfRectangleShape_destroy(cell);
 }
 
@@ -726,13 +770,13 @@ void draw_palette(editor_t* editor)
     sfText* instructions = sfText_create();
     sfText_setFont(instructions, editor->font);
     sfText_setString(instructions, "Controls:\n"
-                               "- Ctrl+S: Save map\n"
-                               "- Ctrl+L: Load map\n"
-                               "- Ctrl+C: Clear map\n"
-                               "- Ctrl+B: Add borders\n"
-                               "- Up/Dwn: Change page\n"
-                               "- Left click: Place item\n"
-                               "- Right click: Delete item");
+                              "- Ctrl+S: Save map\n"
+                              "- Ctrl+L: Load map\n"
+                              "- Ctrl+C: Clear map\n"
+                              "- Ctrl+B: Add borders\n"
+                              "- Up/Dwn: Change page\n"
+                              "- Left click: Place item\n"
+                              "- Right click: Delete item");
     sfText_setCharacterSize(instructions, 12);
     sfText_setPosition(instructions, (sfVector2f){GRID_SIZE * CELL_SIZE + 150, 0});
     sfText_setColor(instructions, sfColor_fromRGB(200, 200, 200));
@@ -838,7 +882,7 @@ void save_map(editor_t* editor)
         }
     }
     
-    fprintf(file, "\nEnemy positions (x,y,type)");
+    fprintf(file, "\nEnemy positions (x,y,type)\n");
     for (int y = 0; y < GRID_SIZE; y++) {
         for (int x = 0; x < GRID_SIZE; x++) {
             int value = editor->map[y][x];
@@ -849,7 +893,7 @@ void save_map(editor_t* editor)
         }
     }
     
-    fprintf(file, "\nObject positions (x,y,type)");
+    fprintf(file, "\nObject positions (x,y,type)\n");
     for (int y = 0; y < GRID_SIZE; y++) {
         for (int x = 0; x < GRID_SIZE; x++) {
             int value = editor->map[y][x];
