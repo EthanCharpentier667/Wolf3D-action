@@ -142,6 +142,8 @@ void update_doors(frame_t *frame)
     float dt = sfTime_asSeconds(sfClock_getElapsedTime(frame->clock[4].clock));
 
     for (int i = 0; i < NB_FIXED_OBJECTS; i++) {
+        if (frame->game->fixed_objects[i].lvl != frame->game->level)
+            continue;
         object = &frame->game->fixed_objects[i];
         if (object->solid == DOOR_OPENING || object->solid == DOOR_CLOSING) {
             update_single_door(frame, object, dt, door_speed);

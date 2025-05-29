@@ -33,6 +33,8 @@ static void change_all_windows_texture(frame_t *frame)
     if (!new_texture)
         return;
     for (int i = 0; i < NB_FIXED_OBJECTS; i++) {
+        if (frame->game->fixed_objects[i].lvl != frame->game->level)
+            continue;
         object = &frame->game->fixed_objects[i];
         if (object->solid == WINDOW_CLOSED) {
             sfTexture_destroy(object->texture);

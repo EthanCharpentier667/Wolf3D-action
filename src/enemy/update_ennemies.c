@@ -46,6 +46,8 @@ static bool handle_enemies(frame_t *frame, enemy_t *enemy)
 void update_enemies(frame_t *frame)
 {
     for (int i = 0; i < NBENEMIES; i++) {
+        if (ENEMY[i].lvl != frame->game->level)
+            continue;
         if (!enemy_can_see_player(frame, &ENEMY[i])
             || UI->pause) {
             ENEMY[i].is_moving = false;

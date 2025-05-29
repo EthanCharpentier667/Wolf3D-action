@@ -64,6 +64,8 @@ int handle_event(sfEvent *event, frame_t *frame)
         handle_doors_event(frame);
         handle_keybinds_event(frame, event);
         handle_pause_event(frame);
+        if (event->type == sfEvtKeyPressed && event->key.code == sfKeyT)
+            frame->game->level = (frame->game->level + 1) % NBLEVELS;
     }
     return 0;
 }

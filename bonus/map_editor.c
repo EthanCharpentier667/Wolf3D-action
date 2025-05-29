@@ -45,6 +45,7 @@ typedef struct editor_s {
     sfVector2i last_cell;
     int selected_cell_x;
     int selected_cell_y;
+    int current_level;
 } editor_t;
 
 const struct enemy_infos_s ENEMY_INFOS[] = {
@@ -129,6 +130,7 @@ void select_palette_item(editor_t* editor, sfMouseButtonEvent event);
 void clear_map(editor_t* editor);
 void add_border_walls(editor_t* editor);
 void load_map(editor_t* editor, const char* filename);
+char* get_level_name(int level);
 
 static int is_entering_filename = 0;
 
@@ -157,18 +159,6 @@ void load_map(editor_t* editor, const char* filename)
         return;
     }
     clear_map(editor);
-    char map_name[64] = {0};
-    const char* last_slash = strrchr(filename, '/');
-    if (last_slash) {
-        strncpy(map_name, last_slash + 1, sizeof(map_name) - 1);
-    } else {
-        strncpy(map_name, filename, sizeof(map_name) - 1);
-    }
-    char* dot = strrchr(map_name, '.');
-    if (dot) {
-        *dot = '\0';
-    }
-    strncpy(editor->map_name, map_name, sizeof(editor->map_name) - 1);
     int width, height;
     if (fscanf(file, "%dx%d\n", &width, &height) != 2) {
         printf("Error: Invalid map format\n");
@@ -193,6 +183,16 @@ void load_map(editor_t* editor, const char* filename)
     while (fgets(line, sizeof(line), file)) {
         if (strlen(line) <= 1 || line[0] == '#') {
             continue;
+        }
+        if (strstr(line, "Level") != NULL) {
+            int level = 0;
+            if (sscanf(line, "Level %d", &level) == 1) {
+                editor->current_level = level;
+                printf("Current level set to %d\n", level);
+            } else {
+                printf("Error: Invalid level format in line: %s\n", line);
+                exit(84);
+            }
         }
         if (strstr(line, "Door positions") != NULL) {
             while (fgets(line, sizeof(line), file)) {
@@ -300,6 +300,7 @@ void initialize_editor(editor_t* editor)
     editor->drag_active = 0;
     editor->selected_cell_x = -1;
     editor->selected_cell_y = -1;
+    editor->current_level = 0;
     strcpy(editor->map_name, "level");
 }
 
@@ -445,7 +446,8 @@ void process_events(editor_t* editor)
                         load_filename[len+1] = '\0';
                     }
                 }
-            } } else if (event.type == sfEvtKeyPressed) {
+            } 
+        } else if (event.type == sfEvtKeyPressed) {
             if (event.key.code == sfKeyS && event.key.control) {
                 save_map(editor);
             } else if (event.key.code == sfKeyL && event.key.control) {
@@ -455,6 +457,16 @@ void process_events(editor_t* editor)
                 clear_map(editor);
             } else if (event.key.code == sfKeyB && event.key.control) {
                 add_border_walls(editor);
+            } else if (event.key.code == sfKeyEqual || event.key.code == sfKeyAdd) {
+                editor->current_level++;
+                if (editor->current_level > 50)
+                    editor->current_level = 50;
+                printf("Map level set to: %d (LEVEL%d)\n", editor->current_level, editor->current_level);
+            } else if (event.key.code == sfKeyDash || event.key.code == sfKeySubtract) {
+                editor->current_level--;
+                if (editor->current_level < 0)
+                    editor->current_level = 0;
+                printf("Map level set to: %d (LEVEL%d)\n", editor->current_level, editor->current_level);
             } else if (event.key.code == sfKeyUp) {
                 editor->current_page = (editor->current_page + 1) % editor->pages;
             } else if (event.key.code == sfKeyDown) {
@@ -517,7 +529,6 @@ void process_events(editor_t* editor)
         sfRenderWindow_drawRectangleShape(editor->window, overlay, NULL);
         sfRectangleShape_destroy(overlay);
         
-        // Afficher la boîte de dialogue
         sfRectangleShape* dialog = sfRectangleShape_create();
         sfRectangleShape_setSize(dialog, (sfVector2f){400, 100});
         sfRectangleShape_setPosition(dialog, (sfVector2f){(WINDOW_WIDTH - 400) / 2, (WINDOW_HEIGHT - 100) / 2});
@@ -527,7 +538,6 @@ void process_events(editor_t* editor)
         sfRenderWindow_drawRectangleShape(editor->window, dialog, NULL);
         sfRectangleShape_destroy(dialog);
         
-        // Afficher le texte d'invite
         sfText* prompt = sfText_create();
         sfText_setFont(prompt, editor->font);
         sfText_setString(prompt, "Enter file name to load:");
@@ -537,7 +547,6 @@ void process_events(editor_t* editor)
         sfRenderWindow_drawText(editor->window, prompt, NULL);
         sfText_destroy(prompt);
         
-        // Afficher le nom de fichier saisi
         sfText* filename_text = sfText_create();
         sfText_setFont(filename_text, editor->font);
         sfText_setString(filename_text, load_filename);
@@ -547,7 +556,6 @@ void process_events(editor_t* editor)
         sfRenderWindow_drawText(editor->window, filename_text, NULL);
         sfText_destroy(filename_text);
         
-        // Instructions
         sfText* instructions = sfText_create();
         sfText_setFont(instructions, editor->font);
         sfText_setString(instructions, "Press Enter to load, Escape to cancel");
@@ -559,6 +567,13 @@ void process_events(editor_t* editor)
         
         sfRenderWindow_display(editor->window);
     }
+}
+
+char* get_level_name(int level)
+{
+    static char level_name[10];
+    sprintf(level_name, "LEVEL%d", level);
+    return level_name;
 }
 
 void update(editor_t* editor)
@@ -767,6 +782,9 @@ void draw_palette(editor_t* editor)
     sfRenderWindow_drawText(editor->window, page_info, NULL);
     sfText_destroy(page_info);
     
+    char level_info[32];
+    sprintf(level_info, "Current level: %d", editor->current_level);
+    
     sfText* instructions = sfText_create();
     sfText_setFont(instructions, editor->font);
     sfText_setString(instructions, "Controls:\n"
@@ -774,6 +792,7 @@ void draw_palette(editor_t* editor)
                               "- Ctrl+L: Load map\n"
                               "- Ctrl+C: Clear map\n"
                               "- Ctrl+B: Add borders\n"
+                              "- +/-: Change map level\n"
                               "- Up/Dwn: Change page\n"
                               "- Left click: Place item\n"
                               "- Right click: Delete item");
@@ -782,6 +801,15 @@ void draw_palette(editor_t* editor)
     sfText_setColor(instructions, sfColor_fromRGB(200, 200, 200));
     sfRenderWindow_drawText(editor->window, instructions, NULL);
     sfText_destroy(instructions);
+    
+    sfText* level_text = sfText_create();
+    sfText_setFont(level_text, editor->font);
+    sfText_setString(level_text, level_info);
+    sfText_setCharacterSize(level_text, 14);
+    sfText_setPosition(level_text, (sfVector2f){GRID_SIZE * CELL_SIZE + 150, WINDOW_HEIGHT - 50});
+    sfText_setColor(level_text, sfYellow);
+    sfRenderWindow_drawText(editor->window, level_text, NULL);
+    sfText_destroy(level_text);
 }
 
 void handle_click(editor_t* editor, sfMouseButtonEvent event)
@@ -834,16 +862,45 @@ void clear_map(editor_t* editor)
     }
 }
 
+char* escape_newlines(const char* input)
+{
+    if (!input)
+        return strdup("");
+
+    char* result = malloc(strlen(input) + 1);
+    if (!result)
+        return strdup(input);
+
+    const char* src = input;
+    char* dest = result;
+    
+    while (*src) {
+        if (*src == '\n') {
+            *dest++ = ' ';
+        } else {
+            *dest++ = *src;
+        }
+        src++;
+    }
+    
+    *dest = '\0';
+    return result;
+}
+
+char* escape_newlines(const char* input);
+
 void save_map(editor_t* editor)
 {
     char filename[128];
-    sprintf(filename, "%s.legend", editor->map_name);
+    sprintf(filename, "%s%d.legend", editor->map_name, editor->current_level);
     
     FILE* file = fopen(filename, "w");
     if (!file) {
         printf("Failed to open file for writing: %s\n", filename);
         return;
     }
+    const char* level_name = get_level_name(editor->current_level);
+    
     fprintf(file, "%dx%d\n", GRID_SIZE, GRID_SIZE);
     for (int y = 0; y < GRID_SIZE; y++) {
         for (int x = 0; x < GRID_SIZE; x++) {
@@ -869,6 +926,8 @@ void save_map(editor_t* editor)
         }
         fprintf(file, "\n");
     }
+
+    fprintf(file, "\nLevel %d\n", editor->current_level);
     
     fprintf(file, "\nDoor positions (x,y,angle)\n");
     for (int y = 0; y < GRID_SIZE; y++) {
@@ -911,6 +970,141 @@ void save_map(editor_t* editor)
             if (value / 1000 == 5) {
                 int item_index = value % 1000;
                 fprintf(file, "%d,%d,%d\n", x * TILE_SIZE + TILE_SIZE/2, y * TILE_SIZE + TILE_SIZE/2, item_index);
+            }
+        }
+    }
+
+    fprintf(file, "\nEnemy definitions\n");
+    for (int y = 0; y < GRID_SIZE; y++) {
+        for (int x = 0; x < GRID_SIZE; x++) {
+            int value = editor->map[y][x];
+            if (value / 1000 == 2) {
+                int enemy_type = value % 1000;
+                int enemy_index = enemy_type - 1;
+                
+                if (enemy_index >= 0 && ENEMY_INFOS[enemy_index].path != NULL) {
+                    const struct enemy_infos_s* enemy = &ENEMY_INFOS[enemy_index];
+                    
+                    int pos_x = x * TILE_SIZE + TILE_SIZE/2;
+                    int pos_y = y * TILE_SIZE + TILE_SIZE/2;
+                    
+                    const char* filename_start = strrchr(enemy->path, '/');
+                    const char* filename = filename_start ? filename_start + 1 : enemy->path;
+                    
+                    const char* enemy_type_name;
+                    switch (enemy->type) {
+                        case BASIC: enemy_type_name = "BASIC"; break;
+                        case BASICBLUE: enemy_type_name = "BASICBLUE"; break;
+                        case HITLER: enemy_type_name = "HITLER"; break;
+                        case WOLF: enemy_type_name = "WOLF"; break;
+                        default: enemy_type_name = "BASIC"; break;
+                    }
+                    
+                    fprintf(file, "    {RES \"%s\", {%.1f, %.1f}, {%d, %d, %.2f},\n", 
+                            filename, enemy->scale.x, enemy->scale.y, pos_x, pos_y, enemy->pos.z);
+                    
+                    fprintf(file, "        {%d, %d, %d, %d}, %.1f, %d, %.1f, %.1f, %.1f, %.1f, %s, %s, %s},\n",
+                            enemy->rec.left, enemy->rec.top, enemy->rec.width, enemy->rec.height,
+                            enemy->speed, enemy->life, enemy->attack_range, enemy->follow_range,
+                            enemy->damages, enemy->attack_cooldown,
+                            enemy->drop_item ? enemy->drop_item : "NULL",
+                            enemy_type_name, level_name);
+                }
+            }
+        }
+    }
+    
+    fprintf(file, "\nFixed object definitions\n");
+    for (int y = 0; y < GRID_SIZE; y++) {
+        for (int x = 0; x < GRID_SIZE; x++) {
+            int value = editor->map[y][x];
+            
+            if (value / 1000 == 3) {
+                int door_index = value % 1000;
+                
+                if (FIXED_OBJECT_INFOS[door_index].path != NULL) {
+                    const struct fixed_object_infos_s* door = &FIXED_OBJECT_INFOS[door_index];
+                    
+                    int pos_x = x * TILE_SIZE + TILE_SIZE/2;
+                    int pos_y = y * TILE_SIZE + TILE_SIZE/2;
+                    
+                    const char* filename_start = strrchr(door->path, '/');
+                    const char* filename = filename_start ? filename_start + 1 : door->path;
+                    
+                    const char* solid_type;
+                    switch (door->solid) {
+                        case DOOR_CLOSED: solid_type = "DOOR_CLOSED"; break;
+                        case WINDOW_CLOSED: solid_type = "WINDOW_CLOSED"; break;
+                        default: solid_type = "0"; break;
+                    }
+
+                    fprintf(file, "    {RES \"%s\", {%d, %d, %.1f}, %.2f,\n",
+                            filename, pos_x, pos_y, door->position.z, door->angle);
+                    
+                    fprintf(file, "        {%d, %d}, %s, {%d, %d, %d, %d}, %s},\n",
+                            (int) door->dimensions.x, (int) door->dimensions.y, solid_type,
+                            door->rec.left, door->rec.top, door->rec.width, door->rec.height,
+                            level_name);
+                }
+            }
+            else if (value / 1000 == 4) { // Type 4 = Fixed Object
+                int obj_index = value % 1000;
+                
+                if (FIXED_OBJECT_INFOS[obj_index].path != NULL) {
+                    const struct fixed_object_infos_s* obj = &FIXED_OBJECT_INFOS[obj_index];
+                    
+                    int pos_x = x * TILE_SIZE + TILE_SIZE/2;
+                    int pos_y = y * TILE_SIZE + TILE_SIZE/2;
+                    
+                    const char* filename_start = strrchr(obj->path, '/');
+                    const char* filename = filename_start ? filename_start + 1 : obj->path;
+                    
+                    const char* solid_type;
+                    switch (obj->solid) {
+                        case DOOR_CLOSED: solid_type = "DOOR_CLOSED"; break;
+                        case WINDOW_CLOSED: solid_type = "WINDOW_CLOSED"; break;
+                        default: solid_type = "0"; break;
+                    }
+                    fprintf(file, "    {RES \"%s\", {%d, %d, %.1f}, %.2f,\n",
+                            filename, pos_x, pos_y, obj->position.z, obj->angle);
+                    
+                    fprintf(file, "        {%d, %d}, %s, {%d, %d, %d, %d}, %s},\n",
+                            (int) obj->dimensions.x, (int) obj->dimensions.y, solid_type,
+                            obj->rec.left, obj->rec.top, obj->rec.width, obj->rec.height,
+                            level_name);
+                }
+            }
+        }
+    }
+    
+    // Section pour les définitions d'items
+    fprintf(file, "\nItem definitions\n");
+    for (int y = 0; y < GRID_SIZE; y++) {
+        for (int x = 0; x < GRID_SIZE; x++) {
+            int value = editor->map[y][x];
+            if (value / 1000 == 5) {
+                int item_index = value % 1000;
+                
+                if (item_index >= 0 && ITEM_INFOS[item_index].path != NULL) {
+                    const struct item_infos_s* item = &ITEM_INFOS[item_index];
+                    
+                    int pos_x = x * TILE_SIZE + TILE_SIZE/2;
+                    int pos_y = y * TILE_SIZE + TILE_SIZE/2;
+                    
+                    const char* filename_start = strrchr(item->path, '/');
+                    const char* filename = filename_start ? filename_start + 1 : item->path;
+
+                    fprintf(file, "    {RES \"%s\", {%.1f, %.1f}, {%d, %d, %.2f},\n",
+                        filename, item->scale.x, item->scale.y, pos_x, pos_y, item->pos.z);
+                    
+                    fprintf(file, "        {%d, %d, %d, %d}, \"%s\", %s, %s\n",
+                        item->rec.left, item->rec.top, item->rec.width, item->rec.height,
+                        item->name,
+                        item->pickable ? "true" : "false",
+                        item->useable ? "true" : "false");
+                    fprintf(file, "        \"%s\", %s}\n",
+                        escape_newlines(item->description), level_name);
+                }
             }
         }
     }
