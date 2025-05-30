@@ -40,6 +40,8 @@ static bool handle_enemies(frame_t *frame, enemy_t *enemy)
             return false;
     if (enemy->type == WOLF)
         handle_wolf_enemy(frame, enemy);
+    if (enemy->type == MINIBOSS)
+        handle_miniboss_enemy(frame, enemy);
     return true;
 }
 

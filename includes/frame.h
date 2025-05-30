@@ -733,6 +733,7 @@ void update_enemies(frame_t *frame);
 void handle_basic_enemy(frame_t *frame, enemy_t *enemy);
 bool handle_hitler_enemy(frame_t *frame, enemy_t *enemy);
 void handle_wolf_enemy(frame_t *frame, enemy_t *enemy);
+void handle_miniboss_enemy(frame_t *frame, enemy_t *enemy);
 
 //INVENTORY
 bool init_inventory(frame_t *frame);

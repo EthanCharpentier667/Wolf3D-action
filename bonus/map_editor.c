@@ -60,7 +60,9 @@ const struct enemy_infos_s ENEMY_INFOS[] = {
     {"../" RES "Hitler1.png", {2.5, 2.5}, {256 + 32, 1088 + 32, -0.90},
         {0, 0, 74, 72}, 1.5, 400, 150, 700, 20, 0.5f, NULL, HITLER, LEVEL0},
     {"../" RES "matthieu.png", {1.5, 1.5}, {320, 384, -0.85},
-        {0, 0, 134, 154}, 2, 100, 40, 500, 20, 1, NULL, WOLF, LEVEL0},
+        {0, 0, 134, 154}, 2, 100, 40, 300, 20, 1, NULL, WOLF, LEVEL0},
+    {"../" RES "minimum_boss.png", {2, 2}, {96, 288, -0.50},
+        {0, 0, 130, 130}, 1.0, 700, 250.0, 500.0, 5.0, 1.0, "Machinegun", MINIBOSS, LEVEL1},
     {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0, 0, 0, NULL, 0, -1}
 };
 
@@ -111,6 +113,8 @@ const struct item_infos_s ITEM_INFOS[] = {
         {-1, -1, -1, -1}, "Heal", true, true, "Heal of 20 HP", LEVEL0},
     {"../" RES "lamp.png", {0.7, 0.7}, {250, 250, 0.1},
         {-1, -1, -1, -1}, "lamp", false, false, "", LEVEL0},
+    {"../" RES "minigun.png", {0.8, 0.8}, {-64, -64, -0.50}, {-1, -1, -1, -1},
+        "Machinegun", true, true, "unlock a new weapon !", LEVEL0},
     {NULL,  {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, "", false, false, "", LEVEL0}
 };
 
@@ -992,23 +996,29 @@ void save_map(editor_t* editor)
                     const char* filename = filename_start ? filename_start + 1 : enemy->path;
                     
                     const char* enemy_type_name;
+                    char drop_item[64];
+                    if (enemy->drop_item) {
+                        snprintf(drop_item, sizeof(drop_item), "\"%s\"", escape_newlines(enemy->drop_item));
+                    } else {
+                        snprintf(drop_item, sizeof(drop_item), "NULL");
+                    }
                     switch (enemy->type) {
                         case BASIC: enemy_type_name = "BASIC"; break;
                         case BASICBLUE: enemy_type_name = "BASICBLUE"; break;
                         case HITLER: enemy_type_name = "HITLER"; break;
                         case WOLF: enemy_type_name = "WOLF"; break;
+                        case MINIBOSS: enemy_type_name = "MINIBOSS"; break;
                         default: enemy_type_name = "BASIC"; break;
                     }
                     
                     fprintf(file, "    {RES \"%s\", {%.1f, %.1f}, {%d, %d, %.2f},\n", 
                             filename, enemy->scale.x, enemy->scale.y, pos_x, pos_y, enemy->pos.z);
                     
-                    fprintf(file, "        {%d, %d, %d, %d}, %.1f, %d, %.1f, %.1f, %.1f, %.1f, %s, %s, %s},\n",
+                    fprintf(file, "        {%d, %d, %d, %d}, %.1f, %d, %.1f, %.1f, %.1f, %.1f, %s, %s,\n        %s},\n",
                             enemy->rec.left, enemy->rec.top, enemy->rec.width, enemy->rec.height,
                             enemy->speed, enemy->life, enemy->attack_range, enemy->follow_range,
                             enemy->damages, enemy->attack_cooldown,
-                            enemy->drop_item ? enemy->drop_item : "NULL",
-                            enemy_type_name, level_name);
+                            drop_item, enemy_type_name, level_name);
                 }
             }
         }
