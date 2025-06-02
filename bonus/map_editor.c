@@ -63,6 +63,8 @@ const struct enemy_infos_s ENEMY_INFOS[] = {
         {0, 0, 134, 154}, 2, 100, 40, 300, 20, 1, NULL, WOLF, LEVEL0},
     {"../" RES "minimum_boss.png", {2, 2}, {96, 288, -0.50},
         {0, 0, 130, 130}, 1.0, 700, 250.0, 500.0, 5.0, 1.0, "Machinegun", MINIBOSS, LEVEL1},
+    {"../" RES "doctor.png", {2, 2}, {96, 288, -0.50},
+        {0, 0, 130, 130}, 1.0, 700, 250.0, 500.0, 5.0, 1.0, NULL, MINIBOSS, LEVEL1},
     {NULL, {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, 0, 0, 0, 0, 0, 0, NULL, 0, -1}
 };
 
@@ -115,6 +117,32 @@ const struct item_infos_s ITEM_INFOS[] = {
         {-1, -1, -1, -1}, "lamp", false, false, "", LEVEL0},
     {"../" RES "minigun.png", {0.8, 0.8}, {-64, -64, -0.50}, {-1, -1, -1, -1},
         "Machinegun", true, true, "unlock a new weapon !", LEVEL0},
+    {"../" RES "shit.png", {0.6, 0.6}, {150, 230, -0.50},
+        {-1, -1, -1, -1}, "shit", false, false, "", LEVEL0},
+    {"../" RES "table.png", {0.6, 0.6}, {150, 230, -0.50},
+        {-1, -1, -1, -1}, "table", false, false, "", LEVEL0},
+    {"../" RES "trees.png", {0.6, 0.6}, {150, 230, -0.50},
+        {-1, -1, -1, -1}, "trees", false, false, "", LEVEL0},
+    {"../" RES "tree_2.png", {0.6, 0.6}, {150, 230, -0.50},
+        {-1, -1, -1, -1}, "tree_2", false, false, "", LEVEL0},
+    {"../" RES "pot.png", {0.6, 0.6}, {150, 230, -0.50},
+        {-1, -1, -1, -1}, "pot", false, false, "", LEVEL0},
+    {"../" RES "metal_barel.png", {0.6, 0.6}, {150, 230, -0.50},
+        {-1, -1, -1, -1}, "metal_barel", false, false, "", LEVEL0},
+    {"../" RES "flag.png", {0.6, 0.6}, {150, 230, -0.50},
+        {-1, -1, -1, -1}, "flag", false, false, "", LEVEL0},
+    {"../" RES "cup.png", {0.6, 0.6}, {150, 230, -0.50},
+        {-1, -1, -1, -1}, "cup", false, false, "", LEVEL0},
+    {"../" RES "crown.png", {0.6, 0.6}, {150, 230, -0.50},
+        {-1, -1, -1, -1}, "crown", false, false, "", LEVEL0},
+    {"../" RES "cross.png", {0.6, 0.6}, {150, 230, -0.50},
+        {-1, -1, -1, -1}, "cross", false, false, "", LEVEL0},
+    {"../" RES "cereal.png", {0.6, 0.6}, {150, 230, -0.50},
+        {-1, -1, -1, -1}, "cereal", false, false, "", LEVEL0},
+    {"../" RES "chest.png", {0.6, 0.6}, {150, 230, -0.50},
+        {-1, -1, -1, -1}, "chest", false, false, "", LEVEL0},
+    {"../" RES "bones.png", {0.6, 0.6}, {150, 230, -0.50},
+        {-1, -1, -1, -1}, "bones", false, false, "", LEVEL0},
     {NULL,  {0, 0}, {0, 0, 0}, {-1, -1, -1, -1}, "", false, false, "", LEVEL0}
 };
 
